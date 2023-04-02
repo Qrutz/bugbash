@@ -59,6 +59,76 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Team          Team?     @relation(fields: [teamId], references: [id])
+    teamId        String?
+    Cards         Card[] // cards assigned to user 
+
+    @@index([teamId])
+}
+
+model Team {
+    id        String      @id @default(cuid())
+    name      String
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    members   User[]
+    workspace Workspace[]
+}
+
+// workspace has one team and can have many boards (kanban)
+model Workspace {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+    teamId    String
+    boards    Board[]
+
+    @@index([teamId])
+}
+
+// board has one workspace and can have many columns
+model Board {
+    id          String    @id @default(cuid())
+    name        String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+    workspaceId String
+    columns     Column[]
+
+    @@index([workspaceId])
+}
+
+// column has one board and can have many cards
+model Column {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+    boardId   String
+    cards     Card[]
+
+    @@index([boardId])
+}
+
+// card has one column and can have many comments
+model Card {
+    id               String   @id @default(cuid())
+    name             String
+    description      String?
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+    column           Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+    columnId         String
+    //assigned to user maps to user name since username is unique
+    assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
+    assignedToUserId String?
+
+    @@index([columnId])
+    @@index([assignedToUserId])
 }
 
 model VerificationToken {
