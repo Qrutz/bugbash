@@ -22,4 +22,14 @@ export const exampleRouter = createTRPCRouter({
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),
+
+  getWorkspace: protectedProcedure
+    .input(z.object({ teamI: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.workspace.findMany({
+        where: {
+          teamId: input.teamI,
+        },
+      });
+    }),
 });

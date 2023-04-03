@@ -53,83 +53,70 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    name          String?
+    name          String?   @unique
     email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    Team          Team?     @relation(fields: [teamId], references: [id])
-    teamId        String?
-    Cards         Card[] // cards assigned to user 
-
-    @@index([teamId])
+    projects      Project[] @relation("ProjectMembers")
 }
 
-model Team {
-    id        String      @id @default(cuid())
-    name      String
-    createdAt DateTime    @default(now())
-    updatedAt DateTime    @updatedAt
-    members   User[]
-    workspace Workspace[]
+// 
+model Project {
+    id          String       @id @default(cuid())
+    name        String
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    members     User[]       @relation("ProjectMembers")
+    kanbanBoard KanbanBoard?
+    schedule    Schedule?
+
+    @@index([name, id])
 }
 
-// workspace has one team and can have many boards (kanban)
-model Workspace {
+// each project has a kanbanboard, its a one-to-one relationship and the kanbanboard is deleted when the project is deleted
+model KanbanBoard {
     id        String   @id @default(cuid())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
-    teamId    String
-    boards    Board[]
+    projectId String   @unique
+    project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    columns   Column[]
+}
 
-    @@index([teamId])
+model Column {
+    id            String      @id @default(cuid())
+    name          String
+    kanbanBoard   KanbanBoard @relation(fields: [kanbanBoardId], references: [id], onDelete: Cascade)
+    kanbanBoardId String
+    cards         Card[]
+
+    @@index([id])
+    @@index([kanbanBoardId])
+}
+
+model Card {
+    id          String   @id @default(cuid())
+    name        String
+    description String?
+    column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+    columnId    String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@index([id])
+    @@index([columnId])
+}
+
+model Schedule {
+    id        String  @id @default(cuid())
+    name      String
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    projectId String  @unique
+
+    @@index([id])
 }
 
 // board has one workspace and can have many columns
-model Board {
-    id          String    @id @default(cuid())
-    name        String
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-    workspaceId String
-    columns     Column[]
-
-    @@index([workspaceId])
-}
-
-// column has one board and can have many cards
-model Column {
-    id        String   @id @default(cuid())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
-    boardId   String
-    cards     Card[]
-
-    @@index([boardId])
-}
-
-// card has one column and can have many comments
-model Card {
-    id               String   @id @default(cuid())
-    name             String
-    description      String?
-    createdAt        DateTime @default(now())
-    updatedAt        DateTime @updatedAt
-    column           Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
-    columnId         String
-    //assigned to user maps to user name since username is unique
-    assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
-    assignedToUserId String?
-
-    @@index([columnId])
-    @@index([assignedToUserId])
-}
 
 model VerificationToken {
     identifier String
