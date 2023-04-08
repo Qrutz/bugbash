@@ -66,6 +66,7 @@ function MenuTab(props: { name: string; icon: IconType }) {
 export default function Project() {
   const router = useRouter();
   const { id } = router.query as { id: string };
+  const [count, setCount] = React.useState(0);
 
   const { data: getProject, status: projectStatus } =
     api.projectRouter.getProject.useQuery({
@@ -79,6 +80,20 @@ export default function Project() {
 
   const mutation = api.projectRouter.addMemberToProject.useMutation();
 
+  const moveTask = api.projectRouter.moveTask.useMutation();
+
+  const handleMoveTask = async (
+    projectId: string,
+    taskId: string,
+    columnId: string
+  ) => {
+    await moveTask.mutateAsync({
+      projectId,
+      taskId,
+      columnId,
+    });
+  };
+
   const handleAddMember = async () => {
     await mutation.mutateAsync({
       projectId: id as string,
@@ -90,8 +105,29 @@ export default function Project() {
     return <div>Loading...</div>;
   }
 
+  const handleDragEnd = (result: {
+    destination: any;
+    source: any;
+    draggableId: any;
+  }) => {
+    const { destination, source, draggableId } = result;
+
+    handleMoveTask(id, draggableId, destination.droppableId);
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+  };
+
   return (
-    <DragDropContext onDragEnd={() => console.log("hello")}>
+    <DragDropContext onDragEnd={handleDragEnd}>
       <div className="container mx-auto   shadow-sm shadow-black">
         <div className="flex ">
           <nav className="border-slate-00 h-screen flex-1 border-r bg-neutral-950">
@@ -138,7 +174,7 @@ export default function Project() {
                 <div className="flex space-x-3" key={kanban.id}>
                   {kanban.columns.map((col) => {
                     return (
-                      <Droppable droppableId="droppable-1">
+                      <Droppable droppableId="board">
                         {(provided) => (
                           <KanbanColumn
                             title={col.name}
@@ -148,7 +184,7 @@ export default function Project() {
                           >
                             {col.cards.map((task) => {
                               return (
-                                <Draggable draggableId={task.id} index={0}>
+                                <Draggable draggableId={task.id} index={count}>
                                   {(provided) => (
                                     <div
                                       ref={provided.innerRef}

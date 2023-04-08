@@ -92,4 +92,23 @@ export const ProjectRouter = createTRPCRouter({
         },
       });
     }),
+
+  moveTask: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        taskId: z.string(),
+        columnId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          columnId: input.columnId,
+        },
+      });
+    }),
 });
