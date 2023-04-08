@@ -96,7 +96,7 @@ model Column {
 
 model Card {
     id          String   @id @default(cuid())
-    name        String
+    name        String?
     description String?
     column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
     columnId    String
