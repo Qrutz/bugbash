@@ -1,11 +1,6 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const KanbanRouter = createTRPCRouter({
   getProjects: protectedProcedure

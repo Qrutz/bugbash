@@ -3,11 +3,12 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
+import type { ReactNode } from "react";
 
 const Home: NextPage = () => {
   const { data: session, status: userstatus } = useSession();
 
-  const { data, status } = api.projectRouter.getAll.useQuery({
+  const { data } = api.projectRouter.getAll.useQuery({
     userId: session?.user.id as string,
   });
 
@@ -18,7 +19,7 @@ const Home: NextPage = () => {
   if (!session) {
     return (
       <div>
-        <button onClick={() => signIn()}>SIGN IN </button>
+        <button onClick={() => void signIn()}>SIGN IN </button>
       </div>
     );
   }
@@ -28,7 +29,7 @@ const Home: NextPage = () => {
       <main className="flex flex-col items-center justify-center ">
         <h1>Welcome {session.user.name}</h1>
 
-        {data?.map((project): any => {
+        {data?.map((project): ReactNode => {
           return (
             <div key={project.id}>
               <Link href={`/projects/${project.id}`}>{project.name}</Link>
@@ -36,7 +37,7 @@ const Home: NextPage = () => {
           );
         })}
 
-        <button onClick={() => signOut()}>Sign out</button>
+        <button onClick={() => void signOut()}>Sign out</button>
       </main>
     </div>
   );

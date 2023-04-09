@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { api } from "~/utils/api";
 import {
   RxDashboard,
@@ -8,7 +8,7 @@ import {
   RxAccessibility,
 } from "react-icons/rx";
 
-import { IconType } from "react-icons";
+import type { IconType } from "react-icons";
 
 import KanbanBoard from "~/components/KanbanBoard";
 

@@ -4,22 +4,20 @@ import { Task } from "./Task";
 interface Column {
   id: string;
   name: string;
-  kanbanBoardId: string;
   cards: Task[];
 }
 
 interface Task {
   id: string;
-  name: string;
+  name: string | null;
 }
 
 interface ColumnProps {
   // dont know yet what type column is
-  column: any;
-  index: unknown;
+  column: Column;
 }
 
-const Column = ({ column, index }: ColumnProps) => {
+const Column = ({ column }: ColumnProps) => {
   return (
     <div className="w-[20%] text-center">
       <div
@@ -34,7 +32,7 @@ const Column = ({ column, index }: ColumnProps) => {
               {...provided.droppableProps}
               className="flex h-full w-full flex-col gap-2 overflow-y-auto p-2"
             >
-              {column.cards.map((task: Task, index: unknown) => {
+              {column.cards.map((task: Task, index: number) => {
                 return <Task key={task.id} task={task} index={index} />;
               })}
               {provided.placeholder}

@@ -1,15 +1,20 @@
 import { DragDropContext } from "react-beautiful-dnd";
+import type { DropResult } from "react-beautiful-dnd";
 import Column from "~/components/Column";
 import { api } from "~/utils/api";
 
-const KanbanBoard = ({ id }: any) => {
+interface KanbanBoardProps {
+  id: string;
+}
+
+const KanbanBoard = ({ id }: KanbanBoardProps) => {
   const ctx = api.useContext();
   const { data: initialKanban, status: fetchStatus } =
     api.kanbanRouter.getColumns.useQuery({
       kanbanBoardId: id,
     });
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination) {
@@ -49,8 +54,8 @@ const KanbanBoard = ({ id }: any) => {
     });
   };
 
-  const { mutate, isLoading } = api.kanbanRouter.moveTask.useMutation({
-    onSuccess: (data) => {
+  const { mutate } = api.kanbanRouter.moveTask.useMutation({
+    onSuccess: () => {
       void ctx.kanbanRouter.getColumns.invalidate();
     },
   });
@@ -61,8 +66,8 @@ const KanbanBoard = ({ id }: any) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="flex gap-2">
-        {initialKanban?.map((column, index) => (
-          <Column key={column.id} column={column} index={index} />
+        {initialKanban?.map((column) => (
+          <Column key={column.id} column={column} />
         ))}
       </div>
     </DragDropContext>
