@@ -2,8 +2,10 @@ import { Droppable } from "react-beautiful-dnd";
 import { Task } from "./Task";
 import { useForm } from "react-hook-form";
 import { api } from "~/utils/api";
-import { RxPlus } from "react-icons/rx";
+import { RxCross2, RxPlus } from "react-icons/rx";
 import { useState } from "react";
+import { BsThreeDots } from "react-icons/bs";
+import { Popover } from "@headlessui/react";
 
 interface Column {
   id: string;
@@ -37,6 +39,12 @@ const Column = ({ column }: ColumnProps) => {
       },
     });
 
+  const { mutate: removeColumn } = api.kanbanRouter.deleteColumn.useMutation({
+    onSuccess: () => {
+      void ctx.kanbanRouter.getColumns.invalidate();
+    },
+  });
+
   const [isEditingName, setIsEditingName] = useState(false);
   const { handleSubmit, register } = useForm();
 
@@ -53,6 +61,12 @@ const Column = ({ column }: ColumnProps) => {
       name: data.name,
     });
     setIsEditingName(false);
+  };
+
+  const removeCol = () => {
+    removeColumn({
+      columnId: column.id,
+    });
   };
 
   return (
@@ -86,12 +100,40 @@ const Column = ({ column }: ColumnProps) => {
             </button>
           </form>
         ) : (
-          <h3
-            onClick={() => setIsEditingName(true)}
-            className="cursor-pointer text-center text-xl font-extrabold"
-          >
-            {!colUpdating ? <h3>{column.name}</h3> : <h3>"...."</h3>}
-          </h3>
+          <div className="flex justify-between px-2 py-1">
+            <h3
+              onClick={() => setIsEditingName(true)}
+              className="cursor-pointer text-center text-xl font-extrabold"
+            >
+              {" "}
+              {!colUpdating ? <>{column.name}</> : <>"...."</>}
+            </h3>
+
+            <Popover>
+              <Popover.Button className="cursor-pointer">
+                <BsThreeDots />
+              </Popover.Button>
+              <Popover.Panel className="right-50 left-50 absolute z-0 w-80 rounded-md bg-gray-800 py-2 shadow-lg">
+                <div className="flex flex-col gap-2 px-2">
+                  <span className="flex  items-center border-b py-1">
+                    <h1 className="flex-[11] items-center text-center">
+                      List Actions
+                    </h1>
+                    <Popover.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-700">
+                      <RxCross2 />
+                    </Popover.Button>
+                  </span>
+
+                  <Popover.Button
+                    onClick={removeCol}
+                    className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-gray-700"
+                  >
+                    <span className="font-medium text-gray-500">Delete</span>
+                  </Popover.Button>
+                </div>
+              </Popover.Panel>
+            </Popover>
+          </div>
         )}
         <Droppable droppableId={column.id}>
           {(provided) => (

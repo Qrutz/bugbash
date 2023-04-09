@@ -125,4 +125,18 @@ export const KanbanRouter = createTRPCRouter({
         },
       });
     }),
+
+  deleteColumn: protectedProcedure
+    .input(
+      z.object({
+        columnId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.column.delete({
+        where: {
+          id: input.columnId,
+        },
+      });
+    }),
 });
