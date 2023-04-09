@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import type { ReactNode } from "react";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const { data: session, status: userstatus } = useSession();
@@ -28,6 +29,9 @@ const Home: NextPage = () => {
     <div className="container mx-auto h-screen  bg-slate-800">
       <main className="flex flex-col items-center justify-center ">
         <h1>Welcome {session.user.name}</h1>
+        <img src={session.user.image!!} width={150} height={150} />
+
+        <h2>Projects:</h2>
 
         {data?.map((project): ReactNode => {
           return (

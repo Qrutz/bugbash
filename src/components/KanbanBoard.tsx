@@ -1,6 +1,8 @@
 import { DragDropContext } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
+import { RxPlus } from "react-icons/rx";
 import Column from "~/components/Column";
+import NewColumnToggle from "~/pages/test";
 import { api } from "~/utils/api";
 
 interface KanbanBoardProps {
@@ -70,10 +72,10 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
     },
   });
 
-  function handleCreateColumn() {
+  function handleCreateColumn(data: { title: string }) {
     createColumn({
       kanbanBoardId: id,
-      name: "new col",
+      name: data.title,
     });
   }
 
@@ -87,7 +89,9 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
         {initialKanban?.map((column) => (
           <Column key={column.id} column={column} />
         ))}
-        <button onClick={handleCreateColumn}>new col</button>
+        <div className="w-[272px] ">
+          <NewColumnToggle onSubmit={handleCreateColumn} />
+        </div>
       </section>
     </DragDropContext>
   );
