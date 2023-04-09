@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { api } from "~/utils/api";
 import {
   RxDashboard,
@@ -7,17 +7,9 @@ import {
   RxCardStackPlus,
   RxAccessibility,
 } from "react-icons/rx";
-import { GoPlus } from "react-icons/go";
-import { BiDotsVertical } from "react-icons/bi";
+
 import { IconType } from "react-icons";
 
-type KanbanColumnProps = {
-  title: string;
-  children: React.ReactNode;
-  provided: any;
-  innerRef: any;
-};
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import KanbanBoard from "~/components/KanbanBoard";
 
 function MenuTab(props: { name: string; icon: IconType }) {
@@ -37,9 +29,13 @@ export default function Project() {
   const { id } = router.query as { id: string };
 
   const { data: getProject, status: projectStatus } =
-    api.projectRouter.getProject.useQuery({
-      id: id,
-    });
+    api.projectRouter.getProject.useQuery(
+      {
+        id: id,
+      },
+      // only fetch if id is not undefined
+      { enabled: id !== undefined && id !== "" && id !== "undefined" }
+    );
 
   if (projectStatus === "loading") {
     return <div>Loading...</div>;

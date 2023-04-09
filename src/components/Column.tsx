@@ -14,7 +14,8 @@ interface Task {
 }
 
 interface ColumnProps {
-  column: Column;
+  // dont know yet what type column is
+  column: any;
   index: unknown;
 }
 

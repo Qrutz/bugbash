@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 const KanbanBoard = ({ id }: any) => {
   const ctx = api.useContext();
   const { data: initialKanban, status: fetchStatus } =
-    api.projectRouter.getColumnsOfKanban.useQuery({
+    api.kanbanRouter.getColumns.useQuery({
       kanbanBoardId: id,
     });
 
@@ -49,9 +49,9 @@ const KanbanBoard = ({ id }: any) => {
     });
   };
 
-  const { mutate, isLoading } = api.projectRouter.moveTask.useMutation({
+  const { mutate, isLoading } = api.kanbanRouter.moveTask.useMutation({
     onSuccess: (data) => {
-      void ctx.projectRouter.getColumnsOfKanban.invalidate();
+      void ctx.kanbanRouter.getColumns.invalidate();
     },
   });
   if (fetchStatus === "loading") {

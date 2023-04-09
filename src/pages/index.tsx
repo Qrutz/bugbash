@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 const Home: NextPage = () => {
   const { data: session, status: userstatus } = useSession();
 
-  const { data, status } = api.projectRouter.getProjects.useQuery({
+  const { data, status } = api.projectRouter.getAll.useQuery({
     userId: session?.user.id as string,
   });
 

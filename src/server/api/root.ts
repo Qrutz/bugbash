@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { ProjectRouter } from "~/server/api/routers/example";
+import { ProjectRouter } from "~/server/api/routers/ProjectRouter";
+import { KanbanRouter } from "./routers/KanbanRouter";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { ProjectRouter } from "~/server/api/routers/example";
  */
 export const appRouter = createTRPCRouter({
   projectRouter: ProjectRouter,
+  kanbanRouter: KanbanRouter,
 });
 
 // export type definition of API
