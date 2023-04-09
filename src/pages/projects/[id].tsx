@@ -107,8 +107,8 @@ export default function Project() {
             ))}
           </Tab.List>
 
-          <Tab.Panels className="h-full">
-            <Tab.Panel className="h-full w-fit border-t border-neutral-800 px-4 py-6">
+          <Tab.Panels className="h-full w-full  ">
+            <Tab.Panel className="h-full w-fit border-t border-neutral-800  px-4 py-6">
               <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
             </Tab.Panel>
             <Tab.Panel>schedule</Tab.Panel>
