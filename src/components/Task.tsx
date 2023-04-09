@@ -8,6 +8,7 @@ interface TaskProps {
 interface Task {
   id: string;
   name: string | null;
+  description: string | null;
 }
 
 export const Task = ({ task, index }: TaskProps) => {
@@ -24,7 +25,8 @@ export const Task = ({ task, index }: TaskProps) => {
           {...provided.dragHandleProps}
           className={snapshot.isDragging ? draggingStyle : notDraggingStyle}
         >
-          {task.name}
+          <h1> {task.name}</h1>
+          <p className="text-sm text-gray-400"> {task.description}</p>
         </div>
       )}
     </Draggable>

@@ -59,17 +59,34 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
       void ctx.kanbanRouter.getColumns.invalidate();
     },
   });
+
+  const { mutate: createColumn } = api.kanbanRouter.createColumn.useMutation({
+    onSuccess: () => {
+      void ctx.kanbanRouter.getColumns.invalidate();
+    },
+
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  function handleCreateColumn() {
+    createColumn({
+      kanbanBoardId: id,
+      name: "new col",
+    });
+  }
+
   if (fetchStatus === "loading") {
     return <div>loading</div>;
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex gap-2">
-        {initialKanban?.map((column) => (
-          <Column key={column.id} column={column} />
-        ))}
-      </div>
+      {initialKanban?.map((column) => (
+        <Column key={column.id} column={column} />
+      ))}
+      <button onClick={handleCreateColumn}>new col</button>
     </DragDropContext>
   );
 };

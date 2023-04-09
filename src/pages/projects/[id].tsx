@@ -42,24 +42,24 @@ export default function Project() {
   }
 
   return (
-    <div className="container mx-auto   shadow-sm shadow-black">
-      <div className="flex ">
-        <nav className="border-slate-00 h-screen flex-1 border-r bg-neutral-950">
-          <div className="text-white-500 flex flex-col items-center justify-center gap-4 p-4">
-            <MenuTab name="Dashboard" icon={RxDashboard} />
-            <MenuTab name="Projects" icon={RxCircle} />
-            <MenuTab name="My Tasks" icon={RxCardStackPlus} />
-            <MenuTab name="Settings" icon={RxAccessibility} />
-          </div>
+    <div className="container mx-auto flex overflow-auto shadow-sm shadow-black">
+      <nav className="border-slate-00 h-screen flex-1 border-r bg-neutral-950">
+        <div className="text-white-500 flex flex-col items-center justify-center gap-4 p-4">
+          <MenuTab name="Dashboard" icon={RxDashboard} />
+          <MenuTab name="Projects" icon={RxCircle} />
+          <MenuTab name="My Tasks" icon={RxCardStackPlus} />
+          <MenuTab name="Settings" icon={RxAccessibility} />
+        </div>
 
-          <div className="text-white-500 flex flex-col items-center justify-center gap-2 p-3">
-            <span>Projects</span>
-            <span>p1</span>
-            <span>p2</span>
-            <span>p3</span>
-          </div>
-        </nav>
-        <main className="flex flex-[4] flex-col bg-neutral-950 p-3">
+        {/* <div className="text-white-500 flex flex-col items-center justify-center gap-2 p-3">
+          <span>Projects</span>
+          <span>p1</span>
+          <span>p2</span>
+          <span>p3</span>
+        </div> */}
+      </nav>
+      <main className="w-500rem 100px flex flex-[4] flex-col overflow-auto    bg-neutral-950 ">
+        <header className="sticky left-0 right-0 border-b border-neutral-500 p-3  ">
           <div className="flex justify-between">
             <span>Projects / {getProject?.name} / Kanban </span>
             <div className="flex space-x-1">
@@ -83,9 +83,11 @@ export default function Project() {
             </div>
           </div>
           <h1 className="my-4 text-4xl font-bold">{getProject?.name}</h1>
-          <KanbanBoard id={"clg13ohf900029yzh0sp3ng54"} />
-        </main>
-      </div>
+        </header>
+        <div className="flex h-full w-fit gap-2 overflow-x-auto      ">
+          <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
+        </div>
+      </main>
     </div>
   );
 }

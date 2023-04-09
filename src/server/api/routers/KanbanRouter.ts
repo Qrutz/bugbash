@@ -30,6 +30,7 @@ export const KanbanRouter = createTRPCRouter({
             select: {
               id: true,
               name: true,
+              description: true,
             },
           },
         },
@@ -58,7 +59,6 @@ export const KanbanRouter = createTRPCRouter({
   createTask: protectedProcedure
     .input(
       z.object({
-        projectId: z.string(),
         columnId: z.string(),
         name: z.string(),
       })
