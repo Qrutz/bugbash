@@ -103,7 +103,7 @@ const Column = ({ column }: ColumnProps) => {
           <div className="flex justify-between px-2 py-1">
             <h3
               onClick={() => setIsEditingName(true)}
-              className="cursor-pointer text-center text-xl font-extrabold"
+              className="ml-1 cursor-pointer text-center text-xl font-extrabold"
             >
               {" "}
               {!colUpdating ? <>{column.name}</> : <>"...."</>}
@@ -113,7 +113,7 @@ const Column = ({ column }: ColumnProps) => {
               <Popover.Button className="cursor-pointer">
                 <BsThreeDots />
               </Popover.Button>
-              <Popover.Panel className="right-50 left-50 absolute z-0 w-80 rounded-md bg-gray-800 py-2 shadow-lg">
+              <Popover.Panel className="right-50 left-50 absolute z-0 w-80 rounded-md bg-neutral-900 py-2  shadow-lg">
                 <div className="flex flex-col gap-2 px-2">
                   <span className="flex  items-center border-b py-1">
                     <h1 className="flex-[11] items-center text-center">
@@ -128,7 +128,7 @@ const Column = ({ column }: ColumnProps) => {
                     onClick={removeCol}
                     className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-gray-700"
                   >
-                    <span className="font-medium text-gray-500">Delete</span>
+                    <span className="font-medium ">Delete</span>
                   </Popover.Button>
                 </div>
               </Popover.Panel>
