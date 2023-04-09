@@ -3,6 +3,7 @@ import { Task } from "./Task";
 import { useForm } from "react-hook-form";
 import { api } from "~/utils/api";
 import { RxPlus } from "react-icons/rx";
+import { useState } from "react";
 
 interface Column {
   id: string;
@@ -29,12 +30,29 @@ const Column = ({ column }: ColumnProps) => {
     },
   });
 
-  const { handleSubmit } = useForm();
-  const onSubmit = () => {
+  const { mutate: editColumnName, isLoading: colUpdating } =
+    api.kanbanRouter.changeColumnName.useMutation({
+      onSuccess: () => {
+        void ctx.kanbanRouter.getColumns.invalidate();
+      },
+    });
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const { handleSubmit, register } = useForm();
+
+  const onSubmitNewTask = () => {
     addTask({
       columnId: column.id,
-      name: "title",
+      name: "Click to set proper name & desc",
     });
+  };
+
+  const onSubmit = (data: any) => {
+    editColumnName({
+      columnId: column.id,
+      name: data.name,
+    });
+    setIsEditingName(false);
   };
 
   return (
@@ -43,7 +61,38 @@ const Column = ({ column }: ColumnProps) => {
         key={column.id}
         className=" items-center justify-between rounded-t-full  bg-neutral-900 px-1 py-2"
       >
-        <h3 className="text-center text-xl font-extrabold">{column.name}</h3>
+        {isEditingName ? (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex w-full flex-col gap-2"
+          >
+            <input
+              defaultValue={column.name}
+              {...register("name")}
+              className="rounded-md bg-neutral-800 px-2 py-1"
+            />
+            <button
+              type="submit"
+              className="rounded-md bg-green-500 py-1 font-medium text-white transition-colors duration-200 hover:bg-green-600"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsEditingName(false)}
+              className="rounded-md bg-red-500 py-1 font-medium text-white transition-colors duration-200 hover:bg-red-600"
+            >
+              Cancel
+            </button>
+          </form>
+        ) : (
+          <h3
+            onClick={() => setIsEditingName(true)}
+            className="cursor-pointer text-center text-xl font-extrabold"
+          >
+            {!colUpdating ? <h3>{column.name}</h3> : <h3>"...."</h3>}
+          </h3>
+        )}
         <Droppable droppableId={column.id}>
           {(provided) => (
             <div
@@ -58,7 +107,7 @@ const Column = ({ column }: ColumnProps) => {
             </div>
           )}
         </Droppable>
-        <form className="w-full   p-2" onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-full   p-2" onSubmit={handleSubmit(onSubmitNewTask)}>
           <button
             type="submit"
             className="my-2 flex w-full items-center justify-center    gap-2 rounded-md bg-neutral-800 py-1"
@@ -67,13 +116,6 @@ const Column = ({ column }: ColumnProps) => {
             <span className=" font-medium text-gray-500">Add Task</span>
           </button>
         </form>
-        {/* <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            className="text-black"
-            {...register("title", { required: true, maxLength: 20 })}
-          />
-          <button type="submit"> Add Task </button>
-        </form> */}
       </div>
     </div>
   );
