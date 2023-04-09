@@ -38,12 +38,12 @@ const Column = ({ column }: ColumnProps) => {
   };
 
   return (
-    <div className="w-[15rem] text-center ">
+    <div className="h-full w-[15rem] rounded  bg-neutral-900">
       <div
         key={column.id}
-        className=" items-center justify-between bg-neutral-900 px-1 py-2"
+        className=" items-center justify-between rounded-t-full  bg-neutral-900 px-1 py-2"
       >
-        <h3 className="text-xl font-extrabold">{column.name}</h3>
+        <h3 className="text-center text-xl font-extrabold">{column.name}</h3>
         <Droppable droppableId={column.id}>
           {(provided) => (
             <div
@@ -58,13 +58,13 @@ const Column = ({ column }: ColumnProps) => {
             </div>
           )}
         </Droppable>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-full   p-2" onSubmit={handleSubmit(onSubmit)}>
           <button
             type="submit"
-            className="flex  w-full items-center justify-center gap-2 bg-blue-800"
+            className="my-2 flex w-full items-center justify-center    gap-2 rounded-md bg-neutral-800 py-1"
           >
             <RxPlus className="h-6 w-6" />
-            <span>New Task</span>
+            <span className=" font-medium text-gray-500">Add Task</span>
           </button>
         </form>
         {/* <form onSubmit={handleSubmit(onSubmit)}>

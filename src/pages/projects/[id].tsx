@@ -20,7 +20,7 @@ function MenuTab(props: { name: string; icon: IconType }) {
         <span className="text-xl"> {<props.icon />} </span>{" "}
         <h1>{props.name}</h1>
       </span>
-      <span className="w-[10%] rounded-md bg-red-600 text-center">4</span>
+      {/* <span className="w-[10%] rounded-md bg-red-600 text-center">4</span> */}
     </span>
   );
 }
@@ -50,7 +50,7 @@ export default function Project() {
 
   return (
     <div className="container mx-auto flex overflow-auto shadow-sm shadow-black">
-      <nav className="border-slate-00 h-screen flex-1 border-r bg-neutral-950">
+      <nav className="border-slate-00 h-screen flex-1 border-r border-neutral-800 bg-neutral-950">
         <div className="text-white-500 flex flex-col items-center justify-center gap-4 p-4">
           <MenuTab name="Dashboard" icon={RxDashboard} />
           <MenuTab name="Projects" icon={RxCircle} />
@@ -107,8 +107,8 @@ export default function Project() {
             ))}
           </Tab.List>
 
-          <Tab.Panels className=" ">
-            <Tab.Panel className="border-t border-neutral-800 px-4 py-6">
+          <Tab.Panels className="h-full">
+            <Tab.Panel className="h-full border-t border-neutral-800 px-4 py-6">
               <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
             </Tab.Panel>
             <Tab.Panel>schedule</Tab.Panel>

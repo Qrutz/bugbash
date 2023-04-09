@@ -88,10 +88,11 @@ export const KanbanRouter = createTRPCRouter({
       });
     }),
 
-  editTaskDescription: protectedProcedure
+  editTask: protectedProcedure
     .input(
       z.object({
         taskId: z.string(),
+        name: z.string(),
         description: z.string(),
       })
     )
@@ -101,6 +102,7 @@ export const KanbanRouter = createTRPCRouter({
           id: input.taskId,
         },
         data: {
+          name: input.name,
           description: input.description,
         },
       });
