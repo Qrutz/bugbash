@@ -49,7 +49,7 @@ export default function Project() {
   const tabs = ["Kanban", "Schedule"];
 
   return (
-    <div className="container mx-auto flex overflow-auto shadow-sm shadow-black">
+    <div className=" flex overflow-auto shadow-sm shadow-black">
       <nav className="border-slate-00 h-screen flex-1 border-r border-neutral-800 bg-neutral-950">
         <div className="text-white-500 flex flex-col items-center justify-center gap-4 p-4">
           <MenuTab name="Dashboard" icon={RxDashboard} />
@@ -108,7 +108,7 @@ export default function Project() {
           </Tab.List>
 
           <Tab.Panels className="h-full">
-            <Tab.Panel className="h-full border-t border-neutral-800 px-4 py-6">
+            <Tab.Panel className="h-full w-fit border-t border-neutral-800 px-4 py-6">
               <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
             </Tab.Panel>
             <Tab.Panel>schedule</Tab.Panel>
