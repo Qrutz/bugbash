@@ -83,10 +83,12 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      {initialKanban?.map((column) => (
-        <Column key={column.id} column={column} />
-      ))}
-      <button onClick={handleCreateColumn}>new col</button>
+      <section className="flex h-full  w-fit gap-2 overflow-x-auto">
+        {initialKanban?.map((column) => (
+          <Column key={column.id} column={column} />
+        ))}
+        <button onClick={handleCreateColumn}>new col</button>
+      </section>
     </DragDropContext>
   );
 };

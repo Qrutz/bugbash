@@ -11,6 +11,7 @@ import {
 import type { IconType } from "react-icons";
 
 import KanbanBoard from "~/components/KanbanBoard";
+import { Tab } from "@headlessui/react";
 
 function MenuTab(props: { name: string; icon: IconType }) {
   return (
@@ -41,6 +42,12 @@ export default function Project() {
     return <div>Loading...</div>;
   }
 
+  if (!router.isReady) {
+    return null;
+  }
+
+  const tabs = ["Kanban", "Schedule"];
+
   return (
     <div className="container mx-auto flex overflow-auto shadow-sm shadow-black">
       <nav className="border-slate-00 h-screen flex-1 border-r bg-neutral-950">
@@ -58,10 +65,10 @@ export default function Project() {
           <span>p3</span>
         </div> */}
       </nav>
-      <main className="w-500rem 100px flex flex-[4] flex-col overflow-auto    bg-neutral-950 ">
-        <header className="sticky left-0 right-0 border-b border-neutral-500 p-3  ">
+      <main className="w-500rem 100px flex flex-[4] flex-col overflow-auto bg-neutral-950 scrollbar    scrollbar-thumb-indigo-900  ">
+        <header className="sticky left-0 right-0  p-3  ">
           <div className="flex justify-between">
-            <span>Projects / {getProject?.name} / Kanban </span>
+            <span>Projects / {getProject?.name} </span>
             <div className="flex space-x-1">
               {getProject?.members.map((member) => {
                 return (
@@ -84,9 +91,29 @@ export default function Project() {
           </div>
           <h1 className="my-4 text-4xl font-bold">{getProject?.name}</h1>
         </header>
-        <div className="flex h-full w-fit gap-2 overflow-x-auto      ">
-          <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
-        </div>
+        <Tab.Group>
+          <Tab.List className="sticky left-0 right-0 flex w-[15%] space-x-2    ">
+            {tabs.map((tab) => (
+              <Tab
+                key={tab}
+                className={({ selected }) =>
+                  `mx-4 w-full py-2 text-lg font-medium text-white ${
+                    selected ? "border-b border-white " : " "
+                  }`
+                }
+              >
+                {tab}
+              </Tab>
+            ))}
+          </Tab.List>
+
+          <Tab.Panels className=" ">
+            <Tab.Panel className="border-t border-neutral-800 px-4 py-6">
+              <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
+            </Tab.Panel>
+            <Tab.Panel>schedule</Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
       </main>
     </div>
   );
