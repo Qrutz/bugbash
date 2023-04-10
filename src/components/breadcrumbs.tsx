@@ -1,4 +1,5 @@
 import Link from "next/link";
+import React from "react";
 
 // components/breadcrumbs/Breadcrumbs.ts
 import { ReactNode } from "react";
@@ -22,13 +23,13 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
         const isLastItem = i === items.length - 1;
         if (!isLastItem) {
           return (
-            <>
-              <Link href={crumb.path} key={i} className=" hover:underline">
+            <React.Fragment key={i}>
+              <Link href={crumb.path} className=" hover:underline">
                 {crumb.label}
               </Link>
               {/* separator */}
               <span> / </span>
-            </>
+            </React.Fragment>
           );
         } else {
           return crumb.label;

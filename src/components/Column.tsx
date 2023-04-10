@@ -6,7 +6,8 @@ import { api } from "~/utils/api";
 import { RxCross2, RxPlus } from "react-icons/rx";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { Popover } from "@headlessui/react";
+import { Menu, Popover, Transition } from "@headlessui/react";
+import React from "react";
 
 interface Column {
   id: string;
@@ -75,7 +76,7 @@ const Column = ({ column }: ColumnProps) => {
   };
 
   return (
-    <div className="h-full w-[15rem] rounded  bg-neutral-900">
+    <div className="  h-full w-[15rem] rounded  bg-neutral-900">
       <div
         key={column.id}
         className=" items-center justify-between rounded-t-full  bg-neutral-900 px-1 py-2"
@@ -113,30 +114,43 @@ const Column = ({ column }: ColumnProps) => {
               {!colUpdating ? <>{column.name}</> : <>...</>}
             </h3>
 
-            <Popover>
-              <Popover.Button className="cursor-pointer">
+            <Menu>
+              <Menu.Button className=" cursor-pointer">
                 <BsThreeDots />
-              </Popover.Button>
-              <Popover.Panel className="right-50 left-50 absolute z-0 w-80 rounded-md bg-neutral-900 py-2  shadow-lg">
-                <div className="flex flex-col gap-2 px-2">
-                  <span className="flex  items-center border-b py-1">
-                    <h1 className="flex-[11] items-center text-center">
-                      List Actions
-                    </h1>
-                    <Popover.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-700">
-                      <RxCross2 />
-                    </Popover.Button>
-                  </span>
+              </Menu.Button>
+              <Transition
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+              >
+                <Menu.Items className=" absolute left-0 right-3  w-60 rounded-md bg-neutral-200 py-2 text-black  shadow-lg">
+                  <div className="flex flex-col gap-2 px-2">
+                    <span className="flex  items-center border-b border-neutral-800 py-1">
+                      <h1 className="flex-[11] items-center text-center">
+                        List Actions
+                      </h1>
+                      <Menu.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-700">
+                        <RxCross2 />
+                      </Menu.Button>
+                    </span>
 
-                  <Popover.Button
-                    onClick={removeCol}
-                    className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-gray-700"
-                  >
-                    <span className="font-medium ">Delete</span>
-                  </Popover.Button>
-                </div>
-              </Popover.Panel>
-            </Popover>
+                    <Menu.Item as={React.Fragment}>
+                      {({ active }) => (
+                        <button
+                          onClick={removeCol}
+                          className="  gap-2 rounded-md px-2 py-1 hover:bg-gray-500"
+                        >
+                          <span className="text-start ">Delete List</span>
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
           </div>
         )}
         <Droppable droppableId={column.id}>

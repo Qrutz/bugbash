@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Link from "next/link";
+import { SiOpenbugbounty as SiOpenBounty } from "react-icons/si";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
@@ -14,64 +15,43 @@ import {
 } from "react-icons/rx";
 import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
+const Home: any = () => {
   const { data: session, status: userstatus } = useSession();
   const router = useRouter();
 
-  userstatus === "loading" ? <div>Loading...</div> : null;
+  if (userstatus === "loading" || !router.isReady) {
+    return <div className="h-screen bg-black">Loading...</div>;
+  }
 
-  const { data } = api.projectRouter.getAll.useQuery({
-    userId: session?.user.id as string,
-  });
-
-  // if (userstatus === "loading") {
-  //   return <div>Loading...</div>;
-  // }
   if (!session) {
     return (
-      <div>
-        <button onClick={() => void signIn()}>SIGN IN </button>
+      <div className="flex min-h-screen items-center justify-center bg-neutral-950">
+        <div className="z-20 rounded-lg bg-white p-8">
+          <div className="logo flex items-center gap-1 border-b border-neutral-800 px-2 py-4 text-neutral-950">
+            <SiOpenBounty className="text-3xl text-neutral-950" />
+            <span className="text-white-500 text-xl  font-extrabold">
+              Bug
+              <span className="font-semibold">Bash</span>
+            </span>
+          </div>
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={() => void signIn()}
+              className="rounded bg-blue-500 px-4 py-2 font-bold text-white"
+            >
+              Sign in with Discord
+            </button>
+            <button className="pointer-events-none rounded bg-green-500 px-4 py-2 font-bold text-white opacity-50">
+              Sign in with Google
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
-  return (
-    <div className="container mx-auto flex   bg-slate-800">
-      <nav className="border-slate-00 h-screen flex-1 border-r border-neutral-800 bg-neutral-950">
-        <div className="text-white-500 flex flex-col items-center justify-center gap-4 p-4">
-          <MenuTab name="Projects" icon={RxDashboard} />
-          <MenuTab name="" icon={RxCircle} />
-          <MenuTab name="My Tasks" icon={RxCardStackPlus} />
-          <MenuTab name="Settings" icon={RxAccessibility} />
-        </div>
-
-        {/* <div className="text-white-500 flex flex-col items-center justify-center gap-2 p-3">
-          <span>Projects</span>
-          <span>p1</span>
-          <span>p2</span>
-          <span>p3</span>
-        </div> */}
-      </nav>
-
-      <main className="flex flex-[5] flex-col items-center justify-center ">
-        <h1>Welcome {session.user.name}</h1>
-        <img src={session.user.image || ""} width={150} height={150} />
-
-        <h2>Projects:</h2>
-
-        {data?.map((project): ReactNode => {
-          return (
-            <div key={project.id}>
-              <Link href={`/projects/${project.id}`}>{project.name}</Link>
-            </div>
-          );
-        })}
-
-        <button onClick={() => void signOut()}>Sign out</button>
-        <button onClick={() => router.push("/projects")}>cc</button>
-      </main>
-    </div>
-  );
+  router.push("/projects");
+  return null;
 };
 
 export default Home;

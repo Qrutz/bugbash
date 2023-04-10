@@ -23,9 +23,31 @@ export default function Project() {
       { enabled: id !== undefined && id !== "" && id !== "undefined" }
     );
 
-  if (projectStatus === "loading" || projectStatus === "error") {
-    return <div>Loading...</div>;
+  if (!router.isReady) {
+    return <div className="h-screen bg-black">hello</div>;
   }
+
+  const members =
+    projectStatus === "loading" ? (
+      <div>loading</div>
+    ) : (
+      <>
+        {getProject?.members.map((member) => {
+          return (
+            <div
+              className="-ml-2 rounded-full border border-gray-800"
+              key={member.id}
+            >
+              <img
+                className="h-12 w-12 rounded-full"
+                src={member.image || undefined}
+                alt=""
+              />
+            </div>
+          );
+        })}
+      </>
+    );
 
   if (!router.isReady) {
     return null;
@@ -34,9 +56,9 @@ export default function Project() {
   const tabs = ["Kanban", "Schedule"];
 
   return (
-    <div className=" flex overflow-auto shadow-sm shadow-black">
+    <div className=" flex   shadow-sm shadow-black">
       <Sidebar />
-      <main className="w-500rem 100px flex flex-[7] flex-col overflow-auto bg-neutral-950 scrollbar    scrollbar-thumb-indigo-900  ">
+      <main className="w-500rem 100px flex flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-neutral-950 scrollbar    scrollbar-thumb-neutral-300  ">
         <header className="sticky left-0 right-0  px-4 py-8  ">
           <div className="flex justify-between">
             <Breadcrumbs
@@ -52,20 +74,7 @@ export default function Project() {
               ]}
             />
             <div className=" flex items-center justify-start ">
-              {getProject?.members.map((member) => {
-                return (
-                  <div
-                    className="-ml-2 rounded-full border border-gray-800"
-                    key={member.id}
-                  >
-                    <img
-                      className=" h-12 w-12 rounded-full"
-                      src={member.image || undefined}
-                      alt=""
-                    />
-                  </div>
-                );
-              })}
+              {members}
               <div className="-ml-2 cursor-pointer rounded-full border border-gray-800">
                 <BsPlus className="h-12 w-12 rounded-full bg-neutral-900 text-lg" />
               </div>
@@ -89,7 +98,7 @@ export default function Project() {
             ))}
           </Tab.List>
 
-          <Tab.Panels className="h-full w-full  ">
+          <Tab.Panels className=" h-full w-full  ">
             <Tab.Panel className="h-full w-fit border-t border-neutral-800  px-4 py-6">
               {getProject?.kanbanBoard?.id ? (
                 <KanbanBoard id={getProject.kanbanBoard.id} />
