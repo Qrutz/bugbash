@@ -9,10 +9,12 @@ import Breadcrumbs from "~/components/breadcrumbs";
 import Sidebar from "~/components/Sidebar";
 import { RxPlus } from "react-icons/rx";
 import { BsPlus } from "react-icons/bs";
+import { AddMemberDialog } from "~/components/addMemberDialog";
 
 export default function Project() {
   const router = useRouter();
   const { id } = router.query as { id: string };
+  const [open, setOpen] = React.useState(false);
 
   const { data: getProject, status: projectStatus } =
     api.projectRouter.getProject.useQuery(
@@ -76,7 +78,15 @@ export default function Project() {
             <div className=" flex items-center justify-start ">
               {members}
               <div className="-ml-2 cursor-pointer rounded-full border border-gray-800">
-                <BsPlus className="h-12 w-12 rounded-full bg-neutral-900 text-lg" />
+                <BsPlus
+                  onClick={() => setOpen(true)}
+                  className="h-12 w-12 rounded-full bg-neutral-900 text-lg"
+                />
+                <AddMemberDialog
+                  isOpen={open}
+                  onClose={() => setOpen(false)}
+                  project={getProject!!}
+                />
               </div>
             </div>
           </div>
