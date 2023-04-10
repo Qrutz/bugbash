@@ -12,18 +12,8 @@ import type { IconType } from "react-icons";
 
 import KanbanBoard from "~/components/KanbanBoard";
 import { Tab } from "@headlessui/react";
-
-function MenuTab(props: { name: string; icon: IconType }) {
-  return (
-    <span className="to-bg-neutral-800 flex w-full cursor-pointer justify-between rounded-md from-slate-800 to-slate-900 p-2 hover:bg-gradient-to-r">
-      <span className="flex items-center gap-2 text-lg">
-        <span className="text-xl"> {<props.icon />} </span>{" "}
-        <h1>{props.name}</h1>
-      </span>
-      {/* <span className="w-[10%] rounded-md bg-red-600 text-center">4</span> */}
-    </span>
-  );
-}
+import MenuTab from "~/components/MenuTab";
+import Breadcrumbs from "~/components/breadcrumbs";
 
 export default function Project() {
   const router = useRouter();
@@ -65,10 +55,21 @@ export default function Project() {
           <span>p3</span>
         </div> */}
       </nav>
-      <main className="w-500rem 100px flex flex-[4] flex-col overflow-auto bg-neutral-950 scrollbar    scrollbar-thumb-indigo-900  ">
+      <main className="w-500rem 100px flex flex-[7] flex-col overflow-auto bg-neutral-950 scrollbar    scrollbar-thumb-indigo-900  ">
         <header className="sticky left-0 right-0  p-3  ">
           <div className="flex justify-between">
-            <span>Projects / {getProject?.name} </span>
+            <Breadcrumbs
+              items={[
+                {
+                  label: "Projects",
+                  path: "/projects",
+                },
+                {
+                  label: getProject?.name,
+                  path: `/projects/${getProject?.id}`,
+                },
+              ]}
+            />
             <div className="flex space-x-1">
               {getProject?.members.map((member) => {
                 return (
