@@ -1,6 +1,7 @@
 import { Droppable } from "react-beautiful-dnd";
 import { Task } from "./Task";
 import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
 import { RxCross2, RxPlus } from "react-icons/rx";
 import { useState } from "react";
@@ -24,6 +25,10 @@ interface ColumnProps {
   column: Column;
 }
 
+type FormValues = {
+  name: string;
+};
+
 const Column = ({ column }: ColumnProps) => {
   const ctx = api.useContext();
   const { mutate: addTask } = api.kanbanRouter.createTask.useMutation({
@@ -46,7 +51,7 @@ const Column = ({ column }: ColumnProps) => {
   });
 
   const [isEditingName, setIsEditingName] = useState(false);
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register } = useForm<FormValues>();
 
   const onSubmitNewTask = () => {
     addTask({
@@ -55,7 +60,7 @@ const Column = ({ column }: ColumnProps) => {
     });
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FormValues> = (data: { name: string }) => {
     editColumnName({
       columnId: column.id,
       name: data.name,
@@ -105,8 +110,7 @@ const Column = ({ column }: ColumnProps) => {
               onClick={() => setIsEditingName(true)}
               className="ml-1 cursor-pointer text-center text-xl font-extrabold"
             >
-              {" "}
-              {!colUpdating ? <>{column.name}</> : <>"...."</>}
+              {!colUpdating ? <>{column.name}</> : <>...</>}
             </h3>
 
             <Popover>

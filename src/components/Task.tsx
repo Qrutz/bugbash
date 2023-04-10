@@ -1,8 +1,6 @@
 import { Draggable } from "react-beautiful-dnd";
-import { MyDialog } from "./Dialog";
 
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { useState } from "react";
 import { TaskDialog } from "./TaskDialog";
 
 interface TaskProps {
@@ -18,6 +16,11 @@ interface Task {
 
 export const Task = ({ task, index }: TaskProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  //make sure task is not null
+  if (!task) {
+    return null;
+  }
 
   console.log(isOpen);
 
@@ -44,8 +47,8 @@ export const Task = ({ task, index }: TaskProps) => {
       <TaskDialog
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        initialTaskName={task.name!!}
-        initialTaskDescription={task.description!!}
+        initialTaskName={task.name || ""}
+        initialTaskDescription={task.description || ""}
         taskID={task.id}
       />
     </div>

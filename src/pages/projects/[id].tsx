@@ -38,7 +38,7 @@ export default function Project() {
       { enabled: id !== undefined && id !== "" && id !== "undefined" }
     );
 
-  if (projectStatus === "loading") {
+  if (projectStatus === "loading" || projectStatus === "error") {
     return <div>Loading...</div>;
   }
 
@@ -109,7 +109,11 @@ export default function Project() {
 
           <Tab.Panels className="h-full w-full  ">
             <Tab.Panel className="h-full w-fit border-t border-neutral-800  px-4 py-6">
-              <KanbanBoard id={getProject?.kanbanBoard?.id!!} />
+              {getProject?.kanbanBoard?.id ? (
+                <KanbanBoard id={getProject.kanbanBoard.id} />
+              ) : (
+                <div>Create a kanban</div>
+              )}
             </Tab.Panel>
             <Tab.Panel>schedule</Tab.Panel>
           </Tab.Panels>
