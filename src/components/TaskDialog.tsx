@@ -1,15 +1,21 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
 
 interface TaskDialogProps {
   isOpen: boolean;
-  onClose: any;
+  onClose: () => void;
   initialTaskName: string;
   initialTaskDescription: string;
   taskID: string;
 }
+
+type FormValues = {
+  name: string;
+  description: string;
+};
 
 export const TaskDialog = ({
   isOpen,
@@ -25,13 +31,11 @@ export const TaskDialog = ({
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data: {
+    name: string;
+    description: string;
+  }) => {
     onClose();
     updateTask({
       taskId: taskID,
@@ -59,7 +63,7 @@ export const TaskDialog = ({
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
         onClose={onClose}
-        initialFocus={null as any}
+        // initialFocus={null} :: add later
       >
         <div className="flex min-h-screen items-center justify-center">
           <Dialog.Overlay className="z-3 fixed inset-0 bg-black opacity-30" />

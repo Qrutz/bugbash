@@ -1,8 +1,7 @@
 import { DragDropContext } from "react-beautiful-dnd";
 import type { DropResult } from "react-beautiful-dnd";
-import { RxPlus } from "react-icons/rx";
 import Column from "~/components/Column";
-import NewColumnToggle from "~/pages/test";
+import NewColumnToggle from "~/components/NewColumnToggle";
 import { api } from "~/utils/api";
 
 interface KanbanBoardProps {

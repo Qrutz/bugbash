@@ -9,14 +9,15 @@ import Image from "next/image";
 const Home: NextPage = () => {
   const { data: session, status: userstatus } = useSession();
 
+  userstatus === "loading" ? <div>Loading...</div> : null;
+
   const { data } = api.projectRouter.getAll.useQuery({
     userId: session?.user.id as string,
   });
 
-  if (userstatus === "loading") {
-    return <div>Loading...</div>;
-  }
-
+  // if (userstatus === "loading") {
+  //   return <div>Loading...</div>;
+  // }
   if (!session) {
     return (
       <div>
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
     <div className="container mx-auto h-screen  bg-slate-800">
       <main className="flex flex-col items-center justify-center ">
         <h1>Welcome {session.user.name}</h1>
-        <img src={session.user.image!!} width={150} height={150} />
+        <img src={session.user.image || ""} width={150} height={150} />
 
         <h2>Projects:</h2>
 
