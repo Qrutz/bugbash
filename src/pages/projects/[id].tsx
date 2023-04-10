@@ -1,19 +1,14 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
-import {
-  RxDashboard,
-  RxCircle,
-  RxCardStackPlus,
-  RxAccessibility,
-} from "react-icons/rx";
-
-import type { IconType } from "react-icons";
 
 import KanbanBoard from "~/components/KanbanBoard";
 import { Tab } from "@headlessui/react";
 import MenuTab from "~/components/MenuTab";
 import Breadcrumbs from "~/components/breadcrumbs";
+import Sidebar from "~/components/Sidebar";
+import { RxPlus } from "react-icons/rx";
+import { BsPlus } from "react-icons/bs";
 
 export default function Project() {
   const router = useRouter();
@@ -40,23 +35,9 @@ export default function Project() {
 
   return (
     <div className=" flex overflow-auto shadow-sm shadow-black">
-      <nav className="border-slate-00 h-screen flex-1 border-r border-neutral-800 bg-neutral-950">
-        <div className="text-white-500 flex flex-col items-center justify-center gap-4 p-4">
-          <MenuTab name="Dashboard" icon={RxDashboard} />
-          <MenuTab name="Projects" icon={RxCircle} />
-          <MenuTab name="My Tasks" icon={RxCardStackPlus} />
-          <MenuTab name="Settings" icon={RxAccessibility} />
-        </div>
-
-        {/* <div className="text-white-500 flex flex-col items-center justify-center gap-2 p-3">
-          <span>Projects</span>
-          <span>p1</span>
-          <span>p2</span>
-          <span>p3</span>
-        </div> */}
-      </nav>
+      <Sidebar />
       <main className="w-500rem 100px flex flex-[7] flex-col overflow-auto bg-neutral-950 scrollbar    scrollbar-thumb-indigo-900  ">
-        <header className="sticky left-0 right-0  p-3  ">
+        <header className="sticky left-0 right-0  px-4 py-8  ">
           <div className="flex justify-between">
             <Breadcrumbs
               items={[
@@ -70,27 +51,27 @@ export default function Project() {
                 },
               ]}
             />
-            <div className="flex space-x-1">
+            <div className=" flex items-center justify-start ">
               {getProject?.members.map((member) => {
                 return (
-                  <div className="rounded-full" key={member.id}>
+                  <div
+                    className="-ml-2 rounded-full border border-gray-800"
+                    key={member.id}
+                  >
                     <img
-                      className="h-9 w-9 rounded-full"
+                      className=" h-12 w-12 rounded-full"
                       src={member.image || undefined}
                       alt=""
                     />
                   </div>
                 );
               })}
-              <button
-                className="rounded-md bg-gray-500 p-1"
-                onClick={() => console.log("todo")}
-              >
-                Add Member
-              </button>
+              <div className="-ml-2 cursor-pointer rounded-full border border-gray-800">
+                <BsPlus className="h-12 w-12 rounded-full bg-neutral-900 text-lg" />
+              </div>
             </div>
           </div>
-          <h1 className="my-4 text-4xl font-bold">{getProject?.name}</h1>
+          <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
         </header>
         <Tab.Group>
           <Tab.List className="sticky left-0 right-0 flex w-[15%] space-x-2    ">
