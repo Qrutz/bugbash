@@ -29,7 +29,7 @@ export default function Index() {
     <div className=" flex  overflow-hidden shadow-sm shadow-black">
       <Sidebar />
       <main className="w-500rem 100px flex flex-[7] flex-col  bg-neutral-950  ">
-        <header className="sticky left-0 right-0  p-3  ">
+        <header className="sticky left-0 right-0  px-4 py-8  ">
           <div className="flex justify-between">
             <Breadcrumbs
               items={[
@@ -40,7 +40,7 @@ export default function Index() {
               ]}
             />
           </div>
-          <h1 className="my-4 text-4xl font-bold">Projects</h1>
+          <h1 className="my-4 text-5xl font-bold">Projects</h1>
         </header>
 
         <div className="flex space-x-2 p-3">

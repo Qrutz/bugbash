@@ -106,7 +106,7 @@ const Column = ({ column }: ColumnProps) => {
             </button>
           </form>
         ) : (
-          <div className="flex justify-between px-2 py-1">
+          <div className="relative flex justify-between px-2 py-1">
             <h3
               onClick={() => setIsEditingName(true)}
               className="ml-1 cursor-pointer text-center text-xl font-extrabold"
@@ -114,43 +114,45 @@ const Column = ({ column }: ColumnProps) => {
               {!colUpdating ? <>{column.name}</> : <>...</>}
             </h3>
 
-            <Menu>
-              <Menu.Button className=" cursor-pointer">
-                <BsThreeDots />
-              </Menu.Button>
-              <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
-              >
-                <Menu.Items className=" absolute left-0 right-3  w-60 rounded-md bg-neutral-200 py-2 text-black  shadow-lg">
-                  <div className="flex flex-col gap-2 px-2">
-                    <span className="flex  items-center border-b border-neutral-800 py-1">
-                      <h1 className="flex-[11] items-center text-center">
-                        List Actions
-                      </h1>
-                      <Menu.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-700">
-                        <RxCross2 />
-                      </Menu.Button>
-                    </span>
+            <div className="z-5000 absolute right-0  top-[10px] ">
+              <Menu>
+                <Menu.Button className=" flex w-8 cursor-pointer  justify-center focus:outline-none">
+                  <BsThreeDots />
+                </Menu.Button>
+                <Transition
+                  enter="transition duration-100 ease-out"
+                  enterFrom="transform scale-95 opacity-0"
+                  enterTo="transform scale-100 opacity-100"
+                  leave="transition duration-75 ease-out"
+                  leaveFrom="transform scale-100 opacity-100"
+                  leaveTo="transform scale-95 opacity-0"
+                >
+                  <Menu.Items className=" absolute left-0 right-3  w-60 rounded-md bg-white py-2 text-black  shadow-lg">
+                    <div className="flex flex-col gap-2 px-2">
+                      <span className="flex  items-center border-b border-neutral-800 py-1">
+                        <h1 className="flex-[11] items-center text-center">
+                          List Actions
+                        </h1>
+                        <Menu.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-300">
+                          <RxCross2 />
+                        </Menu.Button>
+                      </span>
 
-                    <Menu.Item as={React.Fragment}>
-                      {({ active }) => (
-                        <button
-                          onClick={removeCol}
-                          className="  gap-2 rounded-md px-2 py-1 hover:bg-gray-500"
-                        >
-                          <span className="text-start ">Delete List</span>
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </div>
-                </Menu.Items>
-              </Transition>
-            </Menu>
+                      <Menu.Item as={React.Fragment}>
+                        {({ active }) => (
+                          <button
+                            onClick={removeCol}
+                            className="  gap-2 rounded-md px-2 py-1 hover:bg-gray-300"
+                          >
+                            <span className="text-start ">Delete List</span>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
           </div>
         )}
         <Droppable droppableId={column.id}>
@@ -167,12 +169,15 @@ const Column = ({ column }: ColumnProps) => {
             </div>
           )}
         </Droppable>
-        <form className="w-full   p-2" onSubmit={handleSubmit(onSubmitNewTask)}>
+        <form
+          className="w-full p-2   "
+          onSubmit={handleSubmit(onSubmitNewTask)}
+        >
           <button
             type="submit"
-            className="my-2 flex w-full items-center justify-center    gap-2 rounded-md bg-neutral-800 py-1"
+            className="my-0 flex w-full items-center justify-center gap-2    rounded-md bg-neutral-800 py-1 hover:bg-neutral-700"
           >
-            <RxPlus className="h-6 w-6" />
+            <RxPlus className="h-6 w-6 text-gray-500" />
             <span className=" font-medium text-gray-500">Add Task</span>
           </button>
         </form>

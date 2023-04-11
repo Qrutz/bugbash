@@ -68,7 +68,7 @@ export default function Sidebar() {
             </button>
             <button
               onClick={() => setIsShowing(false)}
-              className="h-full w-full bg-neutral-900   hover:bg-neutral-800"
+              className="h-full w-full bg-neutral-950   hover:bg-neutral-900"
             >
               Abort
             </button>
@@ -91,11 +91,11 @@ export default function Sidebar() {
 
   return (
     <nav className="sticky bottom-0 top-0 h-screen flex-1 overflow-hidden  border-r border-neutral-800  bg-neutral-950 ">
-      <div className="logo flex items-center gap-1 border-b border-neutral-800 px-2 py-4">
-        <SiOpenBounty className="text-3xl text-neutral-200" />
-        <span className="text-white-500 text-xl  font-extrabold">
+      <div className="logo flex  items-center gap-1 border-b border-neutral-800 px-2 py-4">
+        <SiOpenBounty className="cursor-pointer text-3xl text-neutral-200" />
+        <span className="text-white-500 cursor-pointer text-xl  font-extrabold">
           Bug
-          <span className="font-semibold">Bash</span>
+          <span className=" font-semibold">Bash</span>
         </span>
       </div>
       <div className="text-white-500 flex h-full flex-col  justify-between  ">
