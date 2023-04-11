@@ -9,9 +9,11 @@ import { SiOpenbugbounty as SiOpenBounty } from "react-icons/si";
 import MenuTab from "./MenuTab";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import { Menu, Transition } from "@headlessui/react";
 
 export default function Sidebar() {
+  const [isShowing, setIsShowing] = React.useState(false);
   const { data: session, status: userstatus } = useSession();
   const router = useRouter();
 
@@ -29,17 +31,60 @@ export default function Sidebar() {
       return <div>loading</div>;
     } else {
       return (
-        <div className=" mb-16 flex cursor-pointer items-center gap-2 rounded-md  hover:bg-neutral-900">
-          <img
-            className="h-16  w-16 rounded-full"
-            src={session?.user.image as string}
-            alt="user"
-          />
-          <span className="text-white-500 text-xl font-semibold">
-            {session?.user.name}
-          </span>
-          <span className="text-white-500 text-sm font-semibold"></span>
-        </div>
+        <>
+          <Transition
+            show={!isShowing}
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            onClick={() => setIsShowing(true)}
+            className="mb-16 flex cursor-pointer items-center gap-2  hover:bg-neutral-900"
+          >
+            {/* <button onClick={() => setIsShowing(true)} /> */}
+            <img
+              className="h-16 w-16 rounded-full"
+              src={session?.user.image as string}
+              alt="user"
+            />
+            <span className="text-white-500 text-xl font-semibold">
+              {session?.user.name}
+            </span>
+          </Transition>
+
+          <Transition
+            enter="transition ease-out duration-300"
+            enterFrom="transform opacity-0 scale-95"
+            className="mb-16 flex h-16 flex-col items-center justify-center "
+            show={isShowing}
+          >
+            <button
+              onClick={() => void signOut({ callbackUrl: "/" })}
+              className="h-full w-full bg-red-700   hover:bg-red-600"
+            >
+              SIGN OUT
+            </button>
+            <button
+              onClick={() => setIsShowing(false)}
+              className="h-full w-full bg-neutral-900   hover:bg-neutral-800"
+            >
+              Abort
+            </button>
+          </Transition>
+        </>
+
+        /* <div className="mb-16 flex cursor-pointer items-center gap-2 rounded-md hover:bg-neutral-900">
+              <img
+                className="h-16 w-16 rounded-full"
+                src={session?.user.image as string}
+                alt="user"
+              />
+              <span className="text-white-500 text-xl font-semibold">
+                {session?.user.name}
+              </span>
+            </div> */
       );
     }
   };
