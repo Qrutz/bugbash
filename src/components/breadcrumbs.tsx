@@ -33,7 +33,7 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
           );
         } else {
           return (
-            <span className="font-semibold text-yellow-300">
+            <span key={i} className="font-semibold text-yellow-300">
               {crumb.label}{" "}
             </span>
           );
