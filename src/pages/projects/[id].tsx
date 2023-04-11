@@ -71,7 +71,7 @@ export default function Project() {
           <span className="sr-only">Loading...</span>
         </main>
       ) : (
-        <main className=" flex flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-neutral-950 scrollbar    scrollbar-thumb-neutral-300  ">
+        <main className=" flex  flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-neutral-950 scrollbar    scrollbar-thumb-neutral-300  ">
           <header className="sticky left-0 right-0  px-4 py-8  ">
             <div className="flex justify-between">
               <Breadcrumbs
@@ -106,12 +106,12 @@ export default function Project() {
             <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
           </header>
           <Tab.Group>
-            <Tab.List className="sticky left-0 right-0 flex w-[15%] space-x-2    ">
+            <Tab.List className="sticky left-0 right-0 flex  w-full space-x-2 border-b border-neutral-800     ">
               {tabs.map((tab) => (
                 <Tab
                   key={tab}
                   className={({ selected }) =>
-                    `mx-4 w-full py-2 text-lg font-medium text-white ${
+                    `mx-4  py-2 text-lg font-medium text-white ${
                       selected ? "border-b border-white " : " "
                     }`
                   }
@@ -121,8 +121,8 @@ export default function Project() {
               ))}
             </Tab.List>
 
-            <Tab.Panels className=" h-full w-full  ">
-              <Tab.Panel className="h-full w-fit border-t border-neutral-800  px-4 py-6">
+            <Tab.Panels className=" h-full min-w-full   ">
+              <Tab.Panel className="h-full w-fit   px-4 py-6">
                 {getProject?.kanbanBoard?.id ? (
                   <KanbanBoard id={getProject.kanbanBoard.id} />
                 ) : (
