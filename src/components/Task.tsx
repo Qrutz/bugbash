@@ -23,9 +23,9 @@ export const Task = ({ task, index }: TaskProps) => {
   }
 
   const draggingStyle =
-    "bg-neutral-800 animate-pulse text-neutral-100 min-h-[50px] rounded-md border border-neutral-700 p-2";
+    "animate-pulse bg-neutral-800 text-neutral-100 min-h-[50px] rounded-md  bg-[#21222D] shadow-2xl    p-2";
   const notDraggingStyle =
-    "bg-neutral-800 text-neutral-100 min-h-[50px] rounded-md border border-neutral-700 p-2";
+    "bg-neutral-800 text-neutral-100 min-h-[50px] rounded-md bg-gray-800 shadow-2xl    p-2";
   return (
     <div onClick={() => setIsOpen(true)}>
       <Draggable key={task.id} draggableId={task.id} index={index}>
@@ -36,7 +36,7 @@ export const Task = ({ task, index }: TaskProps) => {
             {...provided.dragHandleProps}
             className={snapshot.isDragging ? draggingStyle : notDraggingStyle}
           >
-            <h1> {task.name}</h1>
+            <h1 className="text-md font-semibold"> {task.name}</h1>
             <p className="text-sm text-gray-400"> {task.description}</p>
           </div>
         )}

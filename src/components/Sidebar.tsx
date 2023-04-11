@@ -11,6 +11,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Menu, Transition } from "@headlessui/react";
+import { RiCalendarFill, RiTeamFill } from "react-icons/ri";
+import { SiTask } from "react-icons/si";
+import { BsFillInboxFill } from "react-icons/bs";
+import { AiFillSetting } from "react-icons/ai";
 
 export default function Sidebar() {
   const [isShowing, setIsShowing] = React.useState(false);
@@ -19,11 +23,11 @@ export default function Sidebar() {
 
   const stylingForActiveTab = {
     className:
-      "to-bg-neutral-800 flex w-full cursor-pointer justify-between rounded-md from-slate-800 to-slate-900 p-2 bg-gradient-to-r",
+      "bg-purple-700 flex w-full cursor-pointer justify-between   rounded-md p-2 font-medium text-white",
   };
   const stylingForInactiveTab = {
     className:
-      "to-bg-neutral-800 flex w-full cursor-pointer justify-between rounded-md from-slate-800 to-slate-900 p-2 hover:bg-gradient-to-r",
+      " hover:bg-purple-900 flex w-full cursor-pointer justify-between   rounded-md py-2 px-1 font-medium text-white ",
   };
 
   const UserCard = () => {
@@ -41,7 +45,7 @@ export default function Sidebar() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             onClick={() => setIsShowing(true)}
-            className="mb-16 flex cursor-pointer items-center gap-2  hover:bg-neutral-900"
+            className="mb-16 flex cursor-pointer items-center gap-2  hover:bg-[#121419]"
           >
             {/* <button onClick={() => setIsShowing(true)} /> */}
             <img
@@ -90,7 +94,7 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="sticky bottom-0 top-0 h-screen flex-1 overflow-hidden  border-r border-neutral-800  bg-neutral-950 ">
+    <nav className="sticky bottom-0 top-0 h-screen flex-1 overflow-hidden  border-r border-neutral-800 bg-[#171820] to-[#111217] ">
       <div className="logo flex  items-center gap-1 border-b border-neutral-800 px-2 py-4">
         <SiOpenBounty className="cursor-pointer text-3xl text-neutral-200" />
         <span className="text-white-500 cursor-pointer text-xl  font-extrabold">
@@ -99,7 +103,7 @@ export default function Sidebar() {
         </span>
       </div>
       <div className="text-white-500 flex h-full flex-col  justify-between  ">
-        <section className="items-center space-y-1 p-2 ">
+        <section className="items-center space-y-4 px-3 py-3 ">
           <Link
             className={
               router.pathname.includes("/projects")
@@ -110,30 +114,60 @@ export default function Sidebar() {
           >
             <MenuTab
               // if path is projects/everything after /projects/ then make the text red
-              className={
-                router.pathname.includes("/projects") ? "text-red-500" : ""
-              }
+
               name="Projects"
               icon={RxDashboard}
             />
           </Link>
           <Link
-            className="to-bg-neutral-800 flex w-full cursor-pointer justify-between rounded-md from-slate-800 to-slate-900 p-2 hover:bg-gradient-to-r"
-            href="/projects"
+            className={
+              router.pathname.includes("/Schedule")
+                ? stylingForActiveTab.className
+                : stylingForInactiveTab.className
+            }
+            href="/Schedule"
           >
-            <MenuTab name="Something" icon={RxCircle} />
+            <MenuTab name="Schedule" icon={RiCalendarFill} />
           </Link>
           <Link
-            href="/projects"
-            className="to-bg-neutral-800 flex w-full cursor-pointer justify-between rounded-md from-slate-800 to-slate-900 p-2 hover:bg-gradient-to-r"
+            href="/Tasks"
+            className={
+              router.pathname.includes("/Tasks")
+                ? stylingForActiveTab.className
+                : stylingForInactiveTab.className
+            }
           >
-            <MenuTab name="My Tasks" icon={RxCardStackPlus} />
+            <MenuTab name="Task List" icon={SiTask} />
           </Link>
           <Link
-            href="/projects"
-            className="to-bg-neutral-800 flex w-full cursor-pointer justify-between rounded-md from-slate-800 to-slate-900 p-2 hover:bg-gradient-to-r"
+            href="/Inbox"
+            className={
+              router.pathname.includes("/Inbox")
+                ? stylingForActiveTab.className
+                : stylingForInactiveTab.className
+            }
           >
-            <MenuTab name="Settings" icon={RxAccessibility} />
+            <MenuTab name="Inbox" icon={BsFillInboxFill} />
+          </Link>
+          <Link
+            href="/Teams"
+            className={
+              router.pathname.includes("/Teams")
+                ? stylingForActiveTab.className
+                : stylingForInactiveTab.className
+            }
+          >
+            <MenuTab name="Teams" icon={RiTeamFill} />
+          </Link>
+          <Link
+            href="/Settings"
+            className={
+              router.pathname.includes("/Settings")
+                ? stylingForActiveTab.className
+                : stylingForInactiveTab.className
+            }
+          >
+            <MenuTab name="Settings" icon={AiFillSetting} />
           </Link>
         </section>
 

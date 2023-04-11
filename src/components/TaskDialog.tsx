@@ -61,7 +61,7 @@ export const TaskDialog = ({
     >
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto"
+        className="z-10000 fixed inset-0 overflow-y-auto"
         onClose={onClose}
         // initialFocus={null} :: add later
       >

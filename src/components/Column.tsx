@@ -76,112 +76,111 @@ const Column = ({ column }: ColumnProps) => {
   };
 
   return (
-    <div className="  h-full w-[15rem] rounded  bg-neutral-900">
-      <div
-        key={column.id}
-        className=" items-center justify-between rounded-t-full  bg-neutral-900 px-1 py-2"
-      >
-        {isEditingName ? (
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex w-full flex-col gap-2"
-          >
-            <input
-              defaultValue={column.name}
-              {...register("name")}
-              className="rounded-md bg-neutral-800 px-2 py-1"
-            />
-            <button
-              type="submit"
-              className="rounded-md bg-green-500 py-1 font-medium text-white transition-colors duration-200 hover:bg-green-600"
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditingName(false)}
-              className="rounded-md bg-red-500 py-1 font-medium text-white transition-colors duration-200 hover:bg-red-600"
-            >
-              Cancel
-            </button>
-          </form>
-        ) : (
-          <div className="relative flex justify-between px-2 py-1">
-            <h3
-              onClick={() => setIsEditingName(true)}
-              className="ml-1 cursor-pointer text-center text-xl font-extrabold"
-            >
-              {!colUpdating ? <>{column.name}</> : <>...</>}
-            </h3>
-
-            <div className="z-5000 absolute right-0  top-[10px] ">
-              <Menu>
-                <Menu.Button className=" flex w-8 cursor-pointer  justify-center focus:outline-none">
-                  <BsThreeDots />
-                </Menu.Button>
-                <Transition
-                  enter="transition duration-100 ease-out"
-                  enterFrom="transform scale-95 opacity-0"
-                  enterTo="transform scale-100 opacity-100"
-                  leave="transition duration-75 ease-out"
-                  leaveFrom="transform scale-100 opacity-100"
-                  leaveTo="transform scale-95 opacity-0"
-                >
-                  <Menu.Items className=" absolute left-0 right-3  w-60 rounded-md bg-white py-2 text-black  shadow-lg">
-                    <div className="flex flex-col gap-2 px-2">
-                      <span className="flex  items-center border-b border-neutral-800 py-1">
-                        <h1 className="flex-[11] items-center text-center">
-                          List Actions
-                        </h1>
-                        <Menu.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-300">
-                          <RxCross2 />
-                        </Menu.Button>
-                      </span>
-
-                      <Menu.Item as={React.Fragment}>
-                        {({ active }) => (
-                          <button
-                            onClick={removeCol}
-                            className="  gap-2 rounded-md px-2 py-1 hover:bg-gray-300"
-                          >
-                            <span className="text-start ">Delete List</span>
-                          </button>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            </div>
-          </div>
-        )}
-        <Droppable droppableId={column.id}>
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="flex h-full w-full flex-col gap-2 overflow-y-auto p-2"
-            >
-              {column.cards.map((task: Task, index: number) => {
-                return <Task key={task.id} task={task} index={index} />;
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+    <div
+      key={column.id}
+      className=" h-full w-[15rem] items-center justify-between space-y-2 rounded    px-1  py-2"
+    >
+      {isEditingName ? (
         <form
-          className="w-full p-2   "
-          onSubmit={handleSubmit(onSubmitNewTask)}
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-full flex-col gap-2"
         >
+          <input
+            defaultValue={column.name}
+            {...register("name")}
+            className="rounded-md bg-neutral-800 px-2 py-1"
+          />
           <button
             type="submit"
-            className="my-0 flex w-full items-center justify-center gap-2    rounded-md bg-neutral-800 py-1 hover:bg-neutral-700"
+            className="rounded-md bg-green-500 py-1 font-medium text-white transition-colors duration-200 hover:bg-green-600"
           >
-            <RxPlus className="h-6 w-6 text-gray-500" />
-            <span className=" font-medium text-gray-500">Add Task</span>
+            Save
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsEditingName(false)}
+            className="rounded-md bg-red-500 py-1 font-medium text-white transition-colors duration-200 hover:bg-red-600"
+          >
+            Cancel
           </button>
         </form>
-      </div>
+      ) : (
+        // bg-[#1d1e27]
+        <div className="  flex justify-between rounded-lg bg-gray-800 px-2 py-2 text-zinc-200  ">
+          <h3
+            onClick={() => setIsEditingName(true)}
+            className="ml-1 cursor-pointer text-center text-xl font-extrabold"
+          >
+            {!colUpdating ? <>{column.name}</> : <>...</>}
+          </h3>
+
+          <div className="  absolute relative right-0  top-[10px] ">
+            <Menu>
+              <Menu.Button className=" flex w-8 cursor-pointer  justify-center focus:outline-none">
+                <BsThreeDots />
+              </Menu.Button>
+              <Transition
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+              >
+                <Menu.Items className=" z-1 absolute left-0 right-3  w-60 rounded-md bg-white py-2 text-black  shadow-lg">
+                  <div className="flex flex-col gap-2 px-2">
+                    <span className="flex  items-center border-b border-zinc-800 py-1">
+                      <h1 className="flex-[11] items-center text-center">
+                        List Actions
+                      </h1>
+                      <Menu.Button className="flex-1 cursor-pointer items-center rounded px-2 py-1 text-center hover:bg-gray-300">
+                        <RxCross2 />
+                      </Menu.Button>
+                    </span>
+
+                    <Menu.Item as={React.Fragment}>
+                      {({ active }) => (
+                        <button
+                          onClick={removeCol}
+                          className="  gap-2 rounded-md px-2 py-1 hover:bg-gray-300"
+                        >
+                          <span className="text-start ">Delete List</span>
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          </div>
+        </div>
+      )}
+      <Droppable droppableId={column.id}>
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="flex h-full w-full flex-col gap-4 overflow-y-auto "
+          >
+            {column.cards.map((task: Task, index: number) => {
+              return <Task key={task.id} task={task} index={index} />;
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+      <form
+        className="w-full  py-1   "
+        onSubmit={handleSubmit(onSubmitNewTask)}
+      >
+        <button
+          type="submit"
+          className="my-0 flex w-full items-center justify-center gap-2 rounded-md bg-[#1e1e29] py-1     text-gray-600 hover:bg-gray-800 hover:text-white"
+        >
+          <RxPlus className="text-2xl font-bold  " />
+          <span className=" font-medium ">Add Task</span>
+        </button>
+      </form>
     </div>
   );
 };
