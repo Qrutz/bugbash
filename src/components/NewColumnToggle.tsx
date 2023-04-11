@@ -1,14 +1,22 @@
 import { Transition } from "@headlessui/react";
 import { useState } from "react";
-import { RxCross1, RxExit, RxPlus } from "react-icons/rx";
-import { useForm } from "react-hook-form";
+import { RxCross1, RxPlus } from "react-icons/rx";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-function NewColumnToggle({ onSubmit }: { onSubmit: (data: any) => void }) {
+type NewColumnToggleProps = {
+  onSubmit: (data: { title: string }) => void;
+};
+
+type FormValues = {
+  title: string;
+};
+
+function NewColumnToggle({ onSubmit }: NewColumnToggleProps) {
   const [showInput, setShowInput] = useState(false);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<FormValues>();
 
-  const handleSubmitAndHide = (data: any) => {
+  const handleSubmitAndHide: SubmitHandler<FormValues> = (data) => {
     onSubmit(data);
     setShowInput(false);
   };

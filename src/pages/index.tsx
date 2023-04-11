@@ -1,18 +1,5 @@
-import { type NextPage } from "next";
-import Link from "next/link";
 import { SiOpenbugbounty as SiOpenBounty } from "react-icons/si";
 import { signIn, signOut, useSession } from "next-auth/react";
-
-import { api } from "~/utils/api";
-import type { ReactNode } from "react";
-import Image from "next/image";
-import MenuTab from "~/components/MenuTab";
-import {
-  RxAccessibility,
-  RxCardStackPlus,
-  RxCircle,
-  RxDashboard,
-} from "react-icons/rx";
 import { useRouter } from "next/router";
 
 const Home: any = () => {
@@ -50,8 +37,7 @@ const Home: any = () => {
     );
   }
 
-  router.push("/projects");
-  return null;
+  router.push("/projects").catch((err) => console.error(err));
 };
 
 export default Home;

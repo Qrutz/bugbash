@@ -4,13 +4,22 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
 import { RxCross1 } from "react-icons/rx";
-import { Project } from "@prisma/client";
+import type { Project, User } from "@prisma/client";
 
 interface TaskDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  project: any;
+  project: projectProp["project"] | null;
 }
+
+type projectProp = {
+  project: Project & {
+    kanbanBoard: {
+      id: string;
+    } | null;
+    members: User[] | null;
+  };
+};
 
 type FormValues = {
   username: string;
@@ -22,15 +31,21 @@ export const AddMemberDialog = ({
   project,
 }: TaskDialogProps) => {
   const ctx = api.useContext();
+  const { register: addMemberInput, handleSubmit } = useForm<FormValues>();
   const { mutate: addMember } =
     api.projectRouter.addMemberToProject.useMutation({
       onSuccess: () => {
         void ctx.projectRouter.getProject.invalidate();
       },
+
       onError: () => {
         console.log("error");
       },
     });
+
+  if (project == null) {
+    return <div></div>;
+  }
 
   const { mutate: removeMember } =
     api.projectRouter.removeMemberFromProject.useMutation({
@@ -42,8 +57,6 @@ export const AddMemberDialog = ({
       },
     });
 
-  const { register: addMemberInput, handleSubmit } = useForm<FormValues>();
-
   const handleClose = () => {
     onClose();
   };
@@ -52,6 +65,7 @@ export const AddMemberDialog = ({
     username: string;
   }) => {
     onClose();
+
     addMember({
       name: data.username,
       projectId: project.id,
@@ -70,24 +84,23 @@ export const AddMemberDialog = ({
   }
 
   const members =
-    project.members == "undefined" ? (
-      <div>....</div>
-    ) : (
-      project.members.map((member: any) => (
-        <form
-          onSubmit={() => handleRemoveMember(member.name)}
-          className="flex items-center justify-between border-b py-2"
-        >
-          <p>{member.name}</p>
-          <button
-            type="submit"
-            className="ml-2  rounded px-2  py-0 font-bold text-gray-700 outline-none hover:bg-gray-300"
+    project.members !== null
+      ? project.members.map((member: User) => (
+          <form
+            key={member.id}
+            onSubmit={() => handleRemoveMember(member.name)}
+            className="flex items-center justify-between border-b py-2"
           >
-            Remove
-          </button>
-        </form>
-      ))
-    );
+            <p>{member.name}</p>
+            <button
+              type="submit"
+              className="ml-2  rounded px-2  py-0 font-bold text-gray-700 outline-none hover:bg-gray-300"
+            >
+              Remove
+            </button>
+          </form>
+        ))
+      : null;
 
   return (
     <Transition

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 // components/breadcrumbs/Breadcrumbs.ts
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 // defining the Props
 export type CrumbItem = {
   label: ReactNode; // e.g., Python

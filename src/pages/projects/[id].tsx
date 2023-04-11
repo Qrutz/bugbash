@@ -4,12 +4,11 @@ import { api } from "~/utils/api";
 
 import KanbanBoard from "~/components/KanbanBoard";
 import { Tab } from "@headlessui/react";
-import MenuTab from "~/components/MenuTab";
 import Breadcrumbs from "~/components/breadcrumbs";
 import Sidebar from "~/components/Sidebar";
-import { RxPlus } from "react-icons/rx";
 import { BsPlus } from "react-icons/bs";
 import { AddMemberDialog } from "~/components/addMemberDialog";
+import Layout from "~/components/layout";
 
 export default function Project() {
   const router = useRouter();
@@ -25,101 +24,116 @@ export default function Project() {
       { enabled: id !== undefined && id !== "" && id !== "undefined" }
     );
 
-  if (!router.isReady) {
-    return <div className="h-screen bg-black">hello</div>;
-  }
-
-  const members =
-    projectStatus === "loading" ? (
-      <div>loading</div>
-    ) : (
-      <>
-        {getProject?.members.map((member) => {
-          return (
-            <div
-              className="-ml-2 rounded-full border border-gray-800"
-              key={member.id}
-            >
-              <img
-                className="h-12 w-12 rounded-full"
-                src={member.image || undefined}
-                alt=""
-              />
-            </div>
-          );
-        })}
-      </>
-    );
-
-  if (!router.isReady) {
-    return null;
-  }
+  const members = (
+    <>
+      {getProject?.members.map((member) => {
+        return (
+          <div
+            className="-ml-2 rounded-full border border-gray-800"
+            key={member.id}
+          >
+            <img
+              className="h-12 w-12 rounded-full"
+              src={member.image || undefined}
+              alt=""
+            />
+          </div>
+        );
+      })}
+    </>
+  );
 
   const tabs = ["Kanban", "Schedule"];
 
   return (
-    <div className=" flex   shadow-sm shadow-black">
-      <Sidebar />
-      <main className="w-500rem 100px flex flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-neutral-950 scrollbar    scrollbar-thumb-neutral-300  ">
-        <header className="sticky left-0 right-0  px-4 py-8  ">
-          <div className="flex justify-between">
-            <Breadcrumbs
-              items={[
-                {
-                  label: "Projects",
-                  path: "/projects",
-                },
-                {
-                  label: getProject?.name,
-                  path: `/projects/${getProject?.id}`,
-                },
-              ]}
+    <Layout>
+      {projectStatus === "loading" ? (
+        <main
+          role="status"
+          className=" status flex h-screen flex-[7] items-center justify-center"
+        >
+          <svg
+            aria-hidden="true"
+            className="mr-2 inline h-20 w-20 animate-spin fill-gray-600 text-gray-200 dark:fill-gray-300 dark:text-gray-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
             />
-            <div className=" flex items-center justify-start ">
-              {members}
-              <div className="-ml-2 cursor-pointer rounded-full border border-gray-800">
-                <BsPlus
-                  onClick={() => setOpen(true)}
-                  className="h-12 w-12 rounded-full bg-neutral-900 text-lg"
-                />
-                <AddMemberDialog
-                  isOpen={open}
-                  onClose={() => setOpen(false)}
-                  project={getProject!!}
-                />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+          <span className="sr-only">Loading...</span>
+        </main>
+      ) : (
+        <main className=" flex flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-neutral-950 scrollbar    scrollbar-thumb-neutral-300  ">
+          <header className="sticky left-0 right-0  px-4 py-8  ">
+            <div className="flex justify-between">
+              <Breadcrumbs
+                items={[
+                  {
+                    label: "Projects",
+                    path: "/projects",
+                  },
+                  {
+                    label: getProject?.name,
+                    path: `/projects/${getProject?.id || ""}`,
+                  },
+                ]}
+              />
+              <div className=" flex items-center justify-start ">
+                {members}
+                <div className="-ml-2 cursor-pointer rounded-full border border-gray-800">
+                  <BsPlus
+                    onClick={() => setOpen(true)}
+                    className="h-12 w-12 rounded-full bg-neutral-900 text-lg"
+                  />
+                  {getProject?.members !== undefined ? (
+                    <AddMemberDialog
+                      isOpen={open}
+                      onClose={() => setOpen(false)}
+                      project={getProject}
+                    />
+                  ) : null}
+                </div>
               </div>
             </div>
-          </div>
-          <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
-        </header>
-        <Tab.Group>
-          <Tab.List className="sticky left-0 right-0 flex w-[15%] space-x-2    ">
-            {tabs.map((tab) => (
-              <Tab
-                key={tab}
-                className={({ selected }) =>
-                  `mx-4 w-full py-2 text-lg font-medium text-white ${
-                    selected ? "border-b border-white " : " "
-                  }`
-                }
-              >
-                {tab}
-              </Tab>
-            ))}
-          </Tab.List>
+            <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
+          </header>
+          <Tab.Group>
+            <Tab.List className="sticky left-0 right-0 flex w-[15%] space-x-2    ">
+              {tabs.map((tab) => (
+                <Tab
+                  key={tab}
+                  className={({ selected }) =>
+                    `mx-4 w-full py-2 text-lg font-medium text-white ${
+                      selected ? "border-b border-white " : " "
+                    }`
+                  }
+                >
+                  {tab}
+                </Tab>
+              ))}
+            </Tab.List>
 
-          <Tab.Panels className=" h-full w-full  ">
-            <Tab.Panel className="h-full w-fit border-t border-neutral-800  px-4 py-6">
-              {getProject?.kanbanBoard?.id ? (
-                <KanbanBoard id={getProject.kanbanBoard.id} />
-              ) : (
-                <div>Create a kanban</div>
-              )}
-            </Tab.Panel>
-            <Tab.Panel>schedule</Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
-      </main>
-    </div>
+            <Tab.Panels className=" h-full w-full  ">
+              <Tab.Panel className="h-full w-fit border-t border-neutral-800  px-4 py-6">
+                {getProject?.kanbanBoard?.id ? (
+                  <KanbanBoard id={getProject.kanbanBoard.id} />
+                ) : (
+                  <div>Create a kanban</div>
+                )}
+              </Tab.Panel>
+              <Tab.Panel>schedule</Tab.Panel>
+            </Tab.Panels>
+          </Tab.Group>
+        </main>
+      )}
+    </Layout>
   );
 }

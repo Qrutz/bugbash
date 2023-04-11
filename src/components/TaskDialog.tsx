@@ -68,18 +68,18 @@ export const TaskDialog = ({
         <div className="flex min-h-screen items-center justify-center">
           <Dialog.Overlay className="z-3 fixed inset-0 bg-black opacity-30" />
 
-          <div className="z-0 rounded-lg bg-white p-4 text-black">
-            <h3 className="mb-4 text-lg font-medium">Edit Task</h3>
+          <div className="z-0 w-[25%]  rounded-lg bg-white p-4 text-black">
+            <h3 className="mb-4 text-lg font-bold">Edit Task</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <label
                   htmlFor="name"
-                  className="mb-1 block text-sm font-medium text-gray-700"
+                  className="mb-1 block text-sm font-semibold text-gray-700"
                 >
-                  Name
+                  Title
                 </label>
                 <input
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:text-sm"
+                  className="h-8 w-full  border border-gray-900 shadow-sm focus:border-neutral-800 focus:ring focus:ring-neutral-800 focus:ring-opacity-50 sm:text-sm"
                   defaultValue={initialTaskName}
                   {...register("name", { required: false })}
                 />
@@ -87,14 +87,14 @@ export const TaskDialog = ({
               <div className="mb-4">
                 <label
                   htmlFor="description"
-                  className="mb-1 block text-sm font-medium text-gray-700"
+                  className="mb-1 block text-sm font-semibold  text-gray-700"
                 >
                   Description
                 </label>
                 <textarea
                   defaultValue={initialTaskDescription}
                   rows={3}
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:text-sm"
+                  className="w-full border  border-neutral-800 text-lg shadow-sm focus:border-neutral-800  "
                   {...register("description", { required: false })}
                 ></textarea>
               </div>

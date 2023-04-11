@@ -2,18 +2,11 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
 import React from "react";
-import {
-  RxAccessibility,
-  RxCardStackPlus,
-  RxCircle,
-  RxDashboard,
-} from "react-icons/rx";
-import MenuTab from "~/components/MenuTab";
 import Sidebar from "~/components/Sidebar";
 import Breadcrumbs from "~/components/breadcrumbs";
 import { api } from "~/utils/api";
 
-export default function index() {
+export default function Index() {
   const { data: session, status: sessionStatus } = useSession();
 
   const { data: projects, status: projectsStatus } =
@@ -29,7 +22,7 @@ export default function index() {
   }
 
   if (!session) {
-    router.push("/login");
+    router.push("/login").catch((err) => console.error(err));
   }
 
   return (
