@@ -38,7 +38,7 @@ export const ProjectRouter = createTRPCRouter({
     }),
 
   addMemberToProject: protectedProcedure
-    .input(z.object({ projectId: z.string(), userId: z.string() }))
+    .input(z.object({ projectId: z.string(), name: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const project = await ctx.prisma.project.findUnique({
         where: {
@@ -52,7 +52,7 @@ export const ProjectRouter = createTRPCRouter({
 
       const user = await ctx.prisma.user.findUnique({
         where: {
-          id: input.userId,
+          name: input.name,
         },
       });
 
@@ -67,7 +67,44 @@ export const ProjectRouter = createTRPCRouter({
         data: {
           members: {
             connect: {
-              id: input.userId,
+              name: input.name,
+            },
+          },
+        },
+      });
+    }),
+
+  removeMemberFromProject: protectedProcedure
+    .input(z.object({ projectId: z.string(), name: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const project = await ctx.prisma.project.findUnique({
+        where: {
+          id: input.projectId,
+        },
+      });
+
+      if (!project) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          name: input.name,
+        },
+      });
+
+      if (!user) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      return ctx.prisma.project.update({
+        where: {
+          id: input.projectId,
+        },
+        data: {
+          members: {
+            disconnect: {
+              name: input.name,
             },
           },
         },
