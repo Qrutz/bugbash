@@ -18,13 +18,13 @@ export type BreadcrumbsProps = {
 // components/breadcrumbs/Breadcrumbs.ts
 const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
-    <div className="flex items-start gap-2">
+    <div className="text-md flex items-start gap-2">
       {items.map((crumb, i) => {
         const isLastItem = i === items.length - 1;
         if (!isLastItem) {
           return (
             <React.Fragment key={i}>
-              <Link href={crumb.path} className=" hover:underline">
+              <Link href={crumb.path} className="text-zinc-400 hover:underline">
                 {crumb.label}
               </Link>
               {/* separator */}
@@ -32,7 +32,11 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
             </React.Fragment>
           );
         } else {
-          return crumb.label;
+          return (
+            <span key={i} className="font-semibold text-yellow-300">
+              {crumb.label}{" "}
+            </span>
+          );
         }
       })}
     </div>

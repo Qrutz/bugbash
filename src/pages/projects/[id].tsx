@@ -9,6 +9,7 @@ import Sidebar from "~/components/Sidebar";
 import { BsPlus } from "react-icons/bs";
 import { AddMemberDialog } from "~/components/addMemberDialog";
 import Layout from "~/components/layout";
+import { BiUserPlus } from "react-icons/bi";
 
 export default function Project() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function Project() {
             key={member.id}
           >
             <img
-              className="h-12 w-12 rounded-full"
+              className="h-11 w-11 rounded-full"
               src={member.image || undefined}
               alt=""
             />
@@ -71,7 +72,7 @@ export default function Project() {
           <span className="sr-only">Loading...</span>
         </main>
       ) : (
-        <main className=" flex  flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-neutral-950 scrollbar    scrollbar-thumb-neutral-300  ">
+        <main className=" flex  flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-[#171820] scrollbar    scrollbar-thumb-neutral-300  ">
           <header className="sticky left-0 right-0  px-4 py-8  ">
             <div className="flex justify-between">
               <Breadcrumbs
@@ -88,11 +89,14 @@ export default function Project() {
               />
               <div className=" flex items-center justify-start ">
                 {members}
-                <div className="-ml-2 cursor-pointer rounded-full border border-gray-800">
-                  <BsPlus
+                <div className="ml-2 cursor-pointer rounded-md border border-yellow-500">
+                  <button
                     onClick={() => setOpen(true)}
-                    className="h-12 w-12 rounded-full bg-neutral-900 text-lg"
-                  />
+                    className="mx-2 flex h-11 items-center gap-2 rounded-full bg-neutral-900 py-1 text-xl  text-yellow-300"
+                  >
+                    <BiUserPlus className="h-6 w-6" />
+                    <span className="">Invite</span>
+                  </button>
                   {getProject?.members !== undefined ? (
                     <AddMemberDialog
                       isOpen={open}
@@ -106,13 +110,13 @@ export default function Project() {
             <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
           </header>
           <Tab.Group>
-            <Tab.List className="sticky left-0 right-0 flex  w-full space-x-2 border-b border-neutral-800     ">
+            <Tab.List className="sticky left-0 right-0 flex  w-full space-x-2 border-b-2 border-neutral-800     ">
               {tabs.map((tab) => (
                 <Tab
                   key={tab}
                   className={({ selected }) =>
                     `mx-4  py-2 text-lg font-medium text-white ${
-                      selected ? "border-b border-white " : " "
+                      selected ? "border-b border-yellow-300 " : " "
                     }`
                   }
                 >

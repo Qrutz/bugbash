@@ -28,7 +28,7 @@ export default function Index() {
   return (
     <div className=" flex  overflow-hidden shadow-sm shadow-black">
       <Sidebar />
-      <main className="w-500rem 100px flex flex-[7] flex-col  bg-neutral-950  ">
+      <main className="w-500rem 100px flex flex-[7] flex-col  bg-[#171820]  ">
         <header className="sticky left-0 right-0  px-4 py-8  ">
           <div className="flex justify-between">
             <Breadcrumbs
