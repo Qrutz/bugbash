@@ -12,13 +12,18 @@ import React from "react";
 interface Column {
   id: string;
   name: string;
-  cards: Task[];
+  cards: TaskInterface[];
 }
 
-interface Task {
+export interface TaskInterface {
   id: string;
   name: string | null;
   description: string | null;
+  labels: {
+    id: string;
+    name: string;
+    color: string;
+  }[];
 }
 
 interface ColumnProps {
@@ -162,7 +167,7 @@ const Column = ({ column }: ColumnProps) => {
             {...provided.droppableProps}
             className="flex h-full w-full flex-col gap-4 overflow-y-auto "
           >
-            {column.cards.map((task: Task, index: number) => {
+            {column.cards.map((task: TaskInterface, index: number) => {
               return <Task key={task.id} task={task} index={index} />;
             })}
             {provided.placeholder}

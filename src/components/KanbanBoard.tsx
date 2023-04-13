@@ -10,10 +10,13 @@ interface KanbanBoardProps {
 
 const KanbanBoard = ({ id }: KanbanBoardProps) => {
   const ctx = api.useContext();
-  const { data: initialKanban, status: fetchStatus } =
-    api.kanbanRouter.getColumns.useQuery({
-      kanbanBoardId: id,
-    });
+  const {
+    data: initialKanban,
+    status: fetchStatus,
+    isLoading,
+  } = api.kanbanRouter.getColumns.useQuery({
+    kanbanBoardId: id,
+  });
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -77,6 +80,7 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
       name: data.title,
     });
   }
+  if (fetchStatus === "error") return <div>error</div>;
 
   if (fetchStatus === "loading") {
     return <div>loading</div>;

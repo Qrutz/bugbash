@@ -31,6 +31,7 @@ export const KanbanRouter = createTRPCRouter({
               id: true,
               name: true,
               description: true,
+              labels: true,
             },
           },
         },
