@@ -24,6 +24,11 @@ export interface TaskInterface {
     name: string;
     color: string;
   }[];
+  assignees: {
+    id: string;
+    name: string;
+    image: string | null;
+  }[];
 }
 
 interface ColumnProps {

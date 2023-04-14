@@ -4,6 +4,8 @@ import { useState } from "react";
 import { TaskDialog } from "./TaskDialog";
 import { TaskInterface } from "./Column";
 
+import { FaCommentAlt } from "react-icons/fa";
+
 interface TaskProps {
   task: TaskInterface;
   index: number;
@@ -54,11 +56,20 @@ export const Task = ({ task, index }: TaskProps) => {
               </div>
             </div>
 
-            <div className="flex border-t border-gray-700 py-2">
-              <span className="mx-2 flex w-full justify-between">
-                <p>members</p>
-                <p>comms</p>
-              </span>
+            <div className=" flex w-full  border-t border-gray-700 py-2">
+              <div className="mx-2 flex w-full items-center justify-between">
+                <span className="flex">
+                  {task.assignees.map((assignee) => (
+                    <img
+                      key={assignee.id}
+                      className="-ml-1 h-6 w-6 rounded-full first:ml-0"
+                      src={assignee.image || "https://i.pravatar.cc/300"}
+                      alt={assignee.name}
+                    />
+                  ))}
+                </span>
+                <FaCommentAlt className="text-gray-400" />
+              </div>
             </div>
           </div>
         )}
