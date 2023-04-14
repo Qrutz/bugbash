@@ -77,6 +77,21 @@ export const TaskDialog = ({
     setIsShowing(true);
   };
 
+  const [selectedColor, setSelectedColor] = React.useState<string>("");
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+
+    console.log(selectedColor);
+  };
+
+  const { register: labelRegister, handleSubmit: labelSubmit } = useForm();
+
+  const handleLabelSubmit = (data: any) => {
+    console.log(data);
+    setIsShowing2nd(false);
+  };
+
   return (
     <Transition
       show={isOpen}
@@ -197,47 +212,149 @@ export const TaskDialog = ({
                             )}
                           </Menu.Item>
                         </div>
-                        <div className="flex flex-col  gap-2 p-2">
-                          <label htmlFor="name" className="text-md">
-                            Title
-                          </label>
-                          <input
-                            type="text"
-                            className="border border-gray-900 p-1"
-                          />
-                        </div>
-                        <div className=" flex flex-col gap-2 border-b p-2">
-                          <label htmlFor="name" className="text-md">
-                            Select a color
-                          </label>
-                          <div className="flex flex-wrap justify-evenly gap-2">
-                            <div className="h-6 w-6 rounded-full bg-red-500" />
-                            <div className="h-6 w-6 rounded-full bg-yellow-500" />
-                            <div className="h-6 w-6 rounded-full bg-green-500" />
-                            <div className="h-6 w-6 rounded-full bg-blue-500" />
-                            <div className="h-6 w-6 rounded-full bg-indigo-500" />
-                            <div className="h-6 w-6 rounded-full bg-purple-500" />
-                            <div className="h-6 w-6 rounded-full bg-pink-500" />
-                            <div className="h-6 w-6 rounded-full bg-gray-500" />
-                            <div className="h-6 w-6 rounded-full bg-lime-200" />
-                            <div className="h-6 w-6 rounded-full bg-black" />
-                            <div className="h-6 w-6 rounded-full bg-emerald-100" />
-                            <div className="h-6 w-6 rounded-full bg-zinc-700" />
+                        <form onSubmit={labelSubmit(handleLabelSubmit)}>
+                          <div className="flex flex-col  gap-2 p-2">
+                            <label htmlFor="name" className="text-md">
+                              Title
+                            </label>
+                            <input
+                              {...labelRegister("name")}
+                              type="text"
+                              className="border border-gray-900 p-1"
+                            />
+                          </div>
+                          <div className=" flex flex-col gap-2 border-b p-2">
+                            <label htmlFor="name" className="text-md">
+                              Select a color
+                            </label>
+
+                            <div className="flex flex-wrap justify-evenly gap-2">
+                              <label className="h-6 w-6 rounded-full bg-red-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="red"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-yellow-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="yellow"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-green-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="green"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-blue-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="blue"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-indigo-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="indigo"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-purple-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="purple"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-pink-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="pink"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-gray-500">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="gray"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-lime-200">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="lime"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-black">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="black"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-emerald-100">
+                                <input
+                                  {...labelRegister("color")}
+                                  type="radio"
+                                  name="color"
+                                  value="emerald"
+                                  className="hidden"
+                                />
+                              </label>
+                              <label className="h-6 w-6 rounded-full bg-zinc-700">
+                                <input
+                                  type="radio"
+                                  name="color"
+                                  value="zinc"
+                                  className="hidden "
+                                />
+                              </label>
+                            </div>
+
+                            <button className="rounded-md bg-gray-400 py-1 text-white hover:bg-gray-500">
+                              {" "}
+                              Remove Color{" "}
+                            </button>
                           </div>
 
-                          <button className="rounded-md bg-gray-400 py-1 text-white hover:bg-gray-500">
-                            {" "}
-                            Remove Color{" "}
-                          </button>
-                        </div>
-
-                        <div className="p-2">
-                          <span className="items-center   p-2">
-                            <button className="rounded-lg bg-purple-500 p-2">
-                              Create
-                            </button>
-                          </span>
-                        </div>
+                          <div className="p-2">
+                            <span className="items-center   p-2">
+                              <button
+                                type="submit"
+                                className="rounded-lg bg-purple-500 p-2"
+                              >
+                                Create
+                              </button>
+                            </span>
+                          </div>
+                        </form>
                       </Menu.Items>
                     </Transition>
                   </Menu>
