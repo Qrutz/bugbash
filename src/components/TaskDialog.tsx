@@ -13,6 +13,7 @@ import {
 } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
 import React from "react";
+import { CreateLabelDialog } from "./createLabelDialog";
 
 interface TaskDialogProps {
   isOpen: boolean;
@@ -93,27 +94,6 @@ export const TaskDialog = ({
   const handleBackArrow = () => {
     setIsShowing2nd(false);
     setIsShowing(true);
-  };
-
-  const [selectedColor, setSelectedColor] = React.useState<string>("");
-
-  const handleColorSelect = (color: string) => {
-    setSelectedColor(color);
-
-    console.log(selectedColor);
-  };
-
-  const { register: labelRegister, handleSubmit: labelSubmit } =
-    useForm<LabelFormValues>();
-
-  const handleLabelSubmit: SubmitHandler<LabelFormValues> = (data) => {
-    addLabel({
-      taskId: taskID,
-      labelName: data.name,
-      labelColor: data.color,
-    });
-
-    setIsShowing2nd(false);
   };
 
   const handleRemoveLabel = (labelID: string) => {
@@ -240,159 +220,12 @@ export const TaskDialog = ({
                       </Menu.Items>
                     </Transition>
 
-                    <Transition show={isShowing2nd} as={Fragment}>
-                      <Menu.Items
-                        static
-                        className="  z-10 mt-2 w-56 gap-2 rounded-md  bg-gray-100  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                      >
-                        <div className="-mx-4  flex justify-around border-b py-2 ">
-                          <button onClick={handleBackArrow}>
-                            <BiLeftArrowAlt className="text-2xl" />
-                          </button>
-                          <h1 className="text-md">Create label</h1>
-                          <Menu.Item>
-                            <button onClick={() => setIsShowing2nd(false)}>
-                              <RxCross1 className="text-2xl" />
-                            </button>
-                          </Menu.Item>
-                        </div>
-                        <form onSubmit={labelSubmit(handleLabelSubmit)}>
-                          <div className="flex flex-col  gap-2 p-2">
-                            <label htmlFor="name" className="text-md">
-                              Title
-                            </label>
-                            <input
-                              {...labelRegister("name")}
-                              type="text"
-                              className="border border-gray-900 p-1"
-                            />
-                          </div>
-                          <div className=" flex flex-col gap-2 border-b p-2">
-                            <label htmlFor="name" className="text-md">
-                              Select a color
-                            </label>
-
-                            <div className="flex flex-wrap justify-evenly gap-2">
-                              <label className="h-6 w-6 rounded-full bg-red-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="red"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-yellow-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="yellow"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-green-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="green"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-blue-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="blue"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-indigo-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="indigo"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-purple-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="purple"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-pink-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="pink"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-gray-500">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="gray"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-lime-200">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="lime"
-                                  className="hidden"
-                                />
-                              </label>
-                              <label className="h-6 w-6 rounded-full bg-black">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="black"
-                                  className="hidden"
-                                />
-                              </label>
-
-                              <label className="h-6 w-6 rounded-full bg-zinc-700">
-                                <input
-                                  type="radio"
-                                  name="color"
-                                  value="zinc"
-                                  className="hidden "
-                                />
-                              </label>
-                            </div>
-
-                            <button className="rounded-md bg-gray-400 py-1 text-white hover:bg-gray-500">
-                              {" "}
-                              Remove Color{" "}
-                            </button>
-                          </div>
-
-                          <div className="p-2">
-                            <span className="items-center   p-2">
-                              <button
-                                type="submit"
-                                className="rounded-lg bg-purple-500 p-2"
-                              >
-                                Create
-                              </button>
-                            </span>
-                          </div>
-                        </form>
-                      </Menu.Items>
-                    </Transition>
+                    <CreateLabelDialog
+                      closedDialog={() => setIsShowing2nd(false)}
+                      handleLeftArrowCLick={handleBackArrow}
+                      isShowingProp={isShowing2nd}
+                      taskId={taskID}
+                    />
                   </Menu>
                 </div>
 
