@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
-import { BiPlus } from "react-icons/bi";
+import { BiLabel, BiPlus, BiUser } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
 
 interface TaskDialogProps {
@@ -132,6 +132,35 @@ export const TaskDialog = ({
                         {...register("description", { required: false })}
                       ></textarea>
                     </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-between">
+                        <h1 className="text-lg text-gray-800">Comments </h1>
+                      </div>
+                      <div className="flex w-full items-center space-x-1 ">
+                        <span className="h-8 w-8 rounded-full bg-black" />{" "}
+                        <input
+                          type="text"
+                          placeholder="Write a comment..."
+                          className=" w-full rounded-md border   p-1 text-lg shadow-lg"
+                        />
+                      </div>
+
+                      <div className="mt-4 flex w-full flex-col gap-2   space-x-1 ">
+                        <div className="flex items-center gap-1">
+                          {" "}
+                          <span className="h-8 w-8 rounded-full bg-black" />{" "}
+                          <h1>Qrutz</h1>
+                          <p className="ml-2  text-xs "> an hour ago</p>
+                        </div>
+                        <span
+                          className=" w-full rounded-md border  p-1
+                          text-lg shadow-md"
+                        >
+                          This task is dogshit fr fr
+                        </span>
+                      </div>
+                    </div>
+
                     <div className="mt-8">
                       <button
                         type="submit"
@@ -154,10 +183,14 @@ export const TaskDialog = ({
               <nav className="flex-[2] flex-col space-y-2 py-3 ">
                 <h1 className="text-gray-500">Add to card</h1>
                 <span className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300">
-                  <button className="px-1 py-1">Members</button>
+                  <button className="flex items-center gap-1 px-1 py-1">
+                    <BiUser /> Members
+                  </button>
                 </span>
                 <span className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300">
-                  <button className="px-1 py-1">Labels</button>
+                  <button className="flex items-center gap-1 px-1 py-1">
+                    <BiLabel /> Labels
+                  </button>
                 </span>
               </nav>
             </section>
