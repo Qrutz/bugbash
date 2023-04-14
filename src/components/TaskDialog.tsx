@@ -1,16 +1,29 @@
 import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
-import { BiLabel, BiPlus, BiUser } from "react-icons/bi";
+import {
+  BiLabel,
+  BiLeftArrow,
+  BiLeftArrowAlt,
+  BiPlus,
+  BiTrash,
+  BiUser,
+} from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
+import React from "react";
 
 interface TaskDialogProps {
   isOpen: boolean;
   onClose: () => void;
   initialTaskName: string;
   initialTaskDescription: string;
+  initialTaskLabels: {
+    id: string;
+    name: string;
+    color: string;
+  }[];
   taskID: string;
 }
 
@@ -24,6 +37,7 @@ export const TaskDialog = ({
   onClose,
   initialTaskName,
   initialTaskDescription,
+  initialTaskLabels,
   taskID,
 }: TaskDialogProps) => {
   const ctx = api.useContext();
@@ -46,8 +60,21 @@ export const TaskDialog = ({
     });
   };
 
+  const [isShowing2nd, setIsShowing2nd] = React.useState(false);
+  const [isShowing, setIsShowing] = React.useState(false);
+
   const handleClose = () => {
     onClose();
+  };
+
+  const handleCreateLabel = () => {
+    setIsShowing(false);
+    setIsShowing2nd(true);
+  };
+
+  const handleBackArrow = () => {
+    setIsShowing2nd(false);
+    setIsShowing(true);
   };
 
   return (
@@ -78,11 +105,12 @@ export const TaskDialog = ({
               </button>
             </div>
             <section className="flex gap-3 ">
-              <div className=" flex-[9] space-y-4  py-3">
-                <div className=" flex flex-col gap-1">
+              <div className=" flex-[9] space-y-4 py-3">
+                <div className="flex flex-col gap-1">
                   <p className="text-gray-600">labels</p>
-                  <div className="flex gap-1 ">
-                    {" "}
+                  <Menu>
+                    <div className="flex flex-wrap gap-1">
+                      {/* {" "}
                     <span className="rounded-md bg-yellow-300 font-extralight hover:bg-yellow-600">
                       <button className="p-1 text-sm "> UI/UX</button>
                     </span>{" "}
@@ -91,14 +119,128 @@ export const TaskDialog = ({
                     </span>{" "}
                     <span className="rounded-md bg-green-300 font-extralight hover:bg-green-600">
                       <button className="p-1 text-sm "> Bug</button>
-                    </span>{" "}
-                    <span className="items-center rounded-md bg-gray-300 font-extralight hover:bg-gray-600">
-                      <button className=" p-1 text-center  text-lg ">
-                        {" "}
-                        <BiPlus />{" "}
-                      </button>
-                    </span>{" "}
-                  </div>
+                    </span>{" "} */}
+                      {initialTaskLabels.map((label) => (
+                        <span
+                          key={label.id}
+                          className={`rounded-md bg-${label.color}-500 font-extralight text-white hover:bg-${label.color}-600 `}
+                        >
+                          <button className="p-1 text-sm ">
+                            {" "}
+                            {label.name}
+                          </button>
+                        </span>
+                      ))}
+                      <Menu.Button
+                        onClick={() => setIsShowing(true)}
+                        className="flex items-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
+                      >
+                        <BiPlus className="text-xl" />
+                      </Menu.Button>
+                    </div>
+
+                    <Transition show={isShowing} as={Fragment}>
+                      <Menu.Items className=" z-10 mt-2 w-56  rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        {initialTaskLabels.map((label) => (
+                          <Menu.Item key={label.id}>
+                            {({ active }) => (
+                              <div
+                                className={`${
+                                  active
+                                    ? "bg-gray-100 text-gray-900"
+                                    : "text-gray-700"
+                                } group flex w-full items-center justify-between rounded-md px-2 py-2 text-sm`}
+                              >
+                                <span
+                                  className={`${
+                                    active ? "text-gray-900" : "text-gray-500 "
+                                  } flex  items-center gap-2`}
+                                >
+                                  <span
+                                    className={`h-3 w-3 rounded-full bg-${label.color}-500`}
+                                  />
+                                  {label.name}
+                                </span>
+
+                                <span className=" cursor-pointer text-right">
+                                  <BiTrash className="text-xl" />
+                                </span>
+                              </div>
+                            )}
+                          </Menu.Item>
+                        ))}
+
+                        <button
+                          onClick={handleCreateLabel}
+                          className="flex w-full items-center justify-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
+                        >
+                          Create Label
+                        </button>
+                      </Menu.Items>
+                    </Transition>
+
+                    <Transition show={isShowing2nd} as={Fragment}>
+                      <Menu.Items
+                        static
+                        className="z-10 mt-2 w-56 gap-2 rounded-md  bg-gray-100  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        <div className="-mx-4 flex justify-around border-b py-2 ">
+                          <button onClick={handleBackArrow}>
+                            <BiLeftArrowAlt className="text-2xl" />
+                          </button>
+                          <h1 className="text-md">Create label</h1>
+                          <Menu.Item>
+                            {({ close }) => (
+                              <button onClick={() => setIsShowing2nd(false)}>
+                                <RxCross1 className="text-2xl" />
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </div>
+                        <div className="flex flex-col  gap-2 p-2">
+                          <label htmlFor="name" className="text-md">
+                            Title
+                          </label>
+                          <input
+                            type="text"
+                            className="border border-gray-900 p-1"
+                          />
+                        </div>
+                        <div className=" flex flex-col gap-2 border-b p-2">
+                          <label htmlFor="name" className="text-md">
+                            Select a color
+                          </label>
+                          <div className="flex flex-wrap justify-evenly gap-2">
+                            <div className="h-6 w-6 rounded-full bg-red-500" />
+                            <div className="h-6 w-6 rounded-full bg-yellow-500" />
+                            <div className="h-6 w-6 rounded-full bg-green-500" />
+                            <div className="h-6 w-6 rounded-full bg-blue-500" />
+                            <div className="h-6 w-6 rounded-full bg-indigo-500" />
+                            <div className="h-6 w-6 rounded-full bg-purple-500" />
+                            <div className="h-6 w-6 rounded-full bg-pink-500" />
+                            <div className="h-6 w-6 rounded-full bg-gray-500" />
+                            <div className="h-6 w-6 rounded-full bg-lime-200" />
+                            <div className="h-6 w-6 rounded-full bg-black" />
+                            <div className="h-6 w-6 rounded-full bg-emerald-100" />
+                            <div className="h-6 w-6 rounded-full bg-zinc-700" />
+                          </div>
+
+                          <button className="rounded-md bg-gray-400 py-1 text-white hover:bg-gray-500">
+                            {" "}
+                            Remove Color{" "}
+                          </button>
+                        </div>
+
+                        <div className="p-2">
+                          <span className="items-center   p-2">
+                            <button className="rounded-lg bg-purple-500 p-2">
+                              Create
+                            </button>
+                          </span>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
                 </div>
 
                 <main className="">

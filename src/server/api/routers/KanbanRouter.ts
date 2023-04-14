@@ -110,6 +110,30 @@ export const KanbanRouter = createTRPCRouter({
       });
     }),
 
+  addLabelToTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        labelName: z.string(),
+        labelColor: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          labels: {
+            create: {
+              name: input.labelName,
+              color: input.labelColor,
+            },
+          },
+        },
+      });
+    }),
+
   changeColumnName: protectedProcedure
     .input(
       z.object({

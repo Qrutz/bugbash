@@ -115,7 +115,7 @@ model Card {
 model label {
     id    String @id @default(cuid())
     name  String
-    color String
+    color String @default("#000000")
     cards Card[]
 
     @@index([id])

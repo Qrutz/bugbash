@@ -48,7 +48,7 @@ export const Task = ({ task, index }: TaskProps) => {
                 {task.labels.map((label) => (
                   <span
                     key={label.id}
-                    className={`rounded-md bg-gray-700 px-1 text-xs text-gray-400`}
+                    className={`rounded-md bg-${label.color}-500 px-1 text-xs text-gray-200`}
                   >
                     {label.name}
                   </span>
@@ -80,6 +80,7 @@ export const Task = ({ task, index }: TaskProps) => {
         onClose={() => setIsOpen(false)}
         initialTaskName={task.name || ""}
         initialTaskDescription={task.description || ""}
+        initialTaskLabels={task.labels}
         taskID={task.id}
       />
     </>
