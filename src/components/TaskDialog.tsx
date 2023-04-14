@@ -32,6 +32,11 @@ type FormValues = {
   description: string;
 };
 
+type LabelFormValues = {
+  name: string;
+  color: string;
+};
+
 export const TaskDialog = ({
   isOpen,
   onClose,
@@ -60,6 +65,19 @@ export const TaskDialog = ({
     });
   };
 
+  const { mutate: addLabel } = api.kanbanRouter.addLabelToTask.useMutation({
+    onSuccess: () => {
+      void ctx.kanbanRouter.getColumns.invalidate();
+    },
+  });
+
+  const { mutate: removeLabel } =
+    api.kanbanRouter.removeLabelFromTask.useMutation({
+      onSuccess: () => {
+        void ctx.kanbanRouter.getColumns.invalidate();
+      },
+    });
+
   const [isShowing2nd, setIsShowing2nd] = React.useState(false);
   const [isShowing, setIsShowing] = React.useState(false);
 
@@ -85,11 +103,24 @@ export const TaskDialog = ({
     console.log(selectedColor);
   };
 
-  const { register: labelRegister, handleSubmit: labelSubmit } = useForm();
+  const { register: labelRegister, handleSubmit: labelSubmit } =
+    useForm<LabelFormValues>();
 
-  const handleLabelSubmit = (data: any) => {
-    console.log(data);
+  const handleLabelSubmit: SubmitHandler<LabelFormValues> = (data) => {
+    addLabel({
+      taskId: taskID,
+      labelName: data.name,
+      labelColor: data.color,
+    });
+
     setIsShowing2nd(false);
+  };
+
+  const handleRemoveLabel = (labelID: string) => {
+    removeLabel({
+      taskId: taskID,
+      labelId: labelID,
+    });
   };
 
   return (
@@ -112,7 +143,7 @@ export const TaskDialog = ({
         <div className="flex min-h-screen items-center justify-center">
           <Dialog.Overlay className="z-3 fixed inset-0 bg-black opacity-30" />
 
-          <div className="z-0 w-[62.5%] rounded-lg bg-white  p-4  text-black">
+          <div className="overflow-scroll-y z-0 w-[62.5%] rounded-lg bg-white  p-4  text-black">
             <div className="flex items-center justify-between ">
               <h3 className=" text-lg font-bold">Edit Task</h3>
               <button className="mb-3 cursor-pointer rounded-full p-1 hover:bg-gray-200">
@@ -156,6 +187,19 @@ export const TaskDialog = ({
 
                     <Transition show={isShowing} as={Fragment}>
                       <Menu.Items className=" z-10 mt-2 w-56  rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="flex w-full  p-1">
+                          <span className="flex-[11] items-center text-center">
+                            {" "}
+                            Labels{" "}
+                          </span>
+                          <span className="flex-1 cursor-pointer text-right">
+                            {" "}
+                            <RxCross1
+                              className="text-xl"
+                              onClick={() => setIsShowing(false)}
+                            />
+                          </span>
+                        </div>
                         {initialTaskLabels.map((label) => (
                           <Menu.Item key={label.id}>
                             {({ active }) => (
@@ -177,14 +221,16 @@ export const TaskDialog = ({
                                   {label.name}
                                 </span>
 
-                                <span className=" cursor-pointer text-right">
+                                <button
+                                  onClick={() => handleRemoveLabel(label.id)}
+                                  className=" cursor-pointer text-right"
+                                >
                                   <BiTrash className="text-xl" />
-                                </span>
+                                </button>
                               </div>
                             )}
                           </Menu.Item>
                         ))}
-
                         <button
                           onClick={handleCreateLabel}
                           className="flex w-full items-center justify-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
@@ -197,19 +243,17 @@ export const TaskDialog = ({
                     <Transition show={isShowing2nd} as={Fragment}>
                       <Menu.Items
                         static
-                        className="z-10 mt-2 w-56 gap-2 rounded-md  bg-gray-100  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        className="  z-10 mt-2 w-56 gap-2 rounded-md  bg-gray-100  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                       >
-                        <div className="-mx-4 flex justify-around border-b py-2 ">
+                        <div className="-mx-4  flex justify-around border-b py-2 ">
                           <button onClick={handleBackArrow}>
                             <BiLeftArrowAlt className="text-2xl" />
                           </button>
                           <h1 className="text-md">Create label</h1>
                           <Menu.Item>
-                            {({ close }) => (
-                              <button onClick={() => setIsShowing2nd(false)}>
-                                <RxCross1 className="text-2xl" />
-                              </button>
-                            )}
+                            <button onClick={() => setIsShowing2nd(false)}>
+                              <RxCross1 className="text-2xl" />
+                            </button>
                           </Menu.Item>
                         </div>
                         <form onSubmit={labelSubmit(handleLabelSubmit)}>
@@ -319,15 +363,7 @@ export const TaskDialog = ({
                                   className="hidden"
                                 />
                               </label>
-                              <label className="h-6 w-6 rounded-full bg-emerald-100">
-                                <input
-                                  {...labelRegister("color")}
-                                  type="radio"
-                                  name="color"
-                                  value="emerald"
-                                  className="hidden"
-                                />
-                              </label>
+
                               <label className="h-6 w-6 rounded-full bg-zinc-700">
                                 <input
                                   type="radio"

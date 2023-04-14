@@ -134,6 +134,28 @@ export const KanbanRouter = createTRPCRouter({
       });
     }),
 
+  removeLabelFromTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        labelId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          labels: {
+            delete: {
+              id: input.labelId,
+            },
+          },
+        },
+      });
+    }),
+
   changeColumnName: protectedProcedure
     .input(
       z.object({
