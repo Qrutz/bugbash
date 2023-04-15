@@ -59,7 +59,7 @@ export default function LabelDropdown({
 
   return (
     <div>
-      <div className="relative text-left">
+      <div className=" text-left">
         {logoOnly ? (
           <button
             onClick={() => setIsOpen(true)}
@@ -70,7 +70,7 @@ export default function LabelDropdown({
         ) : (
           <span
             onClick={() => setIsOpen(true)}
-            className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300"
+            className="z-0  flex cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300"
           >
             <button className="flex items-center gap-1 px-1 py-1">
               <BiLabel /> Labels
@@ -88,7 +88,7 @@ export default function LabelDropdown({
         leaveFrom="opacity-100 scale-100"
         leaveTo="opacity-0 scale-95"
       >
-        <div className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className="z-1 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           {page === 0 && (
             <div className="py-1">
               <div className="flex w-full  border-b p-1">

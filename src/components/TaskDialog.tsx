@@ -7,6 +7,7 @@ import { BiLabel, BiUser } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
 import React from "react";
 import LabelDropdown from "./LabelDialog";
+import AddCardMemberDropdown from "./addMemberDropdown";
 
 interface TaskDialogProps {
   isOpen: boolean;
@@ -193,11 +194,8 @@ export const TaskDialog = ({
               <Menu>
                 <nav className="flex-[2] flex-col space-y-2 py-3 ">
                   <h1 className="text-gray-500">Add to card</h1>
-                  <span className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300">
-                    <button className="flex items-center gap-1 px-1 py-1">
-                      <BiUser /> Members
-                    </button>
-                  </span>
+
+                  <AddCardMemberDropdown />
 
                   <LabelDropdown taskId={taskID} labels={initialTaskLabels} />
                 </nav>
