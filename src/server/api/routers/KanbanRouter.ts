@@ -33,6 +33,22 @@ export const KanbanRouter = createTRPCRouter({
               description: true,
               labels: true,
               assignees: true,
+              // return id, content, cardid, and the author of the comment
+              comments: {
+                select: {
+                  id: true,
+                  content: true,
+                  cardId: true,
+                  createdAt: true,
+                  author: {
+                    select: {
+                      id: true,
+                      name: true,
+                      image: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -261,6 +277,24 @@ export const KanbanRouter = createTRPCRouter({
               id: input.memberId,
             },
           },
+        },
+      });
+    }),
+
+  addCommentToTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        content: z.string(),
+        author: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.comment.create({
+        data: {
+          content: input.content,
+          cardId: input.taskId,
+          authorId: input.author,
         },
       });
     }),
