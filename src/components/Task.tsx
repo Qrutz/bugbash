@@ -80,6 +80,7 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         initialTaskName={task.name || ""}
+        taskAssignees={task.assignees}
         initialTaskDescription={task.description || ""}
         initialTaskLabels={task.labels}
         projectId={projectId}

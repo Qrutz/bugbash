@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { BiPlus, BiUser } from "react-icons/bi";
+import { BiPlus, BiUser, BiUserPlus } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
 import { label } from "@prisma/client";
 import { LabelForm } from "./labelForm";
@@ -75,7 +75,7 @@ export default function AddCardMemberDropdown({
             onClick={() => setIsOpen(true)}
             className="flex items-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
           >
-            <BiPlus className="text-xl" />
+            <BiUserPlus className=" text-2xl" />
           </button>
         ) : (
           <span
@@ -118,6 +118,7 @@ export default function AddCardMemberDropdown({
               {users?.map((member) =>
                 member.assigned ? (
                   <button
+                    key={member.id}
                     onClick={() => handleRemoveMember(member.id)}
                     className="flex w-full items-center justify-between gap-1 p-2 hover:bg-gray-400"
                   >
@@ -134,6 +135,7 @@ export default function AddCardMemberDropdown({
                   </button>
                 ) : (
                   <button
+                    key={member.id}
                     onClick={() => handleAddMember(member.id)}
                     className="flex w-full items-center gap-1 p-2 hover:bg-gray-400"
                   >

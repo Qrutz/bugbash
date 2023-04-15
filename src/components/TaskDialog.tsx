@@ -97,26 +97,54 @@ export const TaskDialog = ({
             <section className="flex gap-3 ">
               <div className=" flex-[9] space-y-4 py-3">
                 <div className="flex flex-col gap-1">
-                  <p className="text-gray-600">labels</p>
                   <Menu>
-                    <div className="flex flex-wrap gap-1">
-                      {initialTaskLabels.map((label) => (
-                        <span
-                          key={label.id}
-                          className={`rounded-md bg-${label.color}-500 font-extralight text-white hover:bg-${label.color}-600 `}
-                        >
-                          <button className="p-1 text-sm ">
-                            {" "}
-                            {label.name}
-                          </button>
-                        </span>
-                      ))}
-                      <LabelDropdown
-                        labels={initialTaskLabels}
-                        taskId={taskID}
-                        logoOnly={true}
-                      />
-                    </div>
+                    <main className="flex gap-8">
+                      <div className="">
+                        {" "}
+                        <h2 className="text-gray-600">Members</h2>
+                        <div className="flex flex-wrap gap-1">
+                          {taskAssignees?.map((assignee) => (
+                            <div
+                              key={assignee.id}
+                              className="flex items-center"
+                            >
+                              <img
+                                src={assignee.image || " "}
+                                alt="user"
+                                className="h-8 w-8  rounded-full"
+                              />
+                            </div>
+                          ))}
+
+                          <AddCardMemberDropdown
+                            taskID={taskID}
+                            projectId={projectId}
+                            logoOnly={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="">
+                        <h2 className="text-gray-600">Labels</h2>
+                        <div className="flex flex-wrap gap-1">
+                          {initialTaskLabels.map((label) => (
+                            <span
+                              key={label.id}
+                              className={`rounded-md bg-${label.color}-500 font-extralight text-white hover:bg-${label.color}-600 `}
+                            >
+                              <button className="p-1 text-sm ">
+                                {" "}
+                                {label.name}
+                              </button>
+                            </span>
+                          ))}
+                          <LabelDropdown
+                            labels={initialTaskLabels}
+                            taskId={taskID}
+                            logoOnly={true}
+                          />
+                        </div>
+                      </div>
+                    </main>
                   </Menu>
                 </div>
 
