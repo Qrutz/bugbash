@@ -6,9 +6,10 @@ import { api } from "~/utils/api";
 
 interface KanbanBoardProps {
   id: string;
+  projectId: string;
 }
 
-const KanbanBoard = ({ id }: KanbanBoardProps) => {
+const KanbanBoard = ({ id, projectId }: KanbanBoardProps) => {
   const ctx = api.useContext();
   const {
     data: initialKanban,
@@ -90,7 +91,7 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <section className="flex w-fit gap-2 overflow-x-auto">
         {initialKanban?.map((column) => (
-          <Column key={column.id} column={column} />
+          <Column key={column.id} column={column} projectId={projectId} />
         ))}
         <div className="w-[272px] ">
           <NewColumnToggle onSubmit={handleCreateColumn} />

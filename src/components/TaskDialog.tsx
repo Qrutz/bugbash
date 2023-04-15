@@ -11,6 +11,7 @@ import AddCardMemberDropdown from "./addMemberDropdown";
 
 interface TaskDialogProps {
   isOpen: boolean;
+  projectId: string;
   onClose: () => void;
   initialTaskName: string;
   initialTaskDescription: string;
@@ -20,6 +21,11 @@ interface TaskDialogProps {
     color: string;
   }[];
   taskID: string;
+  taskAssignees?: {
+    id: string;
+    name: string;
+    image: string | null;
+  }[];
 }
 
 type FormValues = {
@@ -29,10 +35,12 @@ type FormValues = {
 
 export const TaskDialog = ({
   isOpen,
+  projectId,
   onClose,
   initialTaskName,
   initialTaskDescription,
   initialTaskLabels,
+  taskAssignees,
   taskID,
 }: TaskDialogProps) => {
   const ctx = api.useContext();
@@ -195,7 +203,10 @@ export const TaskDialog = ({
                 <nav className="flex-[2] flex-col space-y-2 py-3 ">
                   <h1 className="text-gray-500">Add to card</h1>
 
-                  <AddCardMemberDropdown />
+                  <AddCardMemberDropdown
+                    taskID={taskID}
+                    projectId={projectId}
+                  />
 
                   <LabelDropdown taskId={taskID} labels={initialTaskLabels} />
                 </nav>

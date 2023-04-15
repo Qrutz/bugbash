@@ -34,13 +34,14 @@ export interface TaskInterface {
 interface ColumnProps {
   // dont know yet what type column is
   column: Column;
+  projectId: string;
 }
 
 type FormValues = {
   name: string;
 };
 
-const Column = ({ column }: ColumnProps) => {
+const Column = ({ column, projectId }: ColumnProps) => {
   const ctx = api.useContext();
   const { mutate: addTask } = api.kanbanRouter.createTask.useMutation({
     onSuccess: () => {
@@ -173,7 +174,14 @@ const Column = ({ column }: ColumnProps) => {
             className="flex h-full w-full flex-col gap-4 overflow-y-auto "
           >
             {column.cards.map((task: TaskInterface, index: number) => {
-              return <Task key={task.id} task={task} index={index} />;
+              return (
+                <Task
+                  projectId={projectId}
+                  key={task.id}
+                  task={task}
+                  index={index}
+                />
+              );
             })}
             {provided.placeholder}
           </div>

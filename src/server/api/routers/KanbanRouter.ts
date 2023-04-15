@@ -187,4 +187,81 @@ export const KanbanRouter = createTRPCRouter({
         },
       });
     }),
+
+  //query all members of project and all members assigned to a task, return true beside the member if they are assigned to the task
+  getMembers: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        taskId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const members = await ctx.prisma.project
+        .findUnique({
+          where: {
+            id: input.projectId,
+          },
+        })
+        .members();
+
+      const taskMembers = await ctx.prisma.card
+        .findUnique({
+          where: {
+            id: input.taskId,
+          },
+        })
+        .assignees();
+
+      const taskMemberIds = taskMembers?.map((member) => member.id);
+
+      return members?.map((member) => ({
+        ...member,
+        assigned: taskMemberIds?.includes(member.id),
+      }));
+    }),
+
+  assignMemberToTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        memberId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          assignees: {
+            connect: {
+              id: input.memberId,
+            },
+          },
+        },
+      });
+    }),
+
+  unassignMemberFromTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        memberId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          assignees: {
+            disconnect: {
+              id: input.memberId,
+            },
+          },
+        },
+      });
+    }),
 });

@@ -9,6 +9,7 @@ import { FaCommentAlt } from "react-icons/fa";
 interface TaskProps {
   task: TaskInterface;
   index: number;
+  projectId: string;
 }
 
 // interface Task {
@@ -18,7 +19,7 @@ interface TaskProps {
 //   label
 // }
 
-export const Task = ({ task, index }: TaskProps) => {
+export const Task = ({ task, index, projectId }: TaskProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   //make sure task is not null
@@ -81,6 +82,7 @@ export const Task = ({ task, index }: TaskProps) => {
         initialTaskName={task.name || ""}
         initialTaskDescription={task.description || ""}
         initialTaskLabels={task.labels}
+        projectId={projectId}
         taskID={task.id}
       />
     </>

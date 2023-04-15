@@ -5,21 +5,67 @@ import { RxCross1 } from "react-icons/rx";
 import { label } from "@prisma/client";
 import { LabelForm } from "./labelForm";
 import { api } from "~/utils/api";
+import { BsCheckLg } from "react-icons/bs";
 
 type AddCardMemberDropdownProps = {
   logoOnly?: boolean;
   members?: {
     id: string;
     name: string;
-    image: string;
+    image: string | null;
   }[];
+
+  taskID: string;
+  projectId: string;
 };
 
 export default function AddCardMemberDropdown({
   logoOnly,
+  members,
+  taskID,
+  projectId,
 }: AddCardMemberDropdownProps) {
   const ctx = api.useContext();
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: users, status } = api.kanbanRouter.getMembers.useQuery({
+    projectId: projectId,
+    taskId: taskID,
+  });
+
+  const { mutate: addMember } = api.kanbanRouter.assignMemberToTask.useMutation(
+    {
+      onSuccess: () => {
+        void ctx.kanbanRouter.getColumns.invalidate();
+        void ctx.kanbanRouter.getMembers.invalidate({ taskId: taskID });
+      },
+    }
+  );
+
+  const { mutate: removeMember } =
+    api.kanbanRouter.unassignMemberFromTask.useMutation({
+      onSuccess: () => {
+        void ctx.kanbanRouter.getColumns.invalidate();
+        void ctx.kanbanRouter.getMembers.invalidate({ taskId: taskID });
+      },
+    });
+
+  const handleAddMember = (memberID: string) => {
+    addMember({
+      taskId: taskID,
+      memberId: memberID,
+    });
+  };
+
+  const handleRemoveMember = (memberID: string) => {
+    removeMember({
+      taskId: taskID,
+      memberId: memberID,
+    });
+  };
+
+  if (status === "loading" || status === "error") return null;
 
   return (
     <div>
@@ -68,7 +114,40 @@ export default function AddCardMemberDropdown({
                 />
               </span>
             </div>
-            <div className="flex w-full  border-b px-2 py-1 "></div>
+            <div className="flex w-full flex-col gap-2  border-b   ">
+              {users?.map((member) =>
+                member.assigned ? (
+                  <button
+                    onClick={() => handleRemoveMember(member.id)}
+                    className="flex w-full items-center justify-between gap-1 p-2 hover:bg-gray-400"
+                  >
+                    <div className="flex gap-2">
+                      <img
+                        src={member.image || ""}
+                        alt="user"
+                        className="h-6 w-6 rounded-full"
+                      />
+                      <span>{member.name}</span>
+                    </div>
+
+                    <BsCheckLg className="text-xl" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleAddMember(member.id)}
+                    className="flex w-full items-center gap-1 p-2 hover:bg-gray-400"
+                  >
+                    <img
+                      src={member.image || ""}
+                      alt="user"
+                      className="h-6 w-6 rounded-full"
+                    />
+                    <span>{member.name}</span>
+                    <span>{member.assigned}</span>
+                  </button>
+                )
+              )}
+            </div>
           </div>
         </div>
       </Transition>

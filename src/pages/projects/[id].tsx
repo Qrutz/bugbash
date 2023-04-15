@@ -128,7 +128,10 @@ export default function Project() {
             <Tab.Panels className=" h-full min-w-full   ">
               <Tab.Panel className="h-full w-fit   px-4 py-6">
                 {getProject?.kanbanBoard?.id ? (
-                  <KanbanBoard id={getProject.kanbanBoard.id} />
+                  <KanbanBoard
+                    id={getProject.kanbanBoard.id}
+                    projectId={getProject.id}
+                  />
                 ) : (
                   <div>Create a kanban</div>
                 )}
