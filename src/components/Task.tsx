@@ -69,7 +69,13 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
                     />
                   ))}
                 </span>
-                {/* <FaCommentAlt className="text-gray-400" /> */}
+
+                {task.comments.length > 0 && (
+                  <span className="mr-1 flex items-center gap-1 text-xs text-gray-400">
+                    {task.comments.length}
+                    <FaCommentAlt className="text-gray-400" />
+                  </span>
+                )}
               </div>
             </div>
           </div>
