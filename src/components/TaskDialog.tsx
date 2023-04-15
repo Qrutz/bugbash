@@ -46,6 +46,10 @@ type FormValues = {
   description: string;
 };
 
+type CommentFormValues = {
+  comment: string;
+};
+
 export const TaskDialog = ({
   isOpen,
   projectId,
@@ -66,19 +70,41 @@ export const TaskDialog = ({
     },
   });
 
-  console.log(comments);
+  const { mutate: addComment } = api.kanbanRouter.addCommentToTask.useMutation({
+    onSuccess: () => {
+      void ctx.kanbanRouter.getColumns.invalidate();
+    },
+  });
 
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data: {
     name: string;
     description: string;
   }) => {
-    onClose();
     updateTask({
       taskId: taskID,
       name: data.name,
       description: data.description,
     });
+  };
+
+  const {
+    register: registerComment,
+    handleSubmit: handleSubmitComment,
+    resetField,
+  } = useForm<CommentFormValues>();
+
+  const onSubmitComment: SubmitHandler<CommentFormValues> = (data: {
+    comment: string;
+  }) => {
+    addComment({
+      taskId: taskID,
+      content: data.comment,
+      author: session?.user.id as string,
+    });
+
+    // clear input
+    resetField("comment");
   };
 
   const handleClose = () => {
@@ -167,17 +193,20 @@ export const TaskDialog = ({
                 </div>
 
                 <main className="">
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <form
+                    className="border-b border-gray-300"
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div className="mb-4">
                       <label
                         htmlFor="name"
-                        className="mb-1 block text-lg font-semibold text-gray-700"
+                        className="text-md mb-1 block font-semibold text-gray-700"
                       >
                         Title
                       </label>
                       <input
                         placeholder="Task Name..."
-                        className=" w-full border  border-gray-900 p-1 text-lg shadow-sm      "
+                        className=" w-full rounded-md border  border-gray-900 p-1 text-sm shadow-sm      "
                         defaultValue={initialTaskName}
                         {...register("name", { required: false })}
                       />
@@ -191,77 +220,78 @@ export const TaskDialog = ({
                       </label>
                       <textarea
                         defaultValue={initialTaskDescription}
-                        rows={3}
+                        rows={2}
                         placeholder="Task Description..."
-                        className="w-full rounded-md border   border-neutral-800 p-2 text-lg shadow-sm   "
+                        className="text-md w-full rounded-md   border border-neutral-800 px-1 shadow-sm   "
                         {...register("description", { required: false })}
                       ></textarea>
                     </div>
 
-                    <div className="flex flex-col gap-4 ">
-                      <div className="flex justify-between">
-                        <h1 className="text-lg text-gray-800">Comments </h1>
-                      </div>
-                      <div className="flex w-full items-center space-x-1 ">
-                        <img
-                          src={session?.user.image || " "}
-                          className="h-8 w-8 rounded-full bg-black"
-                        />{" "}
-                        <input
-                          type="text"
-                          placeholder="Write a comment..."
-                          className=" w-full rounded-md border   p-1 text-lg shadow-lg"
-                        />
-                      </div>
-
-                      {comments?.map((comment) => (
-                        <div
-                          key={comment.id}
-                          className="flex flex-col justify-center  gap-1 py-1"
-                        >
-                          <div className="flex items-center  gap-2">
-                            <img
-                              src={comment.author.image || " "}
-                              alt="user"
-                              className="h-8 w-8  rounded-full"
-                            />
-                            <div className="flex flex-col">
-                              <h1 className="text-sm font-semibold">
-                                {comment.author.name}
-                              </h1>
-                              <h1 className="text-xs text-gray-500">
-                                {dayjs(comment.createdAt).fromNow()}
-                              </h1>
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1">
-                            <span
-                              className=" w-full rounded-lg  border
-        p-1 text-sm shadow-md"
-                            >
-                              {comment.content}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-8">
+                    <div className="my-4 ">
                       <button
                         type="submit"
-                        onClick={onClose}
                         className="inline-flex justify-center rounded-md border border-transparent bg-purple-500 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2  focus:ring-offset-2 hover:bg-purple-600"
                       >
                         Save Changes
                       </button>
-                      <button
-                        className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 hover:bg-gray-300"
-                        onClick={handleClose}
-                      >
-                        Cancel
-                      </button>
                     </div>
                   </form>
+
+                  <div className="flex flex-col gap-4 ">
+                    <div className="mt-4 flex justify-between text-lg">
+                      <h1 className="text-xl font-bold text-gray-800">
+                        Comments{" "}
+                      </h1>
+                    </div>
+                    <form
+                      onSubmit={handleSubmitComment(onSubmitComment)}
+                      className="flex w-full items-center space-x-2 border-b pb-4"
+                    >
+                      <img
+                        src={session?.user.image || " "}
+                        className="h-8 w-8 rounded-full bg-black"
+                      />{" "}
+                      <input
+                        {...registerComment("comment")}
+                        placeholder="Write a comment..."
+                        className=" w-full rounded-md border-2 p-1  text-lg shadow-lg focus:border-purple-500"
+                      />
+                      <button type="submit" className="hidden">
+                        Submit
+                      </button>
+                    </form>
+
+                    {comments?.map((comment) => (
+                      <div
+                        key={comment.id}
+                        className="flex flex-col justify-center  gap-1 py-1"
+                      >
+                        <div className="flex items-center  gap-2">
+                          <img
+                            src={comment.author.image || " "}
+                            alt="user"
+                            className="h-8 w-8  rounded-full"
+                          />
+                          <div className="flex flex-col">
+                            <h1 className="text-sm font-semibold">
+                              {comment.author.name}
+                            </h1>
+                            <h1 className="text-xs text-gray-500">
+                              {dayjs(comment.createdAt).fromNow()}
+                            </h1>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span
+                            className=" border-1 w-full rounded-lg border   
+        p-1 text-sm shadow-lg"
+                          >
+                            {comment.content}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </main>
               </div>
 
@@ -282,23 +312,5 @@ export const TaskDialog = ({
         </div>
       </Dialog>
     </Transition>
-  );
-};
-
-const TaskComment = ({}) => {
-  return (
-    <div className="flex w-full flex-col gap-2   space-x-1 ">
-      <div className="flex items-center gap-1">
-        {" "}
-        <span className="h-8 w-8 rounded-full bg-black" /> <h1>Qrutz</h1>
-        <p className="ml-2  text-xs "> an hour ago</p>
-      </div>
-      <span
-        className=" w-full rounded-md border  p-1
-        text-lg shadow-md"
-      >
-        This task is dogshit fr fr
-      </span>
-    </div>
   );
 };

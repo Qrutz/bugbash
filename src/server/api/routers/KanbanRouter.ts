@@ -280,4 +280,22 @@ export const KanbanRouter = createTRPCRouter({
         },
       });
     }),
+
+  addCommentToTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        content: z.string(),
+        author: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.comment.create({
+        data: {
+          content: input.content,
+          cardId: input.taskId,
+          authorId: input.author,
+        },
+      });
+    }),
 });
