@@ -68,7 +68,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
   const onSubmitNewTask = () => {
     addTask({
       columnId: column.id,
-      name: "Click to set proper name & desc",
+      name: "click to edit",
     });
   };
 
@@ -99,7 +99,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
           <input
             defaultValue={column.name}
             {...register("name")}
-            className="rounded-md bg-neutral-800 px-2 py-1"
+            className="rounded-md bg-gray-800 px-2 py-1"
           />
           <button
             type="submit"

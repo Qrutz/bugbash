@@ -61,13 +61,13 @@ export default function Sidebar() {
           >
             <button
               onClick={() => void signOut({ callbackUrl: "/" })}
-              className="h-full w-full bg-red-700   hover:bg-red-600"
+              className="h-full w-full bg-red-600   hover:bg-red-700"
             >
               SIGN OUT
             </button>
             <button
               onClick={() => setIsShowing(false)}
-              className="h-full w-full bg-neutral-950   hover:bg-neutral-900"
+              className="h-full w-full bg-gray-950   hover:bg-gray-900"
             >
               Abort
             </button>
@@ -89,7 +89,7 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="sticky bottom-0 top-0 h-screen flex-1 overflow-hidden  border-r border-neutral-800 bg-[#171820] to-[#111217] ">
+    <nav className="sticky bottom-0 top-0 h-screen flex-1 overflow-hidden  border-r border-gray-800 bg-[#171820] to-[#111217] ">
       <div className="logo flex  items-center gap-1 border-b border-neutral-800 px-2 py-4">
         <SiOpenBounty className="cursor-pointer text-3xl text-neutral-200" />
         <span className="text-white-500 cursor-pointer text-xl  font-extrabold">

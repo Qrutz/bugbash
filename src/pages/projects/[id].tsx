@@ -92,7 +92,7 @@ export default function Project() {
                 <div className="ml-2 cursor-pointer rounded-md border border-yellow-500">
                   <button
                     onClick={() => setOpen(true)}
-                    className="mx-2 flex h-11 items-center gap-2 rounded-full bg-neutral-900 py-1 text-xl  text-yellow-300"
+                    className="mx-2 flex h-11 items-center gap-2 rounded-full bg-gray-900 py-1 text-xl  text-yellow-300"
                   >
                     <BiUserPlus className="h-6 w-6" />
                     <span className="">Invite</span>
@@ -110,7 +110,7 @@ export default function Project() {
             <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
           </header>
           <Tab.Group>
-            <Tab.List className="sticky left-0 right-0 flex  w-full space-x-2 border-b-2 border-neutral-800     ">
+            <Tab.List className="sticky left-0 right-0 flex  w-full space-x-2 border-b-2 border-gray-800     ">
               {tabs.map((tab) => (
                 <Tab
                   key={tab}

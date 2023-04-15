@@ -50,7 +50,7 @@ export default function Index() {
             <>
               {projects?.map((project) => (
                 <Link
-                  className="flex h-[5rem] cursor-pointer flex-col items-center justify-center gap-2 rounded-md bg-neutral-800 hover:bg-neutral-700"
+                  className="flex h-[5rem] cursor-pointer flex-col items-center justify-center gap-2 rounded-md bg-gray-800 hover:bg-gray-700"
                   href={`/projects/${project.id}`}
                   key={project.id}
                 >

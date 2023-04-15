@@ -42,8 +42,8 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
             {...provided.dragHandleProps}
             className={snapshot.isDragging ? draggingStyle : notDraggingStyle}
           >
-            <div className="space-y-1 px-3 py-2">
-              <h1 className="text-lg font-bold"> {task.name}</h1>
+            <div className="space-y-1 px-3 py-3">
+              <h1 className="text-md font-bold leading-5"> {task.name}</h1>
               <p className="text-sm text-gray-400"> {task.description}</p>
               <div className="flex flex-wrap justify-start gap-1">
                 {task.labels.map((label) => (

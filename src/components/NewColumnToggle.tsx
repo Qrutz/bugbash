@@ -51,7 +51,7 @@ function NewColumnToggle({ onSubmit }: NewColumnToggleProps) {
         leaveTo="transform opacity-0 scale-95"
       >
         <form
-          className="flex flex-col bg-neutral-800 p-2"
+          className="flex flex-col bg-gray-800 p-2"
           onSubmit={handleSubmit(handleSubmitAndHide)}
         >
           <input
@@ -62,14 +62,14 @@ function NewColumnToggle({ onSubmit }: NewColumnToggleProps) {
           <div className="flex items-center py-1 text-center">
             <button
               type="submit"
-              className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
+              className="mt-1 rounded bg-purple-500 px-2 py-1 font-bold text-white hover:bg-purple-700"
             >
               Add list
             </button>
             <button
               type="submit"
               onClick={() => setShowInput(false)}
-              className="ml-2 rounded  px-4 py-2 font-bold text-gray-700 hover:bg-gray-300"
+              className="ml-2 mt-1 rounded  px-4 py-2 font-bold text-gray-700 hover:bg-gray-700"
             >
               <RxCross1 className="text-center text-white" />
             </button>
