@@ -1,15 +1,16 @@
 import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { BiLeftArrowAlt, BiPlus, BiPlusCircle, BiTrash } from "react-icons/bi";
+import {
+  BiLabel,
+  BiLeftArrowAlt,
+  BiPlus,
+  BiPlusCircle,
+  BiTrash,
+} from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
 import { label } from "@prisma/client";
 import { LabelForm } from "./labelForm";
 import { api } from "~/utils/api";
-
-type DropdownItem = {
-  label: string;
-  onClick: () => void;
-};
 
 type DropdownProps = {
   taskId: string;
@@ -18,17 +19,17 @@ type DropdownProps = {
     name: string;
     color: string;
   }[];
+  logoOnly?: boolean;
 };
 
-export default function LabelDropdown({ labels, taskId }: DropdownProps) {
+export default function LabelDropdown({
+  labels,
+  taskId,
+  logoOnly,
+}: DropdownProps) {
   const ctx = api.useContext();
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(0);
-
-  const handleItemClick = (onClick: () => void) => {
-    onClick();
-    setIsOpen(false);
-  };
 
   const handleNext = () => {
     if (page < 1) {
@@ -59,12 +60,23 @@ export default function LabelDropdown({ labels, taskId }: DropdownProps) {
   return (
     <div>
       <div className="relative text-left">
-        <Menu.Button
-          onClick={() => setIsOpen(true)}
-          className="flex items-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
-        >
-          <BiPlus className="text-xl" />
-        </Menu.Button>
+        {logoOnly ? (
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
+          >
+            <BiPlus className="text-xl" />
+          </button>
+        ) : (
+          <span
+            onClick={() => setIsOpen(true)}
+            className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300"
+          >
+            <button className="flex items-center gap-1 px-1 py-1">
+              <BiLabel /> Labels
+            </button>
+          </span>
+        )}
       </div>
 
       <Transition

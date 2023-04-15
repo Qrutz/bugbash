@@ -54,30 +54,8 @@ export const TaskDialog = ({
     });
   };
 
-  const { mutate: addLabel } = api.kanbanRouter.addLabelToTask.useMutation({
-    onSuccess: () => {
-      void ctx.kanbanRouter.getColumns.invalidate();
-    },
-  });
-
-  const { mutate: removeLabel } =
-    api.kanbanRouter.removeLabelFromTask.useMutation({
-      onSuccess: () => {
-        void ctx.kanbanRouter.getColumns.invalidate();
-      },
-    });
-
-  const [toggleLabelDialog, setToggleLabelDialog] = React.useState(false);
-
   const handleClose = () => {
     onClose();
-  };
-
-  const handleRemoveLabel = (labelID: string) => {
-    removeLabel({
-      taskId: taskID,
-      labelId: labelID,
-    });
   };
 
   return (
@@ -113,16 +91,6 @@ export const TaskDialog = ({
                   <p className="text-gray-600">labels</p>
                   <Menu>
                     <div className="flex flex-wrap gap-1">
-                      {/* {" "}
-                    <span className="rounded-md bg-yellow-300 font-extralight hover:bg-yellow-600">
-                      <button className="p-1 text-sm "> UI/UX</button>
-                    </span>{" "}
-                    <span className="rounded-md bg-red-300 font-extralight hover:bg-red-600">
-                      <button className="p-1 text-sm "> Priority</button>
-                    </span>{" "}
-                    <span className="rounded-md bg-green-300 font-extralight hover:bg-green-600">
-                      <button className="p-1 text-sm "> Bug</button>
-                    </span>{" "} */}
                       {initialTaskLabels.map((label) => (
                         <span
                           key={label.id}
@@ -137,15 +105,9 @@ export const TaskDialog = ({
                       <LabelDropdown
                         labels={initialTaskLabels}
                         taskId={taskID}
+                        logoOnly={true}
                       />
                     </div>
-
-                    {/* <CreateLabelDialog
-                      isOpen={toggleLabelDialog}
-                      taskId={taskID}
-                      labels={initialTaskLabels}
-                      closeFirstScreen={() => setToggleLabelDialog(false)}
-                    /> */}
                   </Menu>
                 </div>
 
@@ -228,19 +190,18 @@ export const TaskDialog = ({
                 </main>
               </div>
 
-              <nav className="flex-[2] flex-col space-y-2 py-3 ">
-                <h1 className="text-gray-500">Add to card</h1>
-                <span className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300">
-                  <button className="flex items-center gap-1 px-1 py-1">
-                    <BiUser /> Members
-                  </button>
-                </span>
-                <span className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300">
-                  <button className="flex items-center gap-1 px-1 py-1">
-                    <BiLabel /> Labels
-                  </button>
-                </span>
-              </nav>
+              <Menu>
+                <nav className="flex-[2] flex-col space-y-2 py-3 ">
+                  <h1 className="text-gray-500">Add to card</h1>
+                  <span className="flex  cursor-pointer rounded-sm bg-gray-200 hover:bg-gray-300">
+                    <button className="flex items-center gap-1 px-1 py-1">
+                      <BiUser /> Members
+                    </button>
+                  </span>
+
+                  <LabelDropdown taskId={taskID} labels={initialTaskLabels} />
+                </nav>
+              </Menu>
             </section>
           </div>
         </div>
