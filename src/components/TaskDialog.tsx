@@ -3,17 +3,10 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
-import {
-  BiLabel,
-  BiLeftArrow,
-  BiLeftArrowAlt,
-  BiPlus,
-  BiTrash,
-  BiUser,
-} from "react-icons/bi";
+import { BiLabel, BiUser } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
 import React from "react";
-import { CreateLabelDialog } from "./createLabelDialog";
+import LabelDropdown from "./LabelDialog";
 
 interface TaskDialogProps {
   isOpen: boolean;
@@ -31,11 +24,6 @@ interface TaskDialogProps {
 type FormValues = {
   name: string;
   description: string;
-};
-
-type LabelFormValues = {
-  name: string;
-  color: string;
 };
 
 export const TaskDialog = ({
@@ -79,21 +67,10 @@ export const TaskDialog = ({
       },
     });
 
-  const [isShowing2nd, setIsShowing2nd] = React.useState(false);
-  const [isShowing, setIsShowing] = React.useState(false);
+  const [toggleLabelDialog, setToggleLabelDialog] = React.useState(false);
 
   const handleClose = () => {
     onClose();
-  };
-
-  const handleCreateLabel = () => {
-    setIsShowing(false);
-    setIsShowing2nd(true);
-  };
-
-  const handleBackArrow = () => {
-    setIsShowing2nd(false);
-    setIsShowing(true);
   };
 
   const handleRemoveLabel = (labelID: string) => {
@@ -157,75 +134,18 @@ export const TaskDialog = ({
                           </button>
                         </span>
                       ))}
-                      <Menu.Button
-                        onClick={() => setIsShowing(true)}
-                        className="flex items-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
-                      >
-                        <BiPlus className="text-xl" />
-                      </Menu.Button>
+                      <LabelDropdown
+                        labels={initialTaskLabels}
+                        taskId={taskID}
+                      />
                     </div>
 
-                    <Transition show={isShowing} as={Fragment}>
-                      <Menu.Items className=" z-10 mt-2 w-56  rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <div className="flex w-full  p-1">
-                          <span className="flex-[11] items-center text-center">
-                            {" "}
-                            Labels{" "}
-                          </span>
-                          <span className="flex-1 cursor-pointer text-right">
-                            {" "}
-                            <RxCross1
-                              className="text-xl"
-                              onClick={() => setIsShowing(false)}
-                            />
-                          </span>
-                        </div>
-                        {initialTaskLabels.map((label) => (
-                          <Menu.Item key={label.id}>
-                            {({ active }) => (
-                              <div
-                                className={`${
-                                  active
-                                    ? "bg-gray-100 text-gray-900"
-                                    : "text-gray-700"
-                                } group flex w-full items-center justify-between rounded-md px-2 py-2 text-sm`}
-                              >
-                                <span
-                                  className={`${
-                                    active ? "text-gray-900" : "text-gray-500 "
-                                  } flex  items-center gap-2`}
-                                >
-                                  <span
-                                    className={`h-3 w-3 rounded-full bg-${label.color}-500`}
-                                  />
-                                  {label.name}
-                                </span>
-
-                                <button
-                                  onClick={() => handleRemoveLabel(label.id)}
-                                  className=" cursor-pointer text-right"
-                                >
-                                  <BiTrash className="text-xl" />
-                                </button>
-                              </div>
-                            )}
-                          </Menu.Item>
-                        ))}
-                        <button
-                          onClick={handleCreateLabel}
-                          className="flex w-full items-center justify-center gap-1 rounded-md bg-gray-100 p-1 hover:bg-gray-200"
-                        >
-                          Create Label
-                        </button>
-                      </Menu.Items>
-                    </Transition>
-
-                    <CreateLabelDialog
-                      closedDialog={() => setIsShowing2nd(false)}
-                      handleLeftArrowCLick={handleBackArrow}
-                      isShowingProp={isShowing2nd}
+                    {/* <CreateLabelDialog
+                      isOpen={toggleLabelDialog}
                       taskId={taskID}
-                    />
+                      labels={initialTaskLabels}
+                      closeFirstScreen={() => setToggleLabelDialog(false)}
+                    /> */}
                   </Menu>
                 </div>
 
