@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  RxDashboard,
-  RxCircle,
-  RxCardStackPlus,
-  RxAccessibility,
-} from "react-icons/rx";
+import { RxDashboard } from "react-icons/rx";
 import { SiOpenbugbounty as SiOpenBounty } from "react-icons/si";
 import MenuTab from "./MenuTab";
 import { useRouter } from "next/router";

@@ -2,7 +2,7 @@ import { Draggable } from "react-beautiful-dnd";
 
 import { useState } from "react";
 import { TaskDialog } from "./TaskDialog";
-import { TaskInterface } from "./Column";
+import { type TaskInterface } from "./Column";
 
 import { FaCommentAlt } from "react-icons/fa";
 
@@ -45,7 +45,7 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
             <div className="space-y-1 px-3 py-2">
               <h1 className="text-lg font-bold"> {task.name}</h1>
               <p className="text-sm text-gray-400"> {task.description}</p>
-              <div className="space-x-1">
+              <div className="flex flex-wrap justify-start gap-1">
                 {task.labels.map((label) => (
                   <span
                     key={label.id}
@@ -69,7 +69,7 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
                     />
                   ))}
                 </span>
-                <FaCommentAlt className="text-gray-400" />
+                {/* <FaCommentAlt className="text-gray-400" /> */}
               </div>
             </div>
           </div>

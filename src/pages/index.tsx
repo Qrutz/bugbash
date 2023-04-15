@@ -1,8 +1,8 @@
 import { SiOpenbugbounty as SiOpenBounty } from "react-icons/si";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const Home: any = () => {
+const Home = () => {
   const { data: session, status: userstatus } = useSession();
   const router = useRouter();
 

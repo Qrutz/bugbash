@@ -11,7 +11,6 @@ const COLORS = [
   { name: "pink", color: "bg-pink-500" },
   { name: "gray", color: "bg-gray-500" },
   { name: "lime", color: "bg-lime-500" },
-  { name: "black", color: "bg-black" },
 ];
 
 type LabelFormValues = {

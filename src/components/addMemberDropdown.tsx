@@ -1,9 +1,8 @@
-import { Fragment, useState } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { BiPlus, BiUser, BiUserPlus } from "react-icons/bi";
+import { useState } from "react";
+import { Transition } from "@headlessui/react";
+import { BiUser, BiUserPlus } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
-import { label } from "@prisma/client";
-import { LabelForm } from "./labelForm";
+
 import { api } from "~/utils/api";
 import { BsCheckLg } from "react-icons/bs";
 
@@ -64,8 +63,6 @@ export default function AddCardMemberDropdown({
       memberId: memberID,
     });
   };
-
-  if (status === "loading" || status === "error") return null;
 
   return (
     <div>

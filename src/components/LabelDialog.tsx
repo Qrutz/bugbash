@@ -1,14 +1,7 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import {
-  BiLabel,
-  BiLeftArrowAlt,
-  BiPlus,
-  BiPlusCircle,
-  BiTrash,
-} from "react-icons/bi";
+import { BiLabel, BiLeftArrowAlt, BiPlus, BiTrash } from "react-icons/bi";
 import { RxCross1 } from "react-icons/rx";
-import { label } from "@prisma/client";
 import { LabelForm } from "./labelForm";
 import { api } from "~/utils/api";
 

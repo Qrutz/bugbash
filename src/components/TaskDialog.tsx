@@ -179,7 +179,8 @@ export const TaskDialog = ({
                         {...register("description", { required: false })}
                       ></textarea>
                     </div>
-                    <div className="flex flex-col gap-2">
+
+                    {/* <div className="flex flex-col gap-2">
                       <div className="flex justify-between">
                         <h1 className="text-lg text-gray-800">Comments </h1>
                       </div>
@@ -206,7 +207,7 @@ export const TaskDialog = ({
                           This task is dogshit fr fr
                         </span>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="mt-8">
                       <button
