@@ -55,12 +55,15 @@ model User {
     id            String    @id @default(cuid())
     name          String    @unique
     email         String?   @unique
+    assignedTo    Card[]    @relation("AssignedToCards")
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     projects      Project[] @relation("ProjectMembers")
 }
+
+// assignee is a many-to-many relationship between users and cards name is related to USER name
 
 // 
 model Project {
@@ -98,6 +101,8 @@ model Card {
     id          String   @id @default(cuid())
     name        String?
     description String?
+    labels      label[]
+    assignees   User[]   @relation("AssignedToCards")
     column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
     columnId    String
     createdAt   DateTime @default(now())
@@ -105,6 +110,15 @@ model Card {
 
     @@index([id])
     @@index([columnId])
+}
+
+model label {
+    id    String @id @default(cuid())
+    name  String
+    color String @default("#000000")
+    cards Card[]
+
+    @@index([id])
 }
 
 model Schedule {

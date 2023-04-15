@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { useState } from "react";
 import { RxCross1, RxPlus } from "react-icons/rx";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 type NewColumnToggleProps = {
   onSubmit: (data: { title: string }) => void;

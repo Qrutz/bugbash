@@ -31,6 +31,8 @@ export const KanbanRouter = createTRPCRouter({
               id: true,
               name: true,
               description: true,
+              labels: true,
+              assignees: true,
             },
           },
         },
@@ -108,6 +110,52 @@ export const KanbanRouter = createTRPCRouter({
       });
     }),
 
+  addLabelToTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        labelName: z.string(),
+        labelColor: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          labels: {
+            create: {
+              name: input.labelName,
+              color: input.labelColor,
+            },
+          },
+        },
+      });
+    }),
+
+  removeLabelFromTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        labelId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          labels: {
+            delete: {
+              id: input.labelId,
+            },
+          },
+        },
+      });
+    }),
+
   changeColumnName: protectedProcedure
     .input(
       z.object({
@@ -136,6 +184,83 @@ export const KanbanRouter = createTRPCRouter({
       return ctx.prisma.column.delete({
         where: {
           id: input.columnId,
+        },
+      });
+    }),
+
+  //query all members of project and all members assigned to a task, return true beside the member if they are assigned to the task
+  getMembers: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+        taskId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const members = await ctx.prisma.project
+        .findUnique({
+          where: {
+            id: input.projectId,
+          },
+        })
+        .members();
+
+      const taskMembers = await ctx.prisma.card
+        .findUnique({
+          where: {
+            id: input.taskId,
+          },
+        })
+        .assignees();
+
+      const taskMemberIds = taskMembers?.map((member) => member.id);
+
+      return members?.map((member) => ({
+        ...member,
+        assigned: taskMemberIds?.includes(member.id),
+      }));
+    }),
+
+  assignMemberToTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        memberId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          assignees: {
+            connect: {
+              id: input.memberId,
+            },
+          },
+        },
+      });
+    }),
+
+  unassignMemberFromTask: protectedProcedure
+    .input(
+      z.object({
+        taskId: z.string(),
+        memberId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.update({
+        where: {
+          id: input.taskId,
+        },
+        data: {
+          assignees: {
+            disconnect: {
+              id: input.memberId,
+            },
+          },
         },
       });
     }),

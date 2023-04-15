@@ -6,14 +6,18 @@ import { api } from "~/utils/api";
 
 interface KanbanBoardProps {
   id: string;
+  projectId: string;
 }
 
-const KanbanBoard = ({ id }: KanbanBoardProps) => {
+const KanbanBoard = ({ id, projectId }: KanbanBoardProps) => {
   const ctx = api.useContext();
-  const { data: initialKanban, status: fetchStatus } =
-    api.kanbanRouter.getColumns.useQuery({
-      kanbanBoardId: id,
-    });
+  const {
+    data: initialKanban,
+    status: fetchStatus,
+    isLoading,
+  } = api.kanbanRouter.getColumns.useQuery({
+    kanbanBoardId: id,
+  });
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -77,6 +81,7 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
       name: data.title,
     });
   }
+  if (fetchStatus === "error") return <div>error</div>;
 
   if (fetchStatus === "loading") {
     return <div>loading</div>;
@@ -86,7 +91,7 @@ const KanbanBoard = ({ id }: KanbanBoardProps) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <section className="flex w-fit gap-2 overflow-x-auto">
         {initialKanban?.map((column) => (
-          <Column key={column.id} column={column} />
+          <Column key={column.id} column={column} projectId={projectId} />
         ))}
         <div className="w-[272px] ">
           <NewColumnToggle onSubmit={handleCreateColumn} />

@@ -12,25 +12,36 @@ import React from "react";
 interface Column {
   id: string;
   name: string;
-  cards: Task[];
+  cards: TaskInterface[];
 }
 
-interface Task {
+export interface TaskInterface {
   id: string;
   name: string | null;
   description: string | null;
+  labels: {
+    id: string;
+    name: string;
+    color: string;
+  }[];
+  assignees: {
+    id: string;
+    name: string;
+    image: string | null;
+  }[];
 }
 
 interface ColumnProps {
   // dont know yet what type column is
   column: Column;
+  projectId: string;
 }
 
 type FormValues = {
   name: string;
 };
 
-const Column = ({ column }: ColumnProps) => {
+const Column = ({ column, projectId }: ColumnProps) => {
   const ctx = api.useContext();
   const { mutate: addTask } = api.kanbanRouter.createTask.useMutation({
     onSuccess: () => {
@@ -162,8 +173,15 @@ const Column = ({ column }: ColumnProps) => {
             {...provided.droppableProps}
             className="flex h-full w-full flex-col gap-4 overflow-y-auto "
           >
-            {column.cards.map((task: Task, index: number) => {
-              return <Task key={task.id} task={task} index={index} />;
+            {column.cards.map((task: TaskInterface, index: number) => {
+              return (
+                <Task
+                  projectId={projectId}
+                  key={task.id}
+                  task={task}
+                  index={index}
+                />
+              );
             })}
             {provided.placeholder}
           </div>
