@@ -33,6 +33,22 @@ export const KanbanRouter = createTRPCRouter({
               description: true,
               labels: true,
               assignees: true,
+              // return id, content, cardid, and the author of the comment
+              comments: {
+                select: {
+                  id: true,
+                  content: true,
+                  cardId: true,
+                  createdAt: true,
+                  author: {
+                    select: {
+                      id: true,
+                      name: true,
+                      image: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },

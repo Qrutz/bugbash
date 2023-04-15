@@ -83,6 +83,7 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
         taskAssignees={task.assignees}
         initialTaskDescription={task.description || ""}
         initialTaskLabels={task.labels}
+        comments={task.comments}
         projectId={projectId}
         taskID={task.id}
       />

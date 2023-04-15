@@ -29,6 +29,16 @@ export interface TaskInterface {
     name: string;
     image: string | null;
   }[];
+  comments: {
+    id: string;
+    content: string;
+    createdAt: Date;
+    author: {
+      id: string;
+      name: string;
+      image: string | null;
+    };
+  }[];
 }
 
 interface ColumnProps {
