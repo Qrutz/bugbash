@@ -127,15 +127,22 @@ const Column = ({ column, projectId }: ColumnProps) => {
         </form>
       ) : (
         // bg-[#1d1e27]
-        <div className="  flex justify-between rounded-lg bg-gray-800 px-2 py-2 text-zinc-200  ">
-          <h3
-            onClick={() => setIsEditingName(true)}
-            className="ml-1 cursor-pointer text-center text-xl font-extrabold"
-          >
-            {!colUpdating ? <>{column.name}</> : <>...</>}
-          </h3>
+        <div className="flex  items-center justify-between rounded-lg bg-gray-800 px-2 py-2 text-zinc-200  ">
+          <span className="flex items-center gap-2">
+            <h3
+              onClick={() => setIsEditingName(true)}
+              className="ml-1 cursor-pointer text-center text-xl font-extrabold"
+            >
+              {column.name}
+            </h3>
+            <span className=" rounded-sm bg-[#bbff00] shadow-md">
+              <p className="px-2 text-sm font-semibold text-black">
+                {column.cards.length}{" "}
+              </p>
+            </span>
+          </span>
 
-          <div className="  absolute relative right-0  top-[10px] ">
+          <div className="  absolute relative   ">
             <Menu>
               <Menu.Button className=" flex w-8 cursor-pointer  justify-center focus:outline-none">
                 <BsThreeDots />
