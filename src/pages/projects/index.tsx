@@ -4,6 +4,7 @@ import router from "next/router";
 import React from "react";
 import Sidebar from "~/components/Sidebar";
 import Breadcrumbs from "~/components/breadcrumbs";
+import Layout from "~/components/layout";
 import { api } from "~/utils/api";
 
 export default function Index() {
@@ -26,9 +27,8 @@ export default function Index() {
   }
 
   return (
-    <div className=" flex  overflow-hidden shadow-sm shadow-black">
-      <Sidebar />
-      <main className="w-500rem 100px flex flex-[7] flex-col  bg-[#171820]  ">
+    <Layout>
+      <main className="w-500rem 100px flex flex-[9] flex-col   ">
         <header className="sticky left-0 right-0  px-4 py-8  ">
           <div className="flex justify-between">
             <Breadcrumbs
@@ -68,6 +68,6 @@ export default function Index() {
           </div>
         </div>
       </main>
-    </div>
+    </Layout>
   );
 }

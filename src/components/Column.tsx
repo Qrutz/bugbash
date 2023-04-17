@@ -99,7 +99,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
   return (
     <div
       key={column.id}
-      className=" h-full w-[15rem] items-center justify-between space-y-3 rounded-lg bg-slate-800    px-2  py-2"
+      className=" h-full w-[15rem] items-center justify-between space-y-3 rounded-lg bg-gray-800    px-2  py-2"
     >
       {isEditingName ? (
         <form

@@ -51,7 +51,7 @@ export default function Project() {
       {projectStatus === "loading" ? (
         <main
           role="status"
-          className=" status flex h-screen flex-[7] items-center justify-center"
+          className=" status flex h-screen flex-[9] items-center justify-center"
         >
           <svg
             aria-hidden="true"
@@ -72,7 +72,7 @@ export default function Project() {
           <span className="sr-only">Loading...</span>
         </main>
       ) : (
-        <main className=" flex  flex-[7] flex-col overflow-x-auto overflow-y-hidden bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-gray-950 via-gray-900 to-gray-950 scrollbar    scrollbar-thumb-neutral-300  ">
+        <main className=" to-gray-900scrollbar  flex flex-[9] flex-col overflow-x-auto overflow-y-hidden   scrollbar-thumb-neutral-300  ">
           <header className="sticky left-0 right-0  px-4 py-8  ">
             <div className="flex justify-between">
               <Breadcrumbs

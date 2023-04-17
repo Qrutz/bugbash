@@ -22,7 +22,7 @@ export default function Sidebar() {
   };
   const stylingForInactiveTab = {
     className:
-      " hover:bg-purple-900 flex w-full cursor-pointer justify-between   rounded-md py-2 px-1 font-medium text-white ",
+      " hover:bg-purple-900 flex w-full cursor-pointer justify-between p-2   rounded-md md:py-2 md:px-1 font-medium text-white ",
   };
 
   const UserCard = () => {
@@ -44,11 +44,11 @@ export default function Sidebar() {
           >
             {/* <button onClick={() => setIsShowing(true)} /> */}
             <img
-              className="h-16 w-16 rounded-full"
+              className="h-14 w-14 rounded-full md:h-16 md:w-16"
               src={session?.user.image as string}
               alt="user"
             />
-            <span className="text-white-500 text-xl font-semibold">
+            <span className="text-white-500 hidden text-xl font-semibold md:block">
               {session?.user.name}
             </span>
           </Transition>
@@ -90,15 +90,15 @@ export default function Sidebar() {
 
   return (
     <nav className="sticky bottom-0 top-0 h-screen flex-1 overflow-hidden  border-r border-gray-800 bg-[#171820] to-[#111217] ">
-      <div className="logo flex  items-center gap-1 border-b border-neutral-800 px-2 py-4">
+      <div className="logo flex  items-center  border-b border-neutral-800 px-2 py-4 md:gap-1 md:px-2 md:py-4">
         <SiOpenBounty className="cursor-pointer text-3xl text-neutral-200" />
-        <span className="text-white-500 cursor-pointer text-xl  font-extrabold">
+        <span className="text-white-500 hidden cursor-pointer text-xl font-extrabold md:block">
           Bug
           <span className=" font-semibold">Bash</span>
         </span>
       </div>
-      <div className="text-white-500 flex h-full flex-col  justify-between  ">
-        <section className="items-center space-y-4 px-3 py-3 ">
+      <div className="text-white-500 flex h-full flex-col items-center justify-between md:items-start    ">
+        <section className="items-center space-y-4 py-4 md:space-y-4 md:px-3 ">
           <Link
             className={
               router.pathname.includes("/projects")
