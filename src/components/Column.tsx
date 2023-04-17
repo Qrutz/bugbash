@@ -99,7 +99,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
   return (
     <div
       key={column.id}
-      className=" h-full w-[15rem] items-center justify-between space-y-2 rounded    px-1  py-2"
+      className=" h-full w-[15rem] items-center justify-between space-y-3 rounded-lg bg-slate-800    px-2  py-2"
     >
       {isEditingName ? (
         <form
@@ -127,7 +127,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
         </form>
       ) : (
         // bg-[#1d1e27]
-        <div className="flex  items-center justify-between rounded-lg bg-gray-800 px-2 py-2 text-zinc-200  ">
+        <div className="flex items-center justify-between  border-b border-gray-600   py-1 text-zinc-200  ">
           <span className="flex items-center gap-2">
             <h3
               onClick={() => setIsEditingName(true)}
@@ -135,10 +135,8 @@ const Column = ({ column, projectId }: ColumnProps) => {
             >
               {column.name}
             </h3>
-            <span className=" rounded-sm bg-[#bbff00] shadow-md">
-              <p className="px-2 text-sm font-semibold text-black">
-                {column.cards.length}{" "}
-              </p>
+            <span className=" rounded-full bg-gray-600  shadow-md">
+              <p className="px-2 text-sm font-bold ">{column.cards.length} </p>
             </span>
           </span>
 
@@ -188,7 +186,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="flex h-full w-full flex-col gap-4 overflow-y-auto "
+            className="flex h-full  w-full flex-col gap-4 overflow-y-auto "
           >
             {column.cards.map((task: TaskInterface, index: number) => {
               return (
@@ -210,7 +208,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
       >
         <button
           type="submit"
-          className="my-0 flex w-full items-center justify-center gap-2 rounded-md bg-[#1e1e29] py-1     text-gray-600 hover:bg-gray-800 hover:text-white"
+          className="my-0 flex w-full items-center justify-center gap-2 rounded-md bg-gray-900 py-1     text-gray-600 hover:bg-gray-800 hover:text-white"
         >
           <RxPlus className="text-2xl font-bold  " />
           <span className=" font-medium ">Add Task</span>
