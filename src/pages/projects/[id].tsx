@@ -72,7 +72,7 @@ export default function Project() {
           <span className="sr-only">Loading...</span>
         </main>
       ) : (
-        <main className=" to-gray-900scrollbar  flex flex-[9] flex-col overflow-x-auto overflow-y-hidden   scrollbar-thumb-neutral-300  ">
+        <main className=" flex flex-[9]  flex-col overflow-x-auto overflow-y-hidden to-gray-900 scrollbar   scrollbar-thumb-neutral-300  ">
           <header className="sticky left-0 right-0  px-4 py-8  ">
             <div className="flex justify-between">
               <Breadcrumbs

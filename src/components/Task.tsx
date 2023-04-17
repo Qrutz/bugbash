@@ -28,9 +28,9 @@ export const Task = ({ task, index, projectId }: TaskProps) => {
   }
 
   const draggingStyle =
-    "animate-pulse  text-neutral-100 min-h-[50px] rounded-md   shadow-2xl    p-2";
+    "  text-neutral-100 min-h-[50px] rounded-md shadow-purple-700 bg-gray-900/60  shadow-inner  ";
   const notDraggingStyle =
-    " text-neutral-100 min-h-[50px] rounded-lg  bg-slate-900 shadow-2xl ";
+    " text-neutral-100 min-h-[50px] rounded-lg  bg-gray-900/60 border border-gray-800  ";
   return (
     <>
       <Draggable key={task.id} draggableId={task.id} index={index}>

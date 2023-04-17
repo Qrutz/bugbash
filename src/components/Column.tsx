@@ -99,17 +99,17 @@ const Column = ({ column, projectId }: ColumnProps) => {
   return (
     <div
       key={column.id}
-      className=" h-full w-[15rem] items-center justify-between space-y-3 rounded-lg bg-gray-800    px-2  py-2"
+      className=" shadow-xs h-full w-[16rem] items-center justify-between space-y-3  rounded-sm bg-gray-800/60 px-3    py-2 shadow-inner shadow-purple-900 "
     >
       {isEditingName ? (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex w-full flex-col gap-2"
+          className="flex w-full flex-col gap-2 "
         >
           <input
             defaultValue={column.name}
             {...register("name")}
-            className="rounded-md bg-gray-800 px-2 py-1"
+            className="rounded-md  bg-gray-600 px-2 py-1"
           />
           <button
             type="submit"
@@ -127,7 +127,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
         </form>
       ) : (
         // bg-[#1d1e27]
-        <div className="flex items-center justify-between  border-b border-gray-600   py-1 text-zinc-200  ">
+        <div className="flex items-center justify-between  border-b border-gray-600    py-1 text-zinc-200  ">
           <span className="flex items-center gap-2">
             <h3
               onClick={() => setIsEditingName(true)}
