@@ -5,7 +5,6 @@ import { api } from "~/utils/api";
 import KanbanBoard from "~/components/KanbanBoard";
 import { Tab } from "@headlessui/react";
 import Breadcrumbs from "~/components/breadcrumbs";
-import Sidebar from "~/components/Sidebar";
 import { BsPlus } from "react-icons/bs";
 import { AddMemberDialog } from "~/components/addMemberDialog";
 import Layout from "~/components/layout";

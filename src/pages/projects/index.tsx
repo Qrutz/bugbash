@@ -2,7 +2,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
 import React from "react";
-import Sidebar from "~/components/Sidebar";
 import Breadcrumbs from "~/components/breadcrumbs";
 import Layout from "~/components/layout";
 import { api } from "~/utils/api";
