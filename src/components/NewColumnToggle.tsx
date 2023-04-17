@@ -33,7 +33,7 @@ function NewColumnToggle({ onSubmit }: NewColumnToggleProps) {
         leaveTo="opacity-0"
       >
         <button
-          className="mt-2 flex w-full items-center gap-2 rounded-lg bg-[#1e1e29]  py-2 text-center hover:bg-gray-800 "
+          className="flex w-full items-center gap-2 rounded-lg bg-[#1e1e29]  py-2 text-center hover:bg-gray-800 "
           onClick={() => setShowInput(true)}
         >
           <RxPlus className="ml-2 text-xl" />
