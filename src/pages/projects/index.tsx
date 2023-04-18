@@ -2,12 +2,14 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
 import React from "react";
+import CreateProjectDialog from "~/components/CreateProjectDialog";
 import Breadcrumbs from "~/components/breadcrumbs";
 import Layout from "~/components/layout";
 import { api } from "~/utils/api";
 
 export default function Index() {
   const { data: session, status: sessionStatus } = useSession();
+  const [isProjectCreateOpen, setIsProjectCreateOpen] = React.useState(false);
 
   const { data: projects, status: projectsStatus } =
     api.projectRouter.getAll.useQuery(
@@ -60,10 +62,14 @@ export default function Index() {
           )}
 
           <div
-            onClick={() => console.log("new project")}
+            onClick={() => setIsProjectCreateOpen(true)}
             className=" flex h-[5rem] cursor-pointer flex-col  items-center justify-center gap-2 rounded-md bg-neutral-800 hover:bg-neutral-700"
           >
             <span className=" font-semibold">Create new project</span>
+            <CreateProjectDialog
+              isOpen={isProjectCreateOpen}
+              setIsOpen={setIsProjectCreateOpen}
+            />
           </div>
         </div>
       </main>

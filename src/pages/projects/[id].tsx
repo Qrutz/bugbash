@@ -24,6 +24,20 @@ export default function Project() {
       { enabled: id !== undefined && id !== "" && id !== "undefined" }
     );
 
+  const { mutate: deleteProject } = api.projectRouter.deleteProject.useMutation(
+    {
+      onSuccess: () => {
+        router.push("/projects").catch((err) => console.error(err));
+      },
+    }
+  );
+
+  const deleteProjectHandler = () => {
+    deleteProject({
+      id: id,
+    });
+  };
+
   const members = (
     <>
       {getProject?.members.map((member) => {
@@ -43,7 +57,7 @@ export default function Project() {
     </>
   );
 
-  const tabs = ["Kanban", "Schedule"];
+  const tabs = ["Kanban", "Schedule", "Settings"];
 
   return (
     <Layout>
@@ -109,7 +123,7 @@ export default function Project() {
             <h1 className="my-4 text-5xl font-bold">{getProject?.name}</h1>
           </header>
           <Tab.Group>
-            <Tab.List className="sticky left-0 right-0 flex  w-full space-x-2 border-b-2 border-gray-800     ">
+            <Tab.List className="sticky left-0 right-0 flex w-full  gap-2  border-b-2 border-gray-800     ">
               {tabs.map((tab) => (
                 <Tab
                   key={tab}
@@ -132,10 +146,18 @@ export default function Project() {
                     projectId={getProject.id}
                   />
                 ) : (
-                  <div>Create a kanban</div>
+                  <div>NO KANBAN</div>
                 )}
               </Tab.Panel>
               <Tab.Panel>schedule</Tab.Panel>
+              <Tab.Panel className="flex h-full items-center  justify-center px-4">
+                <button
+                  onClick={deleteProjectHandler}
+                  className="h-[5rem] w-[10%] justify-center bg-red-800"
+                >
+                  Delete project
+                </button>
+              </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
         </main>
