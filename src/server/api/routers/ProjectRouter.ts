@@ -110,4 +110,38 @@ export const ProjectRouter = createTRPCRouter({
         },
       });
     }),
+
+  createProject: protectedProcedure
+    .input(z.object({ name: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      // create a new project with an empty kanban board
+      const project = await ctx.prisma.project.create({
+        data: {
+          name: input.name,
+          members: {
+            connect: {
+              id: input.userId,
+            },
+          },
+          kanbanBoard: {
+            create: {},
+          },
+        },
+      });
+
+      return project;
+    }),
+
+  deleteProject: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      // delete the project and the kanban board
+      const project = await ctx.prisma.project.delete({
+        where: {
+          id: input.id,
+        },
+      });
+
+      return project;
+    }),
 });

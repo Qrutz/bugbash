@@ -17,6 +17,21 @@ export default function Index() {
       { enabled: !!session }
     );
 
+  const { mutate: createProject } = api.projectRouter.createProject.useMutation(
+    {
+      onSuccess: (data) => {
+        router.push(`/projects/${data.id}`).catch((err) => console.error(err));
+      },
+    }
+  );
+
+  const createProjectHandler = () => {
+    createProject({
+      name: "TEST2",
+      userId: session?.user.id as string,
+    });
+  };
+
   if (sessionStatus === "loading") {
     return null;
   }
@@ -60,7 +75,7 @@ export default function Index() {
           )}
 
           <div
-            onClick={() => console.log("new project")}
+            onClick={createProjectHandler}
             className=" flex h-[5rem] cursor-pointer flex-col  items-center justify-center gap-2 rounded-md bg-neutral-800 hover:bg-neutral-700"
           >
             <span className=" font-semibold">Create new project</span>
