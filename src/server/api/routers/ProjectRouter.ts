@@ -133,9 +133,19 @@ export const ProjectRouter = createTRPCRouter({
     }),
 
   deleteProject: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.string(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      // delete the project and the kanban board
+      // check if user that is trying to delete its name is "qrutz"
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: input.userId,
+        },
+      });
+
+      if (user?.name !== "Qrutz") {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+
       const project = await ctx.prisma.project.delete({
         where: {
           id: input.id,

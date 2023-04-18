@@ -9,9 +9,11 @@ import { BsPlus } from "react-icons/bs";
 import { AddMemberDialog } from "~/components/addMemberDialog";
 import Layout from "~/components/layout";
 import { BiUserPlus } from "react-icons/bi";
+import { useSession } from "next-auth/react";
 
 export default function Project() {
   const router = useRouter();
+  const { data: session, status: sessionStatus } = useSession();
   const { id } = router.query as { id: string };
   const [open, setOpen] = React.useState(false);
 
@@ -29,12 +31,17 @@ export default function Project() {
       onSuccess: () => {
         router.push("/projects").catch((err) => console.error(err));
       },
+
+      onError: (err) => {
+        alert("ONLY MR QRUTZ CAN DELETE PROJECTS SIRS");
+      },
     }
   );
 
   const deleteProjectHandler = () => {
     deleteProject({
       id: id,
+      userId: session?.user.id as string,
     });
   };
 
