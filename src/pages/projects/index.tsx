@@ -63,7 +63,7 @@ export default function Index() {
 
           <div
             onClick={() => setIsProjectCreateOpen(true)}
-            className=" flex h-[5rem] cursor-pointer flex-col  items-center justify-center gap-2 rounded-md bg-neutral-800 hover:bg-neutral-700"
+            className=" flex h-[5rem] cursor-pointer flex-col  items-center justify-center gap-2 rounded-md bg-purple-800 hover:bg-purple-900"
           >
             <span className=" font-semibold">Create new project</span>
             <CreateProjectDialog
