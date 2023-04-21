@@ -298,4 +298,18 @@ export const KanbanRouter = createTRPCRouter({
         },
       });
     }),
+
+  deleteCard: protectedProcedure
+    .input(
+      z.object({
+        cardId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.card.delete({
+        where: {
+          id: input.cardId,
+        },
+      });
+    }),
 });

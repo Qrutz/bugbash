@@ -11,6 +11,7 @@ import React from "react";
 import LabelDropdown from "./LabelDialog";
 import AddCardMemberDropdown from "./addMemberDropdown";
 import { useSession } from "next-auth/react";
+import { BiTrash } from "react-icons/bi";
 
 interface TaskDialogProps {
   isOpen: boolean;
@@ -76,6 +77,19 @@ export const TaskDialog = ({
     },
   });
 
+  const { mutate: deleteTask } = api.kanbanRouter.deleteCard.useMutation({
+    onSuccess: () => {
+      void ctx.kanbanRouter.getColumns.invalidate();
+    },
+  });
+
+  const handleDeleteTask = () => {
+    deleteTask({
+      cardId: taskID,
+    });
+    onClose();
+  };
+
   const { register, handleSubmit } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data: {
     name: string;
@@ -138,7 +152,7 @@ export const TaskDialog = ({
                 <RxCross1 className="text-2xl" onClick={handleClose} />
               </button>
             </div>
-            <section className="flex gap-3 ">
+            <section className="flex h-full gap-3 ">
               <div className=" flex-[9] space-y-4 py-3">
                 <div className="flex flex-col gap-1">
                   <Menu>
@@ -296,15 +310,24 @@ export const TaskDialog = ({
               </div>
 
               <Menu>
-                <nav className="flex-[2] flex-col space-y-2 py-3 ">
+                <nav className="h-full flex-[2] flex-col justify-between space-y-2 py-3 ">
                   <h1 className="text-gray-500">Add to card</h1>
-
                   <AddCardMemberDropdown
                     taskID={taskID}
                     projectId={projectId}
                   />
-
                   <LabelDropdown taskId={taskID} labels={initialTaskLabels} />
+
+                  <div className="flex flex-col gap-2">
+                    <h1 className="text-gray-500">Actions</h1>
+                    <button
+                      onClick={handleDeleteTask}
+                      className="flex items-center gap-2 bg-red-500 py-2 text-sm font-semibold text-gray-100 hover:bg-red-600 "
+                    >
+                      <BiTrash className="h-5 w-5" />
+                      Delete Task
+                    </button>
+                  </div>
                 </nav>
               </Menu>
             </section>

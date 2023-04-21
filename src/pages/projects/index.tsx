@@ -29,7 +29,7 @@ export default function Index() {
 
   return (
     <Layout>
-      <main className="w-500rem 100px flex flex-[9] flex-col   ">
+      <main className="w-500rem 100px flex flex-[8] flex-col   ">
         <header className="sticky left-0 right-0  px-4 py-8  ">
           <div className="flex justify-between">
             <Breadcrumbs
