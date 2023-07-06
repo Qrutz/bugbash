@@ -67,7 +67,7 @@ export default function Project() {
   const tabs = ["Kanban", "Schedule", "Settings"];
 
   return (
-    <Layout>
+    <>
       {projectStatus === "loading" ? (
         <main
           role="status"
@@ -169,6 +169,6 @@ export default function Project() {
           </Tab.Group>
         </main>
       )}
-    </Layout>
+    </>
   );
 }
