@@ -75,6 +75,7 @@ model Project {
     members     User[]       @relation("ProjectMembers")
     kanbanBoard KanbanBoard?
     schedule    Schedule?
+    cards       Card[]
 
     @@index([name, id])
 }
@@ -103,6 +104,8 @@ model Card {
     name        String?
     description String?
     labels      label[]
+    project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    projectId   String
     assignees   User[]    @relation("AssignedToCards")
     comments    Comment[]
     column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
@@ -112,6 +115,7 @@ model Card {
 
     @@index([id])
     @@index([columnId])
+    @@index([projectId])
 }
 
 model Comment {
