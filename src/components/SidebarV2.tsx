@@ -141,9 +141,9 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
             </Link>
 
             <Link
-              href="/Teams"
+              href="/teams"
               className={
-                router.pathname.includes("/Teams")
+                router.pathname.includes("/teams")
                   ? stylingForActiveTab.className
                   : stylingForInactiveTab.className
               }
