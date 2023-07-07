@@ -2,8 +2,13 @@ import { nanoid } from "nanoid";
 import { db } from "../../.././lib/db";
 import { pusherServer } from "../../.././lib/pusher";
 import { toPusherKey } from "../../.././lib/utils";
+import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const { text, author, teamId } = req.body;
     const createdAt = Date.now();
