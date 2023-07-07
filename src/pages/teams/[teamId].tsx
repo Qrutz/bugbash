@@ -54,7 +54,7 @@ export default function Tasks() {
   }
 
   return (
-    <div className="flex h-screen   flex-col gap-4   overflow-auto     ">
+    <div className="flex h-screen   flex-col gap-4        ">
       <div className="sticky top-0 z-[400] flex w-full flex-col space-y-4 border-b  border-gray-700 bg-gray-900 p-4">
         {" "}
         <h2 className="text-2xl font-semibold"> {teams?.name} General</h2>
