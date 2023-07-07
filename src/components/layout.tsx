@@ -6,8 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex  bg-gray-900  shadow-sm shadow-black">
       <Sidebarv2 setIsOpen={setIsOpen} isOpen={isOpen} />
-
-      {children}
+      <main className="flex-[8]">{children}</main>
     </div>
   );
 }
