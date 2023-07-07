@@ -64,7 +64,7 @@ export default function Project() {
     </>
   );
 
-  const tabs = ["Kanban", "Schedule", "Settings"];
+  const tabs = ["Kanban", "Settings"];
 
   return (
     <>
@@ -156,7 +156,7 @@ export default function Project() {
                   <div>NO KANBAN</div>
                 )}
               </Tab.Panel>
-              <Tab.Panel>schedule</Tab.Panel>
+
               <Tab.Panel className="flex h-full items-center  justify-center px-4">
                 <button
                   onClick={deleteProjectHandler}

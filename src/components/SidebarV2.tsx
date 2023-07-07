@@ -79,17 +79,6 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
             </button>
           </Transition>
         </>
-
-        /* <div className="mb-16 flex cursor-pointer items-center gap-2 rounded-md hover:bg-neutral-900">
-              <img
-                className="h-16 w-16 rounded-full"
-                src={session?.user.image as string}
-                alt="user"
-              />
-              <span className="text-white-500 text-xl font-semibold">
-                {session?.user.name}
-              </span>
-            </div> */
       );
     }
   };
@@ -140,17 +129,6 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
                 icon={RxDashboard}
               />
             </Link>
-
-            <Link
-              className={
-                router.pathname.includes("/Schedule")
-                  ? stylingForActiveTab.className
-                  : stylingForInactiveTab.className
-              }
-              href="/Schedule"
-            >
-              <MenuTab name="Schedule" icon={RiCalendarFill} />
-            </Link>
             <Link
               href="/Tasks"
               className={
@@ -161,16 +139,7 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
             >
               <MenuTab name="Task List" icon={SiTask} />
             </Link>
-            <Link
-              href="/Inbox"
-              className={
-                router.pathname.includes("/Inbox")
-                  ? stylingForActiveTab.className
-                  : stylingForInactiveTab.className
-              }
-            >
-              <MenuTab name="Inbox" icon={BsFillInboxFill} />
-            </Link>
+
             <Link
               href="/Teams"
               className={
