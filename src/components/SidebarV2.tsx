@@ -25,11 +25,11 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
 
   const stylingForActiveTab = {
     className:
-      "bg-gray-700/50 flex w-full cursor-pointer lg:justify-between justify-center   p-2   rounded-md  text-white",
+      "bg-gray-700/50 flex w-full cursor-pointer lg:justify-between justify-center  p-2  md:p-4  rounded-md  text-white",
   };
   const stylingForInactiveTab = {
     className:
-      " hover:bg-gray-700/50 hover:shadow-lg  shadow-gray-500/50 flex w-full cursor-pointer lg:justify-between justify-center  rounded-md  p-2 text-white ",
+      " hover:bg-gray-700/50 hover:shadow-lg   shadow-gray-500/50 flex w-full cursor-pointer lg:justify-between justify-center p-2  md:p-4   rounded-md   text-white ",
   };
   const UserCard = () => {
     if (userstatus === "loading") {
@@ -39,7 +39,7 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
         <>
           <Transition
             show={!isShowing}
-            enter="transition-opacity duration-300"
+            enter="transition-opacity duration-300 "
             enterFrom="opacity-0"
             enterTo="opacity-100"
             leave="transition-opacity duration-300"
@@ -54,7 +54,7 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
               src={session?.user.image as string}
               alt="user"
             />
-            <span className="text-white-500 hidden text-xl font-semibold lg:block">
+            <span className="text-white-500 hidden text-xl font-semibold xl:block">
               {session?.user.name}
             </span>
           </Transition>

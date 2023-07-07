@@ -43,7 +43,7 @@ export default function Index() {
         <h1 className="my-4 text-5xl font-bold">Projects</h1>
       </header>
 
-      <div className="flex space-x-2 p-3">
+      <div className=" flex flex-col gap-2 p-4 md:grid md:grid-cols-8 ">
         {projectsStatus === "loading" ? (
           <div>loading</div>
         ) : (

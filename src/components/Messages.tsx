@@ -63,8 +63,15 @@ export default function Messages({
   }, [messages]);
 
   return (
-    <div ref={messagesContainerRef} className="overflow-auto scrollbar-thin ">
-      <div className=" flex flex-1 flex-col  gap-4  p-4">
+    <div
+      ref={messagesContainerRef}
+      className=" flex-1 overflow-auto  scrollbar-thin"
+    >
+      <div
+        className={`flex  flex-col  gap-4 p-4 ${
+          messages.length > 9 ? "" : "h-full justify-end"
+        }`}
+      >
         {messages.map((message) => {
           const isAuthor = message.createdBy === session?.user.id;
 

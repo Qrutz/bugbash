@@ -24,7 +24,7 @@ export default function Tasks() {
     queryFn: async () => {
       const messages = await fetchRedis("zrange", `chatroom:${teamId}`, 0, -1);
 
-      return messages.map((message) => JSON.parse(message) as Message);
+      return messages.map((message: string) => JSON.parse(message) as Message);
     },
   });
 

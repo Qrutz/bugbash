@@ -71,7 +71,7 @@ export default function Project() {
       {projectStatus === "loading" ? (
         <main
           role="status"
-          className=" status flex h-screen flex-[8] items-center justify-center"
+          className=" status flex h-screen  items-center justify-center"
         >
           <svg
             aria-hidden="true"
