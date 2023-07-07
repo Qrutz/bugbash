@@ -31,7 +31,7 @@ export default function Tasks() {
         <main className="flex flex-col ">
           {getUserTasks.map((list) => {
             return (
-              <div className="flex flex-col   ">
+              <div key={list.id} className="flex flex-col   ">
                 <div className="border-1 flex items-center justify-between bg-gray-800 px-4  py-4 text-sm shadow shadow-gray-950  ">
                   <span className="flex gap-2 ">
                     <h2 className="text-xl font-bold">{list.name} </h2>
@@ -45,13 +45,17 @@ export default function Tasks() {
                 <div className="flex flex-col gap-1 ">
                   {list.cards.map((task) => {
                     return (
-                      <div className="flex items-center justify-between bg-gray-900 px-4   py-2    ">
+                      <div
+                        key={task.id}
+                        className="flex items-center justify-between bg-gray-900 px-4   py-2    "
+                      >
                         <span className="">{task.name} </span>
 
                         <span className="flex gap-2 ">
                           {task.labels.map((label) => {
                             return (
                               <span
+                                key={label.id}
                                 className={`bg-${label.color}-500 rounded-lg px-2`}
                               >
                                 {label.name}

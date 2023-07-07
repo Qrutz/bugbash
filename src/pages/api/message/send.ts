@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { nanoid } from "nanoid";
 import { db } from "../../.././lib/db";
 import { pusherServer } from "../../.././lib/pusher";

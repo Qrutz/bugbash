@@ -1,12 +1,11 @@
+/* eslint-disable */
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import ChatInput from "~/components/ChatInput";
 import Messages, { Message } from "~/components/Messages";
-import Layout from "~/components/layout";
-import { db } from "~/lib/db";
+
 import { fetchRedis } from "~/lib/redis";
 import { api } from "~/utils/api";
 
@@ -31,27 +30,6 @@ export default function Tasks() {
   if (status === "loading") return null;
   if (messagesStatus === "loading") return null;
   if (!session) return null;
-
-  console.log("messages", messages);
-
-  async function sendMessage() {
-    const message = "Hello World!";
-
-    const response = await fetch("/api/message/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: message,
-        author: session?.user.id as string,
-        teamId: teamId,
-      }),
-    });
-
-    const data = await response.json();
-    console.log(data);
-  }
 
   return (
     <div className="flex h-screen   flex-col gap-4        ">

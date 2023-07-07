@@ -21,8 +21,8 @@ export default function ChatInput({ currentUserId, chatId }: Props) {
   } = useForm<Inputs>();
   const [isInputEmpty, setIsInputEmpty] = React.useState(true);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    fetch("/api/message/send", {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await fetch("/api/message/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
