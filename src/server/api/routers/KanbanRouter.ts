@@ -79,6 +79,7 @@ export const KanbanRouter = createTRPCRouter({
       z.object({
         columnId: z.string(),
         name: z.string(),
+        projectId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -86,6 +87,7 @@ export const KanbanRouter = createTRPCRouter({
         data: {
           name: input.name,
           columnId: input.columnId,
+          projectId: input.projectId,
         },
       });
     }),

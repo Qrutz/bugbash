@@ -154,4 +154,48 @@ export const ProjectRouter = createTRPCRouter({
 
       return project;
     }),
+
+  getMembersOfAllProjects: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      // get all the users projects together with all members that are in the project
+      const projects = await ctx.prisma.project.findMany({
+        where: {
+          members: {
+            some: {
+              id: input.userId,
+            },
+          },
+        },
+        include: {
+          members: true,
+        },
+      });
+
+      return projects;
+    }),
+
+  getMembersOfProject: protectedProcedure
+    .input(z.object({ projectId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      // get all the users projects together with all members that are in the project
+      const project = await ctx.prisma.project.findUnique({
+        where: {
+          id: input.projectId,
+        },
+        include: {
+          members: {
+            // only return the id, name, and image
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+          // include project name
+        },
+      });
+
+      return project;
+    }),
 });

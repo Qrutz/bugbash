@@ -79,6 +79,7 @@ const Column = ({ column, projectId }: ColumnProps) => {
     addTask({
       columnId: column.id,
       name: "click to edit",
+      projectId,
     });
   };
 

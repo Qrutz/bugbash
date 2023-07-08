@@ -83,10 +83,6 @@ const KanbanBoard = ({ id, projectId }: KanbanBoardProps) => {
   }
   if (fetchStatus === "error") return <div>error</div>;
 
-  if (fetchStatus === "loading") {
-    return <div>loading</div>;
-  }
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <section className="flex w-fit gap-2 overflow-x-auto">

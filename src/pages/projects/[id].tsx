@@ -64,14 +64,14 @@ export default function Project() {
     </>
   );
 
-  const tabs = ["Kanban", "Schedule", "Settings"];
+  const tabs = ["Kanban", "Settings"];
 
   return (
-    <Layout>
+    <>
       {projectStatus === "loading" ? (
         <main
           role="status"
-          className=" status flex h-screen flex-[8] items-center justify-center"
+          className=" status flex h-screen  items-center justify-center"
         >
           <svg
             aria-hidden="true"
@@ -92,7 +92,7 @@ export default function Project() {
           <span className="sr-only">Loading...</span>
         </main>
       ) : (
-        <main className=" flex flex-[8]  flex-col overflow-x-auto overflow-y-hidden to-gray-900 scrollbar   scrollbar-thumb-neutral-300  ">
+        <>
           <header className="sticky left-0 right-0  px-4 py-8  ">
             <div className="flex justify-between">
               <Breadcrumbs
@@ -156,7 +156,7 @@ export default function Project() {
                   <div>NO KANBAN</div>
                 )}
               </Tab.Panel>
-              <Tab.Panel>schedule</Tab.Panel>
+
               <Tab.Panel className="flex h-full items-center  justify-center px-4">
                 <button
                   onClick={deleteProjectHandler}
@@ -167,8 +167,8 @@ export default function Project() {
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
-        </main>
+        </>
       )}
-    </Layout>
+    </>
   );
 }

@@ -8,28 +8,41 @@ import React from "react";
 
 import { RiCalendarFill, RiTeamFill } from "react-icons/ri";
 import { SiTask } from "react-icons/si";
-import { BsArrowBarLeft, BsFillInboxFill } from "react-icons/bs";
+import {
+  BsArrowBarLeft,
+  BsChatFill,
+  BsFillInboxFill,
+  BsKanban,
+  BsKanbanFill,
+} from "react-icons/bs";
 import { AiFillSetting, AiOutlineDoubleRight } from "react-icons/ai";
 import { signOut, useSession } from "next-auth/react";
+import { BiChat } from "react-icons/bi";
 
 type SidebarProps = {
   children?: React.ReactNode;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  hide?: boolean;
 };
 
-export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
+export const Sidebarv2 = ({
+  children,
+  isOpen,
+  setIsOpen,
+  hide,
+}: SidebarProps) => {
   const { data: session, status: userstatus } = useSession();
   const [isShowing, setIsShowing] = React.useState(false);
   const router = useRouter();
 
   const stylingForActiveTab = {
     className:
-      "bg-gray-700/50 flex w-full cursor-pointer lg:justify-between justify-center   p-2   rounded-md  text-white",
+      "bg-gray-700/50 flex w-full cursor-pointer lg:justify-between justify-center  p-2  md:p-4  rounded-md  text-white",
   };
   const stylingForInactiveTab = {
     className:
-      " hover:bg-gray-700/50 hover:shadow-lg  shadow-gray-500/50 flex w-full cursor-pointer lg:justify-between justify-center  rounded-md  p-2 text-white ",
+      " hover:bg-gray-700/50 hover:shadow-lg    shadow-gray-500/50 flex w-full cursor-pointer lg:justify-between justify-center p-2  md:p-4   rounded-md   text-white ",
   };
   const UserCard = () => {
     if (userstatus === "loading") {
@@ -39,14 +52,14 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
         <>
           <Transition
             show={!isShowing}
-            enter="transition-opacity duration-300"
+            enter="transition-opacity duration-300 "
             enterFrom="opacity-0"
             enterTo="opacity-100"
             leave="transition-opacity duration-300"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             onClick={() => setIsShowing(true)}
-            className="mb-16 flex w-full cursor-pointer items-center justify-center gap-2 hover:bg-gray-700/20 md:justify-start"
+            className="mb-16 flex  w-full cursor-pointer items-center justify-center gap-2 hover:bg-gray-700/20 md:justify-start"
           >
             {/* <button onClick={() => setIsShowing(true)} /> */}
             <img
@@ -54,7 +67,7 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
               src={session?.user.image as string}
               alt="user"
             />
-            <span className="text-white-500 hidden text-xl font-semibold lg:block">
+            <span className="text-white-500 hidden text-xl font-semibold xl:block">
               {session?.user.name}
             </span>
           </Transition>
@@ -79,17 +92,6 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
             </button>
           </Transition>
         </>
-
-        /* <div className="mb-16 flex cursor-pointer items-center gap-2 rounded-md hover:bg-neutral-900">
-              <img
-                className="h-16 w-16 rounded-full"
-                src={session?.user.image as string}
-                alt="user"
-              />
-              <span className="text-white-500 text-xl font-semibold">
-                {session?.user.name}
-              </span>
-            </div> */
       );
     }
   };
@@ -105,7 +107,9 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
         leave="transition ease-in duration-100 transform"
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
-        className="sticky bottom-0 top-0 h-screen flex-1   overflow-hidden  border-r border-gray-800 "
+        className={`sticky bottom-0 top-0 h-screen flex-1 overflow-hidden border-r border-gray-800 ${
+          !session ? "hidden" : ""
+        }`}
       >
         <div className="logo flex   items-center gap-1 border-b border-neutral-800 px-2 py-4">
           <div className="flex w-full items-center justify-between">
@@ -137,19 +141,8 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
                 // if path is projects/everything after /projects/ then make the text red
 
                 name="Projects"
-                icon={RxDashboard}
+                icon={BsKanbanFill}
               />
-            </Link>
-
-            <Link
-              className={
-                router.pathname.includes("/Schedule")
-                  ? stylingForActiveTab.className
-                  : stylingForInactiveTab.className
-              }
-              href="/Schedule"
-            >
-              <MenuTab name="Schedule" icon={RiCalendarFill} />
             </Link>
             <Link
               href="/Tasks"
@@ -159,37 +152,18 @@ export const Sidebarv2 = ({ children, isOpen, setIsOpen }: SidebarProps) => {
                   : stylingForInactiveTab.className
               }
             >
-              <MenuTab name="Task List" icon={SiTask} />
+              <MenuTab name="My Tasks" icon={SiTask} />
             </Link>
+
             <Link
-              href="/Inbox"
+              href="/chat"
               className={
-                router.pathname.includes("/Inbox")
+                router.pathname.includes("/chat")
                   ? stylingForActiveTab.className
                   : stylingForInactiveTab.className
               }
             >
-              <MenuTab name="Inbox" icon={BsFillInboxFill} />
-            </Link>
-            <Link
-              href="/Teams"
-              className={
-                router.pathname.includes("/Teams")
-                  ? stylingForActiveTab.className
-                  : stylingForInactiveTab.className
-              }
-            >
-              <MenuTab name="Teams" icon={RiTeamFill} />
-            </Link>
-            <Link
-              href="/Settings"
-              className={
-                router.pathname.includes("/Settings")
-                  ? stylingForActiveTab.className
-                  : stylingForInactiveTab.className
-              }
-            >
-              <MenuTab name="Settings" icon={AiFillSetting} />
+              <MenuTab name="Chat" icon={BsChatFill} />
             </Link>
           </section>
           <UserCard />
