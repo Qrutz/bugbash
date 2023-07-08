@@ -24,7 +24,7 @@ export default function Tasks() {
           {teams?.map((team) => {
             return (
               <Link
-                href={`/teams/${team.id}`}
+                href={`/chat/${team.id}`}
                 className="flex flex-col items-center gap-4 rounded-sm bg-gray-800 px-2 py-4"
                 key={team.id}
               >

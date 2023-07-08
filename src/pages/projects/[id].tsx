@@ -92,7 +92,7 @@ export default function Project() {
           <span className="sr-only">Loading...</span>
         </main>
       ) : (
-        <main className=" flex flex-[8]  flex-col overflow-x-auto overflow-y-hidden to-gray-900 scrollbar   scrollbar-thumb-neutral-300  ">
+        <>
           <header className="sticky left-0 right-0  px-4 py-8  ">
             <div className="flex justify-between">
               <Breadcrumbs
@@ -167,7 +167,7 @@ export default function Project() {
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
-        </main>
+        </>
       )}
     </>
   );
