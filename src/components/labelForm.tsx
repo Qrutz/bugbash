@@ -44,6 +44,7 @@ export function LabelForm({ taskId }: { taskId: string }) {
           Title
         </label>
         <input
+          autoComplete="off"
           {...register("name")}
           type="text"
           className="border border-gray-900 p-1"
