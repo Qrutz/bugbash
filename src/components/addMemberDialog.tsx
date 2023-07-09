@@ -137,6 +137,7 @@ export const AddMemberDialog = ({
               className="flex gap-1  py-2"
             >
               <input
+                autoComplete="off"
                 className="h-8 flex-[9]  border-4 "
                 type="text"
                 placeholder="Username"
