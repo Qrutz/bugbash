@@ -54,6 +54,7 @@ export default function ChatInput({ currentUserId, chatId }: Props) {
     >
       <div className="flex flex-[9]">
         <input
+          autoComplete="off"
           placeholder="Write a message"
           className="mr-2 flex-[1] rounded-xl bg-gray-700 p-4 text-white focus:outline-purple-700"
           {...register("example")}

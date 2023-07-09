@@ -219,6 +219,7 @@ export const TaskDialog = ({
                         Title
                       </label>
                       <input
+                        autoComplete="off"
                         placeholder="Task Name..."
                         className=" w-full rounded-md border  border-gray-900 p-1 text-sm shadow-sm      "
                         defaultValue={initialTaskName}
@@ -266,6 +267,7 @@ export const TaskDialog = ({
                         className="h-8 w-8 rounded-full bg-black"
                       />{" "}
                       <input
+                        autoComplete="off"
                         {...registerComment("comment")}
                         placeholder="Write a comment..."
                         className=" w-full rounded-md border-2 p-1  text-lg shadow-lg focus:border-purple-500"
